@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
 import { View, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback } from 'react-native'
-
-import { Formik, Form, Field } from 'formik'
+import { Formik } from 'formik'
 import * as yup from 'yup'
 import { setData, setDailyWeight } from '../redux/actions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faBirthdayCake, faArrowsAltV, faFemale,
-  faMale, faWeight, faPercentage, faCoffee
+  faMale, faWeight, faPercentage
 } from '@fortawesome/free-solid-svg-icons'
 
+import Colors from '../utils/Colors'
 import { RadioButtons } from 'react-native-radio-buttons'
+import StarRating from 'react-native-star-rating'
 
 const validationSchema = yup.object({
   height: yup.number('It must be a number').required('Height is required').positive(),
@@ -22,22 +23,23 @@ const validationSchema = yup.object({
   fat: yup.number('It must be a number').positive().max(70, 'Are you sure?')
 })
 
+
 const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
   const [selectedOption, setSelectedOption] = useState('')
-  console.log(selectedOption)
+  const [stars, setStars] = useState(0)
 
   function renderOption(option, selected, onSelect, index) {
-    const style = selected ? { fontWeight: 'bold' } : {};
+    const style = selected ? { fontWeight: 'bold' } : {}
 
     return (
       <TouchableWithoutFeedback onPress={onSelect} key={index}>
         <Text style={style}>{option}</Text>
       </TouchableWithoutFeedback>
-    );
+    )
   }
 
   function renderContainer(optionNodes) {
-    return <View>{optionNodes}</View>;
+    return <View>{optionNodes}</View>
   }
 
   return (
@@ -46,15 +48,16 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
         height: userData.height || '',
         weight: userData.weight || '',
         age: userData.age || '',
-        fat: userData.fat || userData.fat || '',
+        fat: userData.fat || '',
         sex: userData.sex || 'Male',
         lifeActivity: userData.lifeActivity || 1,
       }}
         validationSchema={validationSchema}
         onSubmit={values => {
-          console.log(values)
-          setvalues({
+          setData({
             ...values,
+            lifeActivity: stars,
+            sex: selectedOption
           })
 
           setDailyWeight({
@@ -65,13 +68,13 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
           navigation.navigate('Home')
         }}
       >
-        {({ handleSubmit, handleChange, handleBlur, setFieldValue, values }) => (
+        {({ handleSubmit, handleChange, handleBlur, values }) => (
           <View style={styles.container}>
             <Text style={styles.header}>Add your personal data</Text>
             <View>
               <View style={styles.inputContainer}>
                 <View>
-                  <FontAwesomeIcon icon={faArrowsAltV} size={36} />
+                  <FontAwesomeIcon icon={faArrowsAltV} color={Colors.primary} size={36} />
                 </View>
                 <TextInput style={styles.input}
                   onChangeText={handleChange('height')}
@@ -84,7 +87,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
 
               <View style={styles.inputContainer}>
                 <View>
-                  <FontAwesomeIcon icon={faWeight} size={36} />
+                  <FontAwesomeIcon icon={faWeight} color={Colors.primary} size={36} />
                 </View>
                 <TextInput style={styles.input}
                   onChangeText={handleChange('weight')}
@@ -97,7 +100,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
 
               <View style={styles.inputContainer}>
                 <View >
-                  <FontAwesomeIcon icon={faBirthdayCake} size={36} />
+                  <FontAwesomeIcon icon={faBirthdayCake} color={Colors.primary} size={36} />
                 </View>
                 <TextInput style={styles.input}
                   onChangeText={handleChange('age')}
@@ -110,7 +113,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
 
               <View style={styles.inputContainer}>
                 <View >
-                  <FontAwesomeIcon icon={faPercentage} size={36} />
+                  <FontAwesomeIcon icon={faPercentage} color={Colors.primary} size={36} />
                 </View>
                 <TextInput style={styles.input}
                   onChangeText={handleChange('fat')}
@@ -123,7 +126,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
 
               <View style={styles.inputContainer}>
                 <View >
-                  <FontAwesomeIcon icon={faFemale} size={36} />
+                  <FontAwesomeIcon icon={faMale} color={Colors.primary} size={36} />
                 </View>
                 <RadioButtons style={styles.radio}
                   options={['Male']}
@@ -132,6 +135,9 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                   renderOption={renderOption}
                   renderContainer={renderContainer}
                 />
+                <View >
+                  <FontAwesomeIcon icon={faFemale} color={Colors.primary} size={36} />
+                </View>
                 <RadioButtons style={styles.radio}
                   options={['Female']}
                   onSelection={() => setSelectedOption('Female')}
@@ -141,13 +147,25 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                 />
               </View>
 
-              <Button title="submit" color="maroon" onPress={handleSubmit} />
-
+              <View style={styles.stars} >
+                <StarRating
+                  fullStarColor={Colors.primary}
+                  disabled={false}
+                  maxStars={5}
+                  rating={stars}
+                  selectedStar={(rating) => setStars(rating)}
+                />
+              </View>
             </View>
+
+            <View style={styles.button}>
+              <Button title="submit" color={Colors.primary} onPress={handleSubmit} />
+            </View>
+
           </View>
         )}
       </Formik>
-    </View>
+    </View >
   )
 }
 
@@ -183,7 +201,14 @@ const styles = StyleSheet.create({
   },
   radio: {
     flexDirection: 'row',
-    padding: 15
+    padding: 15,
+    marginHorizontal: 15,
+  },
+  stars: {
+    marginVertical: 15,
+  },
+  button: {
+    paddingVertical: 15
   }
 
 })
