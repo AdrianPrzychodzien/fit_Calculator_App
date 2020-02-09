@@ -1,11 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { View, Text, StyleSheet, Button, TextInput } from 'react-native'
-import { Formik, Form } from 'formik'
+import { View, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback } from 'react-native'
+
+import { Formik, Form, Field } from 'formik'
 import * as yup from 'yup'
 import { setData, setDailyWeight } from '../redux/actions'
 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import {
+  faBirthdayCake, faArrowsAltV, faFemale,
+  faMale, faWeight, faPercentage, faCoffee
+} from '@fortawesome/free-solid-svg-icons'
+
+import { RadioButtons } from 'react-native-radio-buttons'
 
 const validationSchema = yup.object({
   height: yup.number('It must be a number').required('Height is required').positive(),
@@ -15,6 +23,23 @@ const validationSchema = yup.object({
 })
 
 const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
+  const [selectedOption, setSelectedOption] = useState('')
+  console.log(selectedOption)
+
+  function renderOption(option, selected, onSelect, index) {
+    const style = selected ? { fontWeight: 'bold' } : {};
+
+    return (
+      <TouchableWithoutFeedback onPress={onSelect} key={index}>
+        <Text style={style}>{option}</Text>
+      </TouchableWithoutFeedback>
+    );
+  }
+
+  function renderContainer(optionNodes) {
+    return <View>{optionNodes}</View>;
+  }
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Formik initialValues={{
@@ -26,68 +51,100 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
         lifeActivity: userData.lifeActivity || 1,
       }}
         validationSchema={validationSchema}
-        onSubmit={data => {
-          setData({
-            ...data,
+        onSubmit={values => {
+          console.log(values)
+          setvalues({
+            ...values,
           })
 
           setDailyWeight({
             date: new Date().toISOString().slice(0, 10),
-            weight: data.weight
+            weight: values.weight
           })
 
-          history.push('/')
+          navigation.navigate('Home')
         }}
       >
-        {({ isSubmitting }) => (
-          <>
-            <p className="h3 text-center">Add your personal data</p>
-            <hr />
+        {({ handleSubmit, handleChange, handleBlur, setFieldValue, values }) => (
+          <View style={styles.container}>
+            <Text style={styles.header}>Add your personal data</Text>
+            <View>
+              <View style={styles.inputContainer}>
+                <View>
+                  <FontAwesomeIcon icon={faArrowsAltV} size={36} />
+                </View>
+                <TextInput style={styles.input}
+                  onChangeText={handleChange('height')}
+                  onBlur={handleBlur('height')}
+                  value={values.height}
+                  placeholder="Height (cm)"
+                  keyboardType="numeric"
+                />
+              </View>
 
-            <Form className="w-100 d-flex flex-column justify-content-center">
-              <div className="mx-auto my-3 w-50 d-flex">
-                <FontAwesomeIcon className="mr-4 ml-2 text-primary" icon={faArrowsAltV} size="2x" />
-                <MyTextField type="number" name="height" placeholder="Height (cm)" as={TextField} />
-              </div>
+              <View style={styles.inputContainer}>
+                <View>
+                  <FontAwesomeIcon icon={faWeight} size={36} />
+                </View>
+                <TextInput style={styles.input}
+                  onChangeText={handleChange('weight')}
+                  onBlur={handleBlur('weight')}
+                  value={values.weight}
+                  placeholder="Weight (cm)"
+                  keyboardType="numeric"
+                />
+              </View>
 
-              <div className="mx-auto my-3 w-50 d-flex">
-                <FontAwesomeIcon className="mr-3 text-primary" icon={faWeight} size="2x" />
-                <MyTextField type="number" name="weight" placeholder="Weight (kg)" as={TextField} />
-              </div>
+              <View style={styles.inputContainer}>
+                <View >
+                  <FontAwesomeIcon icon={faBirthdayCake} size={36} />
+                </View>
+                <TextInput style={styles.input}
+                  onChangeText={handleChange('age')}
+                  onBlur={handleBlur('age')}
+                  value={values.age}
+                  placeholder="Age"
+                  keyboardType="numeric"
+                />
+              </View>
 
-              <div className="mx-auto my-3 w-50 d-flex">
-                <FontAwesomeIcon className="mr-3 ml-1 text-primary" icon={faBirthdayCake} size="2x" />
-                <MyTextField type="number" name="age" placeholder="Age" as={TextField} />
-              </div>
+              <View style={styles.inputContainer}>
+                <View >
+                  <FontAwesomeIcon icon={faPercentage} size={36} />
+                </View>
+                <TextInput style={styles.input}
+                  onChangeText={handleChange('fat')}
+                  onBlur={handleBlur('fat')}
+                  value={values.fat}
+                  placeholder="Fat %"
+                  keyboardType="numeric"
+                />
+              </View>
 
-              <div className="mx-auto my-3 w-50 d-flex">
-                <FontAwesomeIcon className="mr-3 ml-1 text-primary" icon={faPercentage} size="2x" />
-                <MyTextField type="number" name="fat" placeholder="Body fat %" as={TextField} />
-                <BodyFatInfo />
-              </div>
+              <View style={styles.inputContainer}>
+                <View >
+                  <FontAwesomeIcon icon={faFemale} size={36} />
+                </View>
+                <RadioButtons style={styles.radio}
+                  options={['Male']}
+                  onSelection={() => setSelectedOption('Male')}
+                  selectedOption={selectedOption}
+                  renderOption={renderOption}
+                  renderContainer={renderContainer}
+                />
+                <RadioButtons style={styles.radio}
+                  options={['Female']}
+                  onSelection={() => setSelectedOption('Female')}
+                  selectedOption={selectedOption}
+                  renderOption={renderOption}
+                  renderContainer={renderContainer}
+                />
+              </View>
 
-              <div className="mx-auto my-2 w-80 d-flex">
-                <div>
-                  <FontAwesomeIcon className="mr-2 text-primary" icon={faMale} size="2x" />
-                  <MyRadio type="radio" name="sex" value="Male" label="Male" />
-                </div>
-                <div>
-                  <FontAwesomeIcon className="mr-2 text-primary" icon={faFemale} size="2x" />
-                  <MyRadio type="radio" name="sex" value="Female" label="Female" />
-                </div>
-              </div>
+              <Button title="submit" color="maroon" onPress={handleSubmit} />
 
-              <div className="mx-auto my-1 w-100 d-flex justify-content-center">
-                <StarsInput fieldName={'lifeActivity'} />
-              </div>
-
-              <Button disabled={isSubmitting} type='submit'
-                block className="d-flex justify-content-center my-3" color="primary"
-              >
-                Add data
-                </Button>
-            </Form>
-          </>
+            </View>
+          </View>
         )}
       </Formik>
     </View>
@@ -95,6 +152,39 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    padding: 30,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  header: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    paddingVertical: 10
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    width: '60%',
+    marginHorizontal: 15,
+    paddingVertical: 10,
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
+  input: {
+    backgroundColor: 'white',
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 6,
+    width: 120,
+    padding: 10
+  },
+  radio: {
+    flexDirection: 'row',
+    padding: 15
+  }
 
 })
 
