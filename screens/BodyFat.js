@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
@@ -20,11 +20,7 @@ const validationSchema = yup.object({
 })
 
 const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigation }) => {
-  const [userSize, setUserSize] = useState({
-    open: false
-  })
 
-  const { open } = userSize
   const { sex, height, weight } = userData
   const { waist, hips, neck } = circumData
 
@@ -110,59 +106,73 @@ const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigatio
             )}
           </Formik>
 
-          <View style={styles.userInfo}>
-            <View style={globalStyles.infoContainer}>
-              <Text style={styles.info}>
-                Body fat:
+          {sex && height ? (
+            <View style={styles.userInfo}>
+              <View style={globalStyles.infoContainer}>
+                <Text style={styles.info}>
+                  Body fat:
               </Text>
-              <Text style={styles.data}>
-                {waist && hips && neck && bodyFat + '%'}
-              </Text>
-            </View>
+                <Text style={styles.data}>
+                  {waist && hips && neck && bodyFat + '%'}
+                </Text>
+              </View>
 
-            <View style={globalStyles.infoContainer}>
-              <Text style={styles.info}>
-                Body fat mass:
+              <View style={globalStyles.infoContainer}>
+                <Text style={styles.info}>
+                  Body fat mass:
               </Text>
-              <Text style={styles.data}>
-                {waist && hips && neck && bodyFatMass + 'kg'}
-              </Text>
-            </View>
+                <Text style={styles.data}>
+                  {waist && hips && neck && bodyFatMass + 'kg'}
+                </Text>
+              </View>
 
-            <View style={globalStyles.infoContainer}>
-              <Text style={styles.info}>
-                Lean body mass:
+              <View style={globalStyles.infoContainer}>
+                <Text style={styles.info}>
+                  Lean body mass:
               </Text>
-              <Text style={styles.data}>
-                {waist && hips && neck && leanBodyMass + 'kg'}
-              </Text>
-            </View>
+                <Text style={styles.data}>
+                  {waist && hips && neck && leanBodyMass + 'kg'}
+                </Text>
+              </View>
 
-            <View style={globalStyles.infoContainer}>
-              <Text style={styles.info}>
-                Ideal body fat for given age:
-              </Text>
-              <Text style={styles.data}>
-                {waist && hips && neck && idealBodyFatPercentage(userData) + '%'}
-              </Text>
-            </View>
+              <View style={globalStyles.infoContainer}>
+                <Text style={styles.info}>
+                  Ideal body fat:
+                </Text>
+                <Text style={styles.data}>
+                  {waist && hips && neck && idealBodyFatPercentage(userData) + '%'}
+                </Text>
+              </View>
 
-            <View style={globalStyles.infoContainer}>
-              {waist && hips && neck && bodyFatToLose > 0 ? (
-                <View>
-                  <Text style={styles.info}>
-                    Body fat to lose to reach ideal:
-              </Text>
-                  <Text style={styles.data}>
-                    {waist && hips && neck && bodyFatToLose + 'kg'}
+              <View style={globalStyles.infoContainer}>
+                {waist && hips && neck && bodyFatToLose > 0 ? (
+                  <>
+                    <Text style={styles.info}>
+                      Need to lose minimum:
                   </Text>
-                </View>
-              ) : (
-                  <Text style={styles.info}>You are below ideal fat percentage!</Text>
-                )}
-            </View>
+                    <Text style={styles.data}>
+                      {waist && hips && neck && bodyFatToLose + 'kg'}
+                    </Text>
+                  </>
+                ) : (
+                    <Text style={styles.info}>You are below ideal fat percentage!</Text>
+                  )}
+              </View>
 
-          </View>
+            </View>
+          ) : (
+              <View style={{ marginVertical: 10 }}>
+                <Text style={{ textAlign: 'center', paddingVertical: 10, fontSize: 18 }}>
+                  Make sure you added information about your sex and height!
+                  </Text>
+                <Text style={{ textAlign: 'center', paddingVertical: 10, fontSize: 18 }}>
+                  This data are necessary to make calculations
+                  </Text>
+                <View style={styles.button}>
+                  <Button title="Add data" color={Colors.secondary} onPress={() => navigation.navigate('PersonalData')} />
+                </View>
+              </View>
+            )}
         </View >
       </ScrollView>
     </TouchableWithoutFeedback>

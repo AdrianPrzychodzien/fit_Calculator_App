@@ -16,11 +16,11 @@ import Home from './screens/Home'
 import PersonalData from './screens/PersonalData'
 import BodyFat from './screens/BodyFat'
 import WeightTracker from './screens/WeightTracker'
+import Bmi from './screens/Bmi'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
-
 
 function App() {
   return (
@@ -68,6 +68,7 @@ const PersonalDataDrawer = () => {
     <Drawer.Navigator initialRouteName="PersonalData">
       <Drawer.Screen name="PersonalData" component={PersonalDataStack} />
       <Drawer.Screen name="BodyFat" component={BodyFatStack} />
+      <Drawer.Screen name="Bmi" component={BmiStack} />
     </Drawer.Navigator>
   )
 }
@@ -186,6 +187,41 @@ const BodyFatStack = ({ navigation }) => {
       }}
     >
       <Stack.Screen name="Body Fat %" component={BodyFat}
+        options={{
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <Icon
+              name='ios-backspace'
+              style={{ color: 'white', marginLeft: 20 }}
+              size={35}
+              onPress={navigation.goBack}
+            />),
+          headerRight: () => (
+            <Icon
+              name='ios-list'
+              style={{ color: 'white', marginRight: 20 }}
+              size={35}
+              onPress={() => navigation.toggleDrawer()}
+              onPress={navigation.toggleDrawer}
+            />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+const BmiStack = ({ navigation }) => {
+  return (
+    <Stack.Navigator
+      headerMode="screen"
+      screenOptions={{
+        headerTintColor: 'white',
+        headerStyle: { backgroundColor: Colors.primary },
+        headerTitleStyle: { fontSize: 26, letterSpacing: 1.1 }
+      }}
+    >
+      <Stack.Screen name="Body Mass Index" component={Bmi}
         options={{
           headerTitleAlign: "center",
           headerLeft: () => (

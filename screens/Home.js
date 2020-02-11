@@ -172,7 +172,7 @@ const Home = ({ userData, setFormula, navigation }) => {
           <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>
               Body mass index:
-          </Text>
+            </Text>
             <Text style={styles.data}>
               {weight && height && calcBMI(userData)}
             </Text>
@@ -181,7 +181,7 @@ const Home = ({ userData, setFormula, navigation }) => {
           <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>
               Maximum Heart Rates:
-          </Text>
+            </Text>
             <Text style={styles.data}>
               {age && maxHeartRate(userData)}
             </Text>
@@ -190,7 +190,7 @@ const Home = ({ userData, setFormula, navigation }) => {
           <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>
               Training Heart Rate:
-          </Text>
+            </Text>
             <Text style={styles.data}>
               {age && trainingMin + '-' + trainingMax}
             </Text>
