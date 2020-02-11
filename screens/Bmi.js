@@ -6,6 +6,7 @@ import { calcBMI, rangeBMI, idealBMI, userBmiTip } from '../utils/equations'
 
 import Colors from '../utils/Colors'
 import { globalStyles } from '../utils/globalStyles'
+import InputRange from '../components/InputRange'
 
 
 const Bmi = ({ userData, navigation }) => {
@@ -31,6 +32,8 @@ const Bmi = ({ userData, navigation }) => {
           <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>{userBmiTip(userData)}</Text>
           </View>
+
+          {/* <InputRange userData={userData} /> */}
 
           <View style={styles.description}>
             <Text style={styles.paragraph}>
