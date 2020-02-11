@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native'
 
 import Colors from '../utils/Colors'
 import { RadioButtons } from 'react-native-radio-buttons'
@@ -53,149 +53,149 @@ const Home = ({ userData, setFormula, navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Hello</Text>
-      <View>
-        {(weight && height && age && sex && lifeActivity) ? (
-          <Text style={styles.description}>
-            You are a {age} year old {sex} who is {height} tall and
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.header}>Hello</Text>
+        <View>
+          {(weight && height && age && sex && lifeActivity) ? (
+            <Text style={styles.description}>
+              You are a {age} year old {sex} who is {height} tall and
             weights {weight} kg while {activityLevelComment(lifeActivity)}
-          </Text>
-        ) : (
-            <>
-              <Text style={styles.description}>
-                Add your personal data and choose one of the following
-                  three equations to calculate basic indicators
-                  (Resting Metabolic Rate, Body Mass Index,
-                      Training Heart Rate or Heart Rate Max)
+            </Text>
+          ) : (
+              <>
+                <Text style={styles.description}>
+                  Add your personal data and choose one of the following
+                    three equations to calculate basic indicators
+                    (Resting Metabolic Rate, Body Mass Index,
+                        Training Heart Rate or Heart Rate Max)
               </Text>
+                <View style={styles.button}>
+                  <Button title="Add personal data"
+                    onPress={() => navigation.navigate('PersonalData')}
+                  />
+                </View>
+              </>
+            )}
+        </View>
+
+        <Formik initialValues={{
+          formula: userData.formula || ''
+        }}
+          onSubmit={values => {
+            setFormula({
+              formula: option
+            })
+          }}
+        >
+          {({ handleSubmit }) => (
+            <>
+              <View style={styles.inputContainer}>
+                <RadioButtons style={styles.radio}
+                  options={['MifflinStJeor']}
+                  onSelection={() => setOption('MifflinStJeor')}
+                  selectedOption={option}
+                  renderOption={renderOption}
+                  renderContainer={renderContainer}
+                />
+
+                <RadioButtons style={styles.radio}
+                  options={['HarrisBenedict']}
+                  onSelection={() => setOption('HarrisBenedict')}
+                  selectedOption={option}
+                  renderOption={renderOption}
+                  renderContainer={renderContainer}
+                />
+
+                <RadioButtons style={styles.radio}
+                  options={['KatchMcardle']}
+                  onSelection={() => setOption('KatchMcardle')}
+                  selectedOption={option}
+                  renderOption={renderOption}
+                  renderContainer={renderContainer}
+                />
+
+              </View>
               <View style={styles.button}>
-                <Button title="Add personal data"
-                  onPress={() => navigation.navigate('PersonalData')}
+                <Button title="Calculate"
+                  type="submit"
+                  color={Colors.primary}
+                  onPress={handleSubmit}
                 />
               </View>
             </>
           )}
-      </View>
+        </Formik>
 
-      <Formik initialValues={{
-        formula: userData.formula || ''
-      }}
-        onSubmit={values => {
-          setFormula({
-            formula: option
-          })
-        }}
-      >
-        {({ handleSubmit }) => (
-          <>
-            <View style={styles.inputContainer}>
-              <RadioButtons style={styles.radio}
-                options={['MifflinStJeor']}
-                onSelection={() => setOption('MifflinStJeor')}
-                selectedOption={option}
-                renderOption={renderOption}
-                renderContainer={renderContainer}
-              />
-
-              <RadioButtons style={styles.radio}
-                options={['HarrisBenedict']}
-                onSelection={() => setOption('HarrisBenedict')}
-                selectedOption={option}
-                renderOption={renderOption}
-                renderContainer={renderContainer}
-              />
-
-              <RadioButtons style={styles.radio}
-                options={['KatchMcardle']}
-                onSelection={() => setOption('KatchMcardle')}
-                selectedOption={option}
-                renderOption={renderOption}
-                renderContainer={renderContainer}
-              />
-
-            </View>
-            <View style={styles.button}>
-              <Button title="Calculate"
-                type="submit"
-                color={Colors.primary}
-                onPress={handleSubmit}
-              />
-            </View>
-          </>
-        )}
-      </Formik>
-
-      {formula === 'KatchMcardle' && !fat && (
-        <Text>
-          Body fat percentage is required
+        {formula === 'KatchMcardle' && !fat && (
+          <View >
+            <Text style={styles.info}>Body fat percentage is required</Text>
             <Button color={Colors.secondary}
-            onPress={navigation.navigator('BodyFat')}
-            title="Click here to complete"
-          />
+              title="Click here to complete"
+            />
+          </View>
+        )}
 
-        </Text>
-      )}
+        <View style={styles.userInfo}>
 
-      <View style={styles.userInfo}>
-
-        <View style={styles.infoContainer}>
-          <Text style={styles.info}>
-            Resting Metabolic Age:
+          <View style={styles.infoContainer}>
+            <Text style={styles.info}>
+              Resting Metabolic Age:
           </Text>
-          <Text style={styles.data}>
-            {formula === 'MifflinStJeor' ?
-              restingMifflinStJeor(userData) : (formula === 'HarrisBenedict' ?
-                restingHarrisBenedict(userData) : (
-                  fat ? restingKatchMcardle(userData) :
-                    ('no data')))}
-            {fat ? ' kcal' : null}
+            <Text style={styles.data}>
+              {sex && weight && height && age & lifeActivity
+                && formula === 'MifflinStJeor' ? restingMifflinStJeor(userData) : null
+                  || formula === 'HarrisBenedict' ? restingHarrisBenedict(userData) : null
+                    || formula === 'KatchMcardle' ? (fat ? restingKatchMcardle(userData) : 'no data') : null
+              }
+              {fat ? ' kcal' : null}
+            </Text>
+          </View>
+
+          <View style={styles.infoContainer}>
+            <Text style={styles.info}>
+              Caloric needs:
           </Text>
+            <Text style={styles.data}>
+              {sex && weight && height && age & lifeActivity
+                && formula === 'MifflinStJeor' ? MifflinStJeor(userData) : null
+                  || formula === 'HarrisBenedict' ? HarrisBenedict(userData) : null
+                    || formula === 'KatchMcardle' ? (fat ? KatchMcardle(userData) : 'no data') : null
+              }
+              {fat ? 'kcal' : null}
+            </Text>
+          </View>
+
+          <View style={styles.infoContainer}>
+            <Text style={styles.info}>
+              Body mass index:
+          </Text>
+            <Text style={styles.data}>
+              {weight && height && calcBMI(userData)}
+            </Text>
+          </View>
+
+          <View style={styles.infoContainer}>
+            <Text style={styles.info}>
+              Maximum Heart Rates:
+          </Text>
+            <Text style={styles.data}>
+              {age && maxHeartRate(userData)}
+            </Text>
+          </View>
+
+          <View style={styles.infoContainer}>
+            <Text style={styles.info}>
+              Training Heart Rate:
+          </Text>
+            <Text style={styles.data}>
+              {age && trainingMin + '-' + trainingMax}
+            </Text>
+          </View>
+
         </View>
-
-        <View style={styles.infoContainer}>
-          <Text style={styles.info}>
-            Caloric needs:
-          </Text>
-          <Text style={styles.data}>
-            {formula === 'MifflinStJeor' ?
-              MifflinStJeor(userData) : (formula === 'HarrisBenedict' ?
-                HarrisBenedict(userData) : (
-                  fat ? KatchMcardle(userData) :
-                    ('no data')))}
-            {fat ? 'kcal' : null}
-          </Text>
-        </View>
-
-        <View style={styles.infoContainer}>
-          <Text style={styles.info}>
-            Body mass index:
-          </Text>
-          <Text style={styles.data}>
-            {calcBMI(userData)}
-          </Text>
-        </View>
-
-        <View style={styles.infoContainer}>
-          <Text style={styles.info}>
-            Maximum Heart Rates:
-          </Text>
-          <Text style={styles.data}>
-            {maxHeartRate(userData)}
-          </Text>
-        </View>
-
-        <View style={styles.infoContainer}>
-          <Text style={styles.info}>
-            Training Heart Rate:
-          </Text>
-          <Text style={styles.data}>
-            {trainingMin} - {trainingMax}
-          </Text>
-        </View>
-
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   info: {
-    fontSize: 16
+    fontSize: 18
   },
   data: {
     fontSize: 18,

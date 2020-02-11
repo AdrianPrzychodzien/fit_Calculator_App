@@ -104,17 +104,17 @@ export const trainingHeartRate = max => {
 //
 export const MifflinStJeor = data => {
   let output = Math.round(restingMifflinStJeor(data) * activityLevel(data.lifeActivity))
-  return output
+  return output ? output : null
 }
 
 export const HarrisBenedict = data => {
   let output = Math.round(restingHarrisBenedict(data) * activityLevel(data.lifeActivity))
-  return output
+  return output ? output : null
 }
 
 export const KatchMcardle = data => {
   let output = Math.round(restingKatchMcardle(data) * activityLevel(data.lifeActivity))
-  return output
+  return output ? output : null
 }
 
 export const restingMifflinStJeor = data => {
@@ -126,7 +126,8 @@ export const restingMifflinStJeor = data => {
   } else if (sex === 'Female') {
     result = (10 * weight) + (6.25 * height) - (5 * age) - 161
   } else {
-    alert('Choose your sex')
+    console.log('Choose your sex')
+    return
   }
   return Math.round(result)
 }
@@ -138,7 +139,8 @@ export const restingHarrisBenedict = data => {
   } else if (data.sex === 'Female') {
     result = (9.247 * data.weight) + (3.098 * data.height) - (4.330 * data.age) + 447.593
   } else {
-    alert('Choose your sex')
+    console.log('Choose your sex')
+    return
   }
 
   return Math.round(result)
