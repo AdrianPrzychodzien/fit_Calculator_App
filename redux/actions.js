@@ -1,4 +1,5 @@
 import { DataActionTypes } from './data/data.types'
+import { CircumActionTypes } from './circum/circum.types'
 
 export const setData = data => ({
   type: DataActionTypes.SET_USER_DATA,
@@ -42,5 +43,16 @@ export const clearActualGoalSaveWeights = data => ({
 
 export const clearFinishDateOnly = data => ({
   type: DataActionTypes.CLEAR_FINISH_DATE_ONLY,
+  payload: data
+})
+
+
+export const setBodyFatCircum = data => ({
+  type: CircumActionTypes.SET_BODY_FAT_CIRCUM,
+  payload: data
+})
+
+export const setCircumferences = data => ({
+  type: CircumActionTypes.SET_CIRCUMFERENCES,
   payload: data
 })

@@ -12,7 +12,15 @@ export const globalStyles = StyleSheet.create({
   header: {
     fontSize: 26,
     fontWeight: 'bold',
-    paddingVertical: 5
+    paddingVertical: 5,
+    textAlign: 'center'
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    paddingVertical: 15,
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
   },
   radio: {
     flexDirection: 'row',

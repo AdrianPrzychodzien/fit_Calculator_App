@@ -138,9 +138,10 @@ const Home = ({ userData, setFormula, navigation }) => {
           </View>
         )}
 
+        {/* Information about user based on data from inputs */}
         <View style={styles.userInfo}>
 
-          <View style={styles.infoContainer}>
+          <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>
               Resting Metabolic Age:
           </Text>
@@ -154,7 +155,7 @@ const Home = ({ userData, setFormula, navigation }) => {
             </Text>
           </View>
 
-          <View style={styles.infoContainer}>
+          <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>
               Caloric needs:
           </Text>
@@ -168,7 +169,7 @@ const Home = ({ userData, setFormula, navigation }) => {
             </Text>
           </View>
 
-          <View style={styles.infoContainer}>
+          <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>
               Body mass index:
           </Text>
@@ -177,7 +178,7 @@ const Home = ({ userData, setFormula, navigation }) => {
             </Text>
           </View>
 
-          <View style={styles.infoContainer}>
+          <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>
               Maximum Heart Rates:
           </Text>
@@ -186,7 +187,7 @@ const Home = ({ userData, setFormula, navigation }) => {
             </Text>
           </View>
 
-          <View style={styles.infoContainer}>
+          <View style={globalStyles.infoContainer}>
             <Text style={styles.info}>
               Training Heart Rate:
           </Text>
@@ -221,13 +222,6 @@ const styles = StyleSheet.create({
   userInfo: {
     paddingVertical: 15,
     width: '80%',
-  },
-  infoContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    paddingVertical: 15,
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
   },
   info: {
     fontSize: 18

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 import { Provider } from 'react-redux'
 import { store, persistor } from './redux/store'
@@ -67,6 +67,7 @@ const PersonalDataDrawer = () => {
   return (
     <Drawer.Navigator initialRouteName="PersonalData">
       <Drawer.Screen name="PersonalData" component={PersonalDataStack} />
+      <Drawer.Screen name="BodyFat" component={BodyFatStack} />
     </Drawer.Navigator>
   )
 }
@@ -150,6 +151,41 @@ const PersonalDataStack = ({ navigation }) => {
       }}
     >
       <Stack.Screen name="Personal Data" component={PersonalData}
+        options={{
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <Icon
+              name='ios-backspace'
+              style={{ color: 'white', marginLeft: 20 }}
+              size={35}
+              onPress={navigation.goBack}
+            />),
+          headerRight: () => (
+            <Icon
+              name='ios-list'
+              style={{ color: 'white', marginRight: 20 }}
+              size={35}
+              onPress={() => navigation.toggleDrawer()}
+              onPress={navigation.toggleDrawer}
+            />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+const BodyFatStack = ({ navigation }) => {
+  return (
+    <Stack.Navigator
+      headerMode="screen"
+      screenOptions={{
+        headerTintColor: 'white',
+        headerStyle: { backgroundColor: Colors.primary },
+        headerTitleStyle: { fontSize: 26, letterSpacing: 1.1 }
+      }}
+    >
+      <Stack.Screen name="Body Fat %" component={BodyFat}
         options={{
           headerTitleAlign: "center",
           headerLeft: () => (
