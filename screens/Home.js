@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 import { View, ScrollView, Text, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native'
 
 import Colors from '../utils/Colors'
+import { globalStyles } from '../utils/globalStyles'
 import { RadioButtons } from 'react-native-radio-buttons'
 import { setFormula } from '../redux/actions'
 import { Formik } from 'formik'
+
 
 import {
   activityLevelComment,
@@ -54,8 +56,8 @@ const Home = ({ userData, setFormula, navigation }) => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.header}>Hello</Text>
+      <View style={globalStyles.container}>
+        <Text style={globalStyles.header}>Hello</Text>
         <View>
           {(weight && height && age && sex && lifeActivity) ? (
             <Text style={styles.description}>
@@ -91,7 +93,7 @@ const Home = ({ userData, setFormula, navigation }) => {
           {({ handleSubmit }) => (
             <>
               <View style={styles.inputContainer}>
-                <RadioButtons style={styles.radio}
+                <RadioButtons style={globalStyles.radio}
                   options={['MifflinStJeor']}
                   onSelection={() => setOption('MifflinStJeor')}
                   selectedOption={option}
@@ -200,19 +202,6 @@ const Home = ({ userData, setFormula, navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    padding: 30,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  header: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    paddingVertical: 10
-  },
   description: {
     fontSize: 18,
     textAlign: 'center',
@@ -228,10 +217,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     justifyContent: 'space-evenly',
     alignItems: 'center'
-  },
-  radio: {
-    flexDirection: 'row',
-    padding: 5
   },
   userInfo: {
     paddingVertical: 15,

@@ -13,14 +13,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 import Colors from '../utils/Colors'
+import { globalStyles } from '../utils/globalStyles'
 import { RadioButtons } from 'react-native-radio-buttons'
 import StarRating from 'react-native-star-rating'
 
 const validationSchema = yup.object({
-  height: yup.number('It must be a number').required('Height is required').positive(),
-  weight: yup.number('It must be a number').required('Weight is required').positive(),
-  age: yup.number('It must be a number').required('Age is required').positive(),
-  fat: yup.number('It must be a number').positive().max(70, 'Are you sure?'),
+  height: yup.string().matches(/^[0-9]*$/, { message: 'Only numbers' }).required('Height is required').min(2),
+  weight: yup.string().matches(/^[0-9]*$/, { message: 'Only numbers' }).required('Weight is required').min(2),
+  age: yup.string().matches(/^[0-9]*$/, { message: 'Only numbers' }).required('Age is required'),
+  fat: yup.string().matches(/^[0-9]*$/, { message: 'Only numbers' }),
   sex: yup.string().required(),
   lifeActivity: yup.string().required(),
 })
@@ -47,7 +48,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView>
-        <View style={styles.container}>
+        <View style={globalStyles.container}>
           <Formik initialValues={{
             height: userData.height || '',
             weight: userData.weight || '',
@@ -72,9 +73,9 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
               navigation.navigate('Home')
             }}
           >
-            {({ handleSubmit, handleChange, handleBlur, values }) => (
-              <View style={styles.container} >
-                <Text style={styles.header}>Add your personal data</Text>
+            {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
+              <View style={globalStyles.container} >
+                <Text style={globalStyles.header}>Add your personal data</Text>
                 <View>
                   <View style={styles.inputContainer}>
                     <View>
@@ -88,6 +89,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                       keyboardType="numeric"
                     />
                   </View>
+                  <Text style={styles.errorText}>{touched.height && errors.height}</Text>
 
                   <View style={styles.inputContainer}>
                     <View>
@@ -101,6 +103,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                       keyboardType="numeric"
                     />
                   </View>
+                  <Text style={styles.errorText}>{touched.weight && errors.weight}</Text>
 
                   <View style={styles.inputContainer}>
                     <View >
@@ -114,6 +117,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                       keyboardType="numeric"
                     />
                   </View>
+                  <Text style={styles.errorText}>{touched.age && errors.age}</Text>
 
                   <View style={styles.inputContainer}>
                     <View >
@@ -127,12 +131,13 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                       keyboardType="numeric"
                     />
                   </View>
+                  <Text style={styles.errorText}>{touched.fat && errors.fat}</Text>
 
                   <View style={styles.inputContainer}>
                     <View >
                       <FontAwesomeIcon icon={faMale} color={Colors.primary} size={36} />
                     </View>
-                    <RadioButtons style={styles.radio}
+                    <RadioButtons style={globalStyles.radio}
                       options={['Male']}
                       onSelection={() => setSelectedOption('Male')}
                       selectedOption={selectedOption}
@@ -176,24 +181,11 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    padding: 30,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  header: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    paddingVertical: 10
-  },
   inputContainer: {
     flexDirection: 'row',
     width: '60%',
     marginHorizontal: 15,
-    paddingVertical: 10,
+    paddingTop: 10,
     justifyContent: 'space-evenly',
     alignItems: 'center'
   },
@@ -205,16 +197,16 @@ const styles = StyleSheet.create({
     width: 120,
     padding: 10
   },
-  radio: {
-    flexDirection: 'row',
-    padding: 15,
-    marginHorizontal: 15,
-  },
   stars: {
     marginVertical: 15,
   },
   button: {
     paddingVertical: 15
+  },
+  errorText: {
+    fontSize: 12,
+    color: 'red',
+    textAlign: 'center'
   }
 
 })

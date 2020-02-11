@@ -62,17 +62,10 @@ export default function App() {
   );
 }
 
-
-
-
-const SideDrawer = () => {
+const HomeSideDrawer = () => {
   return (
-    <NavigationContainer independent={true}>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="PersonalData" component={PersonalData} />
-        <Drawer.Screen name="BodyFat" component={BodyFat} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen name="BodyFat" component={BodyFat} />
+    </Drawer.Navigator>
   )
 }
