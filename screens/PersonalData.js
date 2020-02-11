@@ -74,7 +74,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
             }}
           >
             {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
-              <View style={globalStyles.container} >
+              <View style={{ ...globalStyles.container, paddingVertical: 0 }} >
                 <Text style={globalStyles.header}>Add your personal data</Text>
                 <View>
                   <View style={styles.inputContainer}>

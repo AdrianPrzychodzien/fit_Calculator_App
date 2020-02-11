@@ -57,7 +57,7 @@ const Home = ({ userData, setFormula, navigation }) => {
   return (
     <ScrollView>
       <View style={globalStyles.container}>
-        <Text style={globalStyles.header}>Hello</Text>
+        <Text style={globalStyles.header}>Home page</Text>
         <View>
           {(weight && height && age && sex && lifeActivity) ? (
             <Text style={styles.description}>
@@ -68,9 +68,9 @@ const Home = ({ userData, setFormula, navigation }) => {
               <>
                 <Text style={styles.description}>
                   Add your personal data and choose one of the following
-                    three equations to calculate basic indicators
-                    (Resting Metabolic Rate, Body Mass Index,
-                        Training Heart Rate or Heart Rate Max)
+                  three equations to calculate basic indicators
+                  (Resting Metabolic Rate, Body Mass Index,
+                  Training Heart Rate or Heart Rate Max)
               </Text>
                 <View style={styles.button}>
                   <Button title="Add personal data"

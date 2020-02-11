@@ -12,7 +12,7 @@ export const globalStyles = StyleSheet.create({
   header: {
     fontSize: 26,
     fontWeight: 'bold',
-    paddingVertical: 10
+    paddingVertical: 5
   },
   radio: {
     flexDirection: 'row',
