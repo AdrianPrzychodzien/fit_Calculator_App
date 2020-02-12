@@ -5,6 +5,7 @@ import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithout
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { setData, setDailyWeight } from '../redux/actions'
+import ActivityInfo from '../components/Modals/ActivityInfo'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
@@ -30,6 +31,30 @@ const validationSchema = yup.object({
 const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
   const [selectedOption, setSelectedOption] = useState(userData.sex || 'Male')
   const [stars, setStars] = useState(userData.lifeActivity || 0)
+
+  const displayInfo = num => {
+    let output
+    switch (num) {
+      case 1:
+        output = 'Sedentary'
+        break
+      case 2:
+        output = 'Light exercise'
+        break
+      case 3:
+        output = 'Moderate exercise'
+        break
+      case 4:
+        output = 'Heavy exercise'
+        break
+      case 5:
+        output = 'Athlete'
+        break
+      default:
+        break
+    }
+    return output
+  }
 
   function renderOption(option, selected, onSelect, index) {
     const style = selected ? { fontWeight: 'bold' } : {}
@@ -157,6 +182,13 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                   </View>
 
                   <View style={styles.stars} >
+                    <View style={styles.lifeActivityContainer}>
+                      <Text style={styles.lifeActivity}>
+                        Life activity: {displayInfo(stars)}
+                      </Text>
+                      <ActivityInfo style={{ marginLeft: 10 }} />
+                    </View>
+
                     <StarRating
                       fullStarColor={Colors.primary}
                       disabled={false}
@@ -183,7 +215,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
 const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
-    width: '60%',
+    width: '90%',
     marginHorizontal: 15,
     paddingTop: 10,
     justifyContent: 'space-evenly',
@@ -195,6 +227,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 6,
     width: 120,
+    maxWidth: 120,
     padding: 10
   },
   stars: {
@@ -202,6 +235,18 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingVertical: 15
+  },
+  lifeActivityContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  lifeActivity: {
+    flexDirection: 'row',
+    fontSize: 17,
+    padding: 10,
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   errorText: {
     fontSize: 12,
