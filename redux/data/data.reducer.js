@@ -19,7 +19,6 @@ const INITIAL_STATE = {
 const dataReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case DataActionTypes.SET_USER_DATA:
-      console.log(action.payload)
       return {
         ...state,
         height: action.payload.height,

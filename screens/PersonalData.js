@@ -53,7 +53,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
             height: userData.height || '',
             weight: userData.weight || '',
             age: userData.age || '',
-            fat: userData.fat || userData.fat || '',
+            fat: (userData.fat).toString() || '',
             sex: userData.sex || 'Male',
             lifeActivity: userData.lifeActivity || 0,
           }}
