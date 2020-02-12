@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { View, ScrollView, Text, StyleSheet, Button, Modal } from 'react-native'
+import { View, Text, StyleSheet, Modal } from 'react-native'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTimes, faStar, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'

@@ -10,6 +10,7 @@ import ProgressCircle from 'react-native-progress-circle'
 
 import { diffDays, weightTrackerInfo, percentageProgress, HealthTips } from '../utils/equations'
 import WeightTodayFormik from '../components/WeightTodayFormik'
+import WeightInfo from '../components/Modals/WeightInfo'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faWeight, faBullseye } from '@fortawesome/free-solid-svg-icons'
@@ -194,6 +195,8 @@ const WeightTracker = ({
                 <Text style={styles.text}>
                   {(diffDays(finish))} days left and {weightTrackerInfo(userData)}
                 </Text>
+
+                <WeightInfo />
 
                 {/* Circular Progress */}
                 <View style={styles.circularProgressContainer}>

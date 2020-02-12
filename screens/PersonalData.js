@@ -6,6 +6,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import { setData, setDailyWeight } from '../redux/actions'
 import ActivityInfo from '../components/Modals/ActivityInfo'
+import BodyFatInfo from '../components/Modals/BodyFatInfo'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
@@ -148,13 +149,14 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                     <View >
                       <FontAwesomeIcon icon={faPercentage} color={Colors.primary} size={36} />
                     </View>
-                    <TextInput style={styles.input}
+                    <TextInput style={{ ...styles.input, width: 80, marginRight: -30 }}
                       onChangeText={handleChange('fat')}
                       onBlur={handleBlur('fat')}
                       value={values.fat}
                       placeholder="Fat %"
                       keyboardType="numeric"
                     />
+                    <BodyFatInfo navigation={navigation} />
                   </View>
                   <Text style={styles.errorText}>{touched.fat && errors.fat}</Text>
 

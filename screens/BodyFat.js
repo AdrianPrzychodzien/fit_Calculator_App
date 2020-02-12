@@ -6,6 +6,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import { setFatData, setBodyFatCircum } from '../redux/actions'
 import { bodyFatFormula, idealBodyFatPercentage } from '../utils/equations'
+import FatPercentageInfo from '../components/Modals/FatPercentageInfo'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -115,6 +116,7 @@ const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigatio
                 <Text style={styles.data}>
                   {waist && hips && neck && bodyFat + '%'}
                 </Text>
+                <FatPercentageInfo />
               </View>
 
               <View style={globalStyles.infoContainer}>
