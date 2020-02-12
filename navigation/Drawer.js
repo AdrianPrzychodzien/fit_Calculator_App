@@ -1,7 +1,7 @@
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { HomeStack, WeightTrackerStack, PersonalDataStack, BodyFatStack, BmiStack, HelpStack } from './Stack'
+import { HomeStack, WeightTrackerStack, PersonalDataStack, BodyFatStack, BmiStack, CaloriesStack, HelpStack } from './Stack'
 
 const Drawer = createDrawerNavigator()
 
@@ -11,6 +11,7 @@ export const PagesDrawer = () => {
       <Drawer.Screen name="PersonalData" component={PersonalDataStack} />
       <Drawer.Screen name="BodyFat" component={BodyFatStack} />
       <Drawer.Screen name="Bmi" component={BmiStack} />
+      <Drawer.Screen name="Calories" component={CaloriesStack} />
       <Drawer.Screen name="Help" component={HelpStack} />
     </Drawer.Navigator>
   )

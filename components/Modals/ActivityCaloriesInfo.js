@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-import { View, Text, StyleSheet, Modal, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Modal, ScrollView, Button } from 'react-native'
+import { activityLevel, restingMifflinStJeor } from '../../utils/equations'
 
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 
@@ -10,20 +11,28 @@ import { faTimes, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
 
-const FatPercentageInfo = ({ style }) => {
+const ActivityCaloriesInfo = ({ userData, style }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [table, setTable] = useState({
-    tableHead: ['Category', 'Women', 'Men'],
-    widthArr: [120, 95, 95]
+    tableHead: ['Activity level', 'Kcal per day'],
+    widthArr: [190, 120]
   })
 
   const { tableHead, widthArr } = table
+  const { lifeActivity } = userData
+  const kcalPerDay = (num) => {
+    return Math.round(restingMifflinStJeor(userData) * activityLevel(num))
+  }
+
+  const userActivity = (data, num) => data === num && true
+
   const tableData = [
-    ['Essential Fat', '10-13%', '2-5%'],
-    ['Athletes', '14-20%', '6-13%'],
-    ['Fitness', '21-24%', '14-17%'],
-    ['Acceptable', '25-31%', '18-24%'],
-    ['Obese', '32%+', '25%+']
+    ['Basal Metabolic Rate', `${restingMifflinStJeor(userData)}}`],
+    ['Sedentary', `${kcalPerDay(1)}`],
+    ['Light Exercise', `${kcalPerDay(2)}`],
+    ['Moderate Exercise', `${kcalPerDay(3)}`],
+    ['Heavy Exercise', `${kcalPerDay(4)}`],
+    ['Athlete', `${kcalPerDay(5)}`]
   ]
 
   return (
@@ -38,7 +47,7 @@ const FatPercentageInfo = ({ style }) => {
               size={36}
             />
           </View>
-          <Text style={globalStyles.header}>Fat % Categories</Text>
+          <Text style={globalStyles.header}>Calories intake</Text>
           <View style={styles.container}>
             <ScrollView horizontal={true}>
               <View>
@@ -54,7 +63,7 @@ const FatPercentageInfo = ({ style }) => {
                           data={rowData}
                           widthArr={widthArr}
                           style={[styles.row, index % 2 && { backgroundColor: '#F7F6E7' }]}
-                          textStyle={styles.text}
+                          textStyle={[styles.text, userActivity(lifeActivity, index) && { fontWeight: 'bold' }]}
                         />
                       ))
                     }
@@ -67,11 +76,10 @@ const FatPercentageInfo = ({ style }) => {
       </Modal>
 
       <View style={style}>
-        <FontAwesomeIcon
+        <Button
           onPress={() => setModalOpen(true)}
-          icon={faQuestionCircle}
           color={Colors.primary}
-          size={30}
+          title="Calories intake on different activity level"
         />
       </View>
     </>
@@ -87,4 +95,4 @@ const styles = StyleSheet.create({
   row: { height: 45, backgroundColor: '#E7E6E1' }
 })
 
-export default FatPercentageInfo
+export default ActivityCaloriesInfo
