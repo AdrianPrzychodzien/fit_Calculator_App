@@ -22,7 +22,7 @@ const ActivityInfo = ({ style }) => {
             <FontAwesomeIcon
               onPress={() => setModalOpen(false)}
               icon={faTimes}
-              color={Colors.secondary}
+              color={Colors.warning}
               size={36}
             />
           </View>

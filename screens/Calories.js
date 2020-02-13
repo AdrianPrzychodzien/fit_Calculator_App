@@ -38,7 +38,6 @@ const Calories = ({ userData, navigation }) => {
       </View >
     )
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   }
 })
-
 
 const mapStateToProps = ({ data }) => ({
   userData: data

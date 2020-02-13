@@ -8,7 +8,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
 
-const WeightTrackerInfo = ({ style }) => {
+const DeleteGoalInfo = ({ style, clearGoal, clearGoalSaveWeights, clearFinish }) => {
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
@@ -23,28 +23,49 @@ const WeightTrackerInfo = ({ style }) => {
               size={36}
             />
           </View>
-          <Text style={globalStyles.header}>Weight loss process</Text>
+          <Text style={globalStyles.header}>Are you sure?</Text>
           <View style={styles.modalParagraph}>
             <Text style={styles.text}>
-              Though weight loss may occur faster at the start of a diet,
-              experts recommend aweight loss of 0.45–1.36 kg per week,
-              or about 1% of your body weight.
-            </Text>
-            <Text style={styles.text}>
-              Drastic weight changes increase the risk of yo-yo effect.
-            </Text>
-            <Text style={styles.text}>
-              Rapid weight loss can increase your risk of gallstones, dehydration, and malnutrition.
-            </Text>
-            <Text style={styles.text}>
-              Other side effects of rapid weight loss include: headaches, irritability,
-              fatigue, constipation, hair loss, menstrual irregularities and muscle loss.
-            </Text>
-            <Text style={styles.text}>
-              The green line marks a healthy weight change trend, so it is reasonable to
-              stay possibly close to it.
+              You will lose saved information about your weight,
+              as well as start and finish date from your actual goal.
             </Text>
           </View>
+          <View style={styles.button}>
+            <Button
+              color="orange"
+              onPress={() => { clearGoalSaveWeights(); setModalOpen(false) }}
+              title="Delete but leave weights"
+
+            />
+          </View>
+
+          <View style={styles.button}>
+            <Button
+              color="red"
+              onPress={() => { clearGoal(); setModalOpen(false) }}
+              title="Delete"
+
+            />
+          </View>
+
+          <View style={styles.button}>
+            <Button
+              color="orange"
+              onPress={() => { clearFinish(); setModalOpen(false) }}
+              title="Clear only finish date"
+
+            />
+          </View>
+
+          <View style={styles.button}>
+            <Button
+              color={Colors.primary}
+              onPress={() => { setModalOpen(false) }}
+              title="Quit"
+
+            />
+          </View>
+
         </View>
       </Modal>
 
@@ -52,7 +73,7 @@ const WeightTrackerInfo = ({ style }) => {
         <Button
           onPress={() => setModalOpen(true)}
           color={Colors.primary}
-          title="Comment on weight change"
+          title="Delete actual goal and set new"
         />
       </View>
     </>
@@ -72,6 +93,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20
   },
+  button: {
+    marginVertical: 10
+  }
 })
 
-export default WeightTrackerInfo
+export default DeleteGoalInfo

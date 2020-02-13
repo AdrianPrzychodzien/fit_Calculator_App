@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
 
@@ -11,6 +11,8 @@ import ProgressCircle from 'react-native-progress-circle'
 import { diffDays, weightTrackerInfo, percentageProgress, HealthTips } from '../utils/equations'
 import WeightTodayFormik from '../components/WeightTodayFormik'
 import WeightInfo from '../components/Modals/WeightInfo'
+import DeleteGoalInfo from '../components/Modals/DeleteGoalInfo'
+import HealthTipsInfo from '../components/Modals/HealthTipsInfo'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faWeight, faBullseye } from '@fortawesome/free-solid-svg-icons'
@@ -18,10 +20,8 @@ import {
   setWeightData, setFinishDate, setDailyWeight,
   clearActualGoal, clearActualGoalSaveWeights, clearFinishDateOnly
 } from '../redux/actions'
-
 import Colors from '../utils/Colors'
 import { globalStyles } from '../utils/globalStyles'
-import { NavigationContext } from 'react-navigation'
 
 const validationSchema = yup.object({
   weight: yup.string().matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' }).required('Weight is required').min(2),
@@ -50,8 +50,6 @@ const WeightTracker = ({
       start: new Date().toISOString().slice(0, 10)
     })
   }
-
-  console.log(date)
 
   const { weightGoal, finish, dailyWeightArray } = userData
   const weightToday = dailyWeightArray.length ? dailyWeightArray[dailyWeightArray.length - 1].weight : null
@@ -203,7 +201,15 @@ const WeightTracker = ({
                   {(diffDays(finish))} days left and {weightTrackerInfo(userData)}
                 </Text>
 
-                <WeightInfo style={{ marginVertical: 20 }} />
+                <View style={styles.tipsContainer}>
+                  <HealthTipsInfo
+                    healthTips={healthTips}
+                    dailyWeightArray={dailyWeightArray}
+                    clearFinish={clearFinish}
+                    style={{ marginVertical: 10, width: '45%' }}
+                  />
+                  <WeightInfo style={{ marginVertical: 10, width: '45%' }} />
+                </View>
 
                 {/* Circular Progress */}
                 <View style={styles.circularProgressContainer}>
@@ -244,6 +250,13 @@ const WeightTracker = ({
               </>
             )}
 
+          <DeleteGoalInfo
+            clearGoal={clearGoal}
+            clearGoalSaveWeights={clearGoalSaveWeights}
+            clearFinish={clearFinish}
+            style={{ marginVertical: 30 }}
+          />
+
         </View >
       </ScrollView>
     </TouchableWithoutFeedback>
@@ -272,31 +285,17 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 10
   },
-  button: {
-    paddingVertical: 15,
-    width: '80%'
-  },
-  errorText: {
-    fontSize: 12,
-    color: 'red',
-    textAlign: 'center'
-  },
+  button: { paddingVertical: 15, width: '80%' },
+  errorText: { fontSize: 12, color: 'red', textAlign: 'center' },
+  tipsContainer: { flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' },
   circularProgressContainer: {
     marginVertical: 20,
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-evenly'
   },
-  circularProgress: {
-    height: 140,
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  text: {
-    fontSize: 22,
-    padding: 10,
-    textAlign: 'center'
-  }
+  circularProgress: { height: 140, justifyContent: 'space-between', alignItems: 'center' },
+  text: { fontSize: 22, padding: 10, textAlign: 'center' }
 })
 
 const mapStateToProps = ({ data }) => ({

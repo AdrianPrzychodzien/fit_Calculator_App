@@ -70,7 +70,7 @@ const Chart = ({ userData }) => {
               datasets: [
                 {
                   data: weights,
-                  color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`
+                  color: () => `red`
                 },
                 { data: goalData }
               ],
@@ -85,8 +85,8 @@ const Chart = ({ userData }) => {
               backgroundGradientFrom: "#E5E8E8",
               backgroundGradientTo: "white",
               decimalPlaces: 0,
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              color: () => `black`,
+              labelColor: () => `black`,
               style: { borderRadius: 16 },
               propsForDots: {
                 strokeWidth: "5",
@@ -109,7 +109,7 @@ const Chart = ({ userData }) => {
               datasets: [
                 {
                   data: weights,
-                  color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`
+                  color: () => `green`
                 },
                 { data: healthyData }
               ],
@@ -124,8 +124,8 @@ const Chart = ({ userData }) => {
               backgroundGradientFrom: "#E5E8E8",
               backgroundGradientTo: "white",
               decimalPlaces: 0,
-              color: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
-              labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
+              color: () => `black`,
+              labelColor: () => `black`,
               style: { borderRadius: 16 },
               propsForDots: {
                 strokeWidth: "5",
