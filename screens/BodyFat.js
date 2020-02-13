@@ -198,25 +198,11 @@ const styles = StyleSheet.create({
     width: 120,
     padding: 10
   },
-  button: {
-    paddingVertical: 15
-  },
-  errorText: {
-    fontSize: 12,
-    color: 'red',
-    textAlign: 'center'
-  },
-  userInfo: {
-    paddingVertical: 15,
-    width: '85%',
-  },
-  info: {
-    fontSize: 18
-  },
-  data: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  }
+  button: { paddingVertical: 15 },
+  errorText: { fontSize: 12, color: 'red', textAlign: 'center' },
+  userInfo: { paddingVertical: 15, width: '85%', },
+  info: { fontSize: 18 },
+  data: { fontSize: 18, fontWeight: 'bold' }
 })
 
 const mapStateToProps = ({ data, circum }) => ({

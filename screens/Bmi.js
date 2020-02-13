@@ -8,7 +8,6 @@ import Colors from '../utils/Colors'
 import { globalStyles } from '../utils/globalStyles'
 import InputRange from '../components/InputRange'
 
-
 const Bmi = ({ userData, navigation }) => {
 
   const { height, weight, age, sex, lifeActivity } = userData
@@ -73,28 +72,14 @@ const Bmi = ({ userData, navigation }) => {
       </View >
     )
   }
-
 }
 
 const styles = StyleSheet.create({
-  info: {
-    fontSize: 20
-  },
-  data: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  description: {
-    marginVertical: 30,
-  },
-  paragraph: {
-    fontSize: 18,
-    lineHeight: 24,
-    textAlign: 'center',
-    paddingVertical: 10
-  }
+  info: { fontSize: 20 },
+  data: { fontSize: 18, fontWeight: 'bold' },
+  description: { marginVertical: 30, },
+  paragraph: { fontSize: 18, lineHeight: 24, textAlign: 'center', paddingVertical: 10 }
 })
-
 
 const mapStateToProps = ({ data }) => ({
   userData: data

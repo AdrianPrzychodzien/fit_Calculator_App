@@ -1,14 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
+import { View, ScrollView, Text, StyleSheet } from 'react-native'
 import { healthyProgress, myDateFormat } from '../../utils/equations'
 
 import WeightTrackerInfo from '../Modals/WeightTrackerInfo'
 
 import { LineChart } from "react-native-chart-kit"
 import { Dimensions } from "react-native"
-import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
 
 const Chart = ({ userData }) => {

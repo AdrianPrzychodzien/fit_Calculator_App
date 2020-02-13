@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { View, ScrollView, Text, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
 
-import Colors from '../utils/Colors'
-import { globalStyles } from '../utils/globalStyles'
-import { RadioButtons } from 'react-native-radio-buttons'
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
+
 import { setFormula } from '../redux/actions'
 import { Formik } from 'formik'
 
+import Colors from '../utils/Colors'
+import { globalStyles } from '../utils/globalStyles'
 
 import {
   activityLevelComment,
@@ -38,21 +39,12 @@ const Home = ({ userData, setFormula, navigation }) => {
 
   const { weight, height, age, sex, lifeActivity, fat, formula } = userData
   const [trainingMin, trainingMax] = trainingHeartRate(maxHeartRate(userData))
-  console.log(option)
 
-  function renderOption(option, selected, onSelect, index) {
-    const style = selected ? { fontWeight: 'bold', textDecorationLine: 'underline' } : {}
-
-    return (
-      <TouchableWithoutFeedback onPress={onSelect} key={index}>
-        <Text style={{ ...style, fontSize: 16 }}>{option}</Text>
-      </TouchableWithoutFeedback >
-    )
-  }
-
-  function renderContainer(optionNodes) {
-    return <View>{optionNodes}</View>
-  }
+  const radio_props = [
+    { label: 'MifflinStJeor', value: 0 },
+    { label: 'HarrisBenedict', value: 1 },
+    { label: 'KatchMcardle', value: 2 }
+  ]
 
   return (
     <ScrollView>
@@ -62,7 +54,7 @@ const Home = ({ userData, setFormula, navigation }) => {
           {(weight && height && age && sex && lifeActivity) ? (
             <Text style={styles.description}>
               You are a {age} year old {sex} who is {height} tall and
-            weights {weight} kg while {activityLevelComment(lifeActivity)}
+              weights {weight} kg while {activityLevelComment(lifeActivity)}
             </Text>
           ) : (
               <>
@@ -71,7 +63,7 @@ const Home = ({ userData, setFormula, navigation }) => {
                   three equations to calculate basic indicators
                   (Resting Metabolic Rate, Body Mass Index,
                   Training Heart Rate or Heart Rate Max)
-              </Text>
+                </Text>
                 <View style={styles.button}>
                   <Button title="Add personal data"
                     onPress={() => navigation.navigate('PersonalData')}
@@ -86,37 +78,47 @@ const Home = ({ userData, setFormula, navigation }) => {
         }}
           onSubmit={values => {
             setFormula({
-              formula: option
+              formula: option === 0 ? 'MifflinStJeor'
+                : option === 1 ? 'HarrisBenedict' : 'KatchMcardle'
             })
           }}
         >
           {({ handleSubmit }) => (
             <>
+              <Text style={styles.subHeader}>Which formula should be used for calculations?</Text>
               <View style={styles.inputContainer}>
-                <RadioButtons style={globalStyles.radio}
-                  options={['MifflinStJeor']}
-                  onSelection={() => setOption('MifflinStJeor')}
-                  selectedOption={option}
-                  renderOption={renderOption}
-                  renderContainer={renderContainer}
-                />
-
-                <RadioButtons style={styles.radio}
-                  options={['HarrisBenedict']}
-                  onSelection={() => setOption('HarrisBenedict')}
-                  selectedOption={option}
-                  renderOption={renderOption}
-                  renderContainer={renderContainer}
-                />
-
-                <RadioButtons style={styles.radio}
-                  options={['KatchMcardle']}
-                  onSelection={() => setOption('KatchMcardle')}
-                  selectedOption={option}
-                  renderOption={renderOption}
-                  renderContainer={renderContainer}
-                />
-
+                <RadioForm
+                  formHorizontal={true}
+                  animation={true}
+                >
+                  {
+                    radio_props.map((obj, i) => (
+                      <RadioButton labelHorizontal={false} key={i} >
+                        <RadioButtonInput
+                          obj={obj}
+                          index={i}
+                          isSelected={option === i}
+                          onPress={value => setOption(value)}
+                          borderWidth={3}
+                          buttonInnerColor={Colors.primary}
+                          buttonOuterColor={option === i ? Colors.primary : Colors.primary}
+                          buttonSize={10}
+                          buttonOuterSize={20}
+                          buttonStyle={{}}
+                          buttonWrapStyle={{ marginLeft: 0 }}
+                        />
+                        <RadioButtonLabel
+                          obj={obj}
+                          index={i}
+                          labelHorizontal={true}
+                          onPress={value => setOption(value)}
+                          labelStyle={{ fontSize: 18, paddingVertical: 10 }}
+                          labelWrapStyle={{}}
+                        />
+                      </RadioButton>
+                    ))
+                  }
+                </RadioForm>
               </View>
               <View style={styles.button}>
                 <Button title="Calculate"
@@ -132,7 +134,8 @@ const Home = ({ userData, setFormula, navigation }) => {
         {formula === 'KatchMcardle' && !fat && (
           <View >
             <Text style={styles.info}>Body fat percentage is required</Text>
-            <Button color={Colors.secondary}
+            <Button
+              color={Colors.secondary}
               title="Click here to complete"
             />
           </View>
@@ -209,27 +212,12 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     paddingVertical: 10
   },
-  button: {
-    paddingVertical: 15
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    paddingVertical: 10,
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
-  },
-  userInfo: {
-    paddingVertical: 15,
-    width: '80%',
-  },
-  info: {
-    fontSize: 18
-  },
-  data: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  }
+  subHeader: { fontSize: 16, textAlign: 'center', marginTop: 15 },
+  button: { paddingVertical: 10 },
+  inputContainer: { paddingVertical: 10 },
+  userInfo: { paddingVertical: 15, width: '80%' },
+  info: { fontSize: 18 },
+  data: { fontSize: 18, fontWeight: 'bold' }
 })
 
 const mapStateToProps = ({ data }) => ({
