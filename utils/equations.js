@@ -554,7 +554,6 @@ export const circumferencesChange = data => {
       }
     }
   })
-  console.log(output)
   return output
 }
 
@@ -564,7 +563,6 @@ export const biggestCircumChange = (arr, trend) => {
   // array of name and difference
   let output = []
   for (let el in arr) {
-    console.log(arr[el][circums[el]])
     output.push({
       name: circums[el],
       value: arr[el][circums[el]].diff

@@ -9,14 +9,11 @@ import ActivityInfo from '../components/Modals/ActivityInfo'
 import BodyFatInfo from '../components/Modals/BodyFatInfo'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import {
-  faBirthdayCake, faArrowsAltV, faFemale,
-  faMale, faWeight, faPercentage
-} from '@fortawesome/free-solid-svg-icons'
+import { faBirthdayCake, faArrowsAltV, faWeight, faPercentage } from '@fortawesome/free-solid-svg-icons'
 
 import Colors from '../utils/Colors'
 import { globalStyles } from '../utils/globalStyles'
-import { RadioButtons } from 'react-native-radio-buttons'
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
 import StarRating from 'react-native-star-rating'
 
 const validationSchema = yup.object({
@@ -28,9 +25,8 @@ const validationSchema = yup.object({
   lifeActivity: yup.string().required(),
 })
 
-
 const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
-  const [selectedOption, setSelectedOption] = useState(userData.sex || 'Male')
+  const [option, setOption] = useState(userData.sex || 'Male')
   const [stars, setStars] = useState(userData.lifeActivity || 0)
 
   const displayInfo = num => {
@@ -57,19 +53,10 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
     return output
   }
 
-  function renderOption(option, selected, onSelect, index) {
-    const style = selected ? { fontWeight: 'bold' } : {}
-
-    return (
-      <TouchableWithoutFeedback onPress={onSelect} key={index}>
-        <Text style={style}>{option}</Text>
-      </TouchableWithoutFeedback>
-    )
-  }
-
-  function renderContainer(optionNodes) {
-    return <View>{optionNodes}</View>
-  }
+  const radio_props = [
+    { label: 'Male', value: 0 },
+    { label: 'Female', value: 1 }
+  ]
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -88,7 +75,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
               setData({
                 ...values,
                 lifeActivity: stars,
-                sex: selectedOption
+                sex: option === 0 ? 'Male' : 'Female'
               })
 
               setDailyWeight({
@@ -161,26 +148,38 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                   <Text style={styles.errorText}>{touched.fat && errors.fat}</Text>
 
                   <View style={styles.inputContainer}>
-                    <View >
-                      <FontAwesomeIcon icon={faMale} color={Colors.primary} size={36} />
-                    </View>
-                    <RadioButtons style={globalStyles.radio}
-                      options={['Male']}
-                      onSelection={() => setSelectedOption('Male')}
-                      selectedOption={selectedOption}
-                      renderOption={renderOption}
-                      renderContainer={renderContainer}
-                    />
-                    <View >
-                      <FontAwesomeIcon icon={faFemale} color={Colors.primary} size={36} />
-                    </View>
-                    <RadioButtons style={styles.radio}
-                      options={['Female']}
-                      onSelection={() => setSelectedOption('Female')}
-                      selectedOption={selectedOption}
-                      renderOption={renderOption}
-                      renderContainer={renderContainer}
-                    />
+                    <RadioForm
+                      formHorizontal={true}
+                      animation={true}
+                    >
+                      {
+                        radio_props.map((obj, i) => (
+                          <RadioButton labelHorizontal={true} key={i} >
+                            <RadioButtonInput
+                              obj={obj}
+                              index={i}
+                              isSelected={option === i}
+                              onPress={value => setOption(value)}
+                              borderWidth={3}
+                              buttonInnerColor={Colors.primary}
+                              buttonOuterColor={option === i ? Colors.primary : Colors.primary}
+                              buttonSize={10}
+                              buttonOuterSize={20}
+                              buttonStyle={{}}
+                              buttonWrapStyle={{ marginLeft: 25 }}
+                            />
+                            <RadioButtonLabel
+                              obj={obj}
+                              index={i}
+                              labelHorizontal={true}
+                              onPress={value => setOption(value)}
+                              labelStyle={{ fontSize: 20, paddingVertical: 2 }}
+                              labelWrapStyle={{}}
+                            />
+                          </RadioButton>
+                        ))
+                      }
+                    </RadioForm>
                   </View>
 
                   <View style={styles.stars} >
@@ -233,7 +232,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   stars: {
-    marginVertical: 15,
+    marginVertical: 10,
   },
   button: {
     paddingVertical: 15
