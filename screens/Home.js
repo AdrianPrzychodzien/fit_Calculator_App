@@ -22,7 +22,7 @@ import {
   maxHeartRate
 } from '../utils/equations'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faBed,
   faUtensils,

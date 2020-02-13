@@ -24,7 +24,7 @@ const WeightInfo = ({ style }) => {
               size={36}
             />
           </View>
-          <Text style={globalStyles.header}>Body fat info</Text>
+          <Text style={globalStyles.header}>Weight loss process</Text>
           <View style={styles.modalParagraph}>
             <Text style={styles.text}>
               Losing weight is usually not a linear process.

@@ -21,6 +21,7 @@ import {
 
 import Colors from '../utils/Colors'
 import { globalStyles } from '../utils/globalStyles'
+import { NavigationContext } from 'react-navigation'
 
 const validationSchema = yup.object({
   weight: yup.string().matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' }).required('Weight is required').min(2),
@@ -182,10 +183,16 @@ const WeightTracker = ({
                     <Text style={styles.text}>The same weight as yesterday</Text>
                   ) : (
                       dailyWeightArray.length >= 2 ? (
-                        <Text style={styles.text}>
-                          Actual weight {weightToday}kg, {(Math.abs(weightToday - weightYesterday)).toFixed(1)}kg
-                        {weightToday - weightYesterday < 0 ? ' less' : ' more'} than yesterday
-                      </Text>
+                        <>
+                          <Text style={styles.text}>
+                            Actual weight {weightToday}kg
+                          </Text>
+
+                          <Text style={styles.text}>
+                            {(Math.abs(weightToday - weightYesterday)).toFixed(1)}kg
+                            {weightToday - weightYesterday < 0 ? ' less' : ' more'} than yesterday
+                          </Text>
+                        </>
                       ) : (
                           <Text style={styles.text}>Actual weight {weightToday}kg</Text>
                         )
@@ -196,7 +203,7 @@ const WeightTracker = ({
                   {(diffDays(finish))} days left and {weightTrackerInfo(userData)}
                 </Text>
 
-                <WeightInfo />
+                <WeightInfo style={{ marginVertical: 20 }} />
 
                 {/* Circular Progress */}
                 <View style={styles.circularProgressContainer}>
@@ -229,6 +236,11 @@ const WeightTracker = ({
                   </View>
                 </View>
 
+                <Button
+                  color={Colors.primary}
+                  onPress={() => navigation.navigate('WeightTrackerNavigator')}
+                  title="Check some statistics about your weight"
+                />
               </>
             )}
 
@@ -270,7 +282,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   circularProgressContainer: {
-    marginVertical: 25,
+    marginVertical: 20,
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-evenly'
@@ -282,7 +294,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 22,
-    padding: 10
+    padding: 10,
+    textAlign: 'center'
   }
 })
 
