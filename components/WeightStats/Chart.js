@@ -2,28 +2,156 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
-import { MifflinStJeor, HarrisBenedict, KatchMcardle } from '../../utils/equations'
+import { healthyProgress, myDateFormat } from '../../utils/equations'
 
+import WeightTrackerInfo from '../Modals/WeightTrackerInfo'
+
+import { LineChart } from "react-native-chart-kit"
+import { Dimensions } from "react-native"
 import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
 
 const Chart = ({ userData }) => {
+  const { dailyWeightArray, weightGoal, height, start, finish } = userData
 
-  const { height, weight, age, sex, lifeActivity, fat, formula } = userData
+  const healthy = healthyProgress(userData)
+
+  let healthyArr = healthy.map(item => {
+    return {
+      day: item.date.slice(5, 10),
+      healthy: item.weight
+    }
+  })
+
+  // Can add healthy property to specific object?? 
+  const calcHealthyProperty = item => {
+    let output
+    for (let i = 0; i < healthyArr.length; i++) {
+      if (healthyArr[i].day === item.date.slice(5, 10)) {
+        output = healthyArr[i].healthy
+      }
+    }
+    return output
+  }
+
+  let dailyWeights = dailyWeightArray.map(item => {
+    return {
+      day: item.date.slice(5, 10),
+      weight: item.weight,
+      goal: weightGoal,
+      ...(calcHealthyProperty(item) && { healthy: calcHealthyProperty(item) })
+    }
+  })
+
+  const data = [...dailyWeights]
+
+  const labels = []
+  const weights = []
+  const goalData = []
+  const healthyData = []
+  data.slice(0).map((item) => {
+    labels.push(item.day)
+    weights.push(item.weight)
+    goalData.push(item.goal)
+    item.healthy && healthyData.push(item.healthy)
+  })
 
   return (
-    <ScrollView>
-      <View style={globalStyles.container}>
-        <Text>Chart page</Text>
-      </View>
-    </ScrollView >
+    <>
+      <ScrollView>
+        <View style={globalStyles.container}>
+          <Text style={{ ...globalStyles.header, fontSize: 20 }}>Start day was on {myDateFormat(start)}</Text>
+          <Text style={{ ...globalStyles.header, fontSize: 20 }}>Finish will be on {myDateFormat(finish)}</Text>
+
+          <Text style={styles.chartTitle}>Actual weight change</Text>
+          <LineChart
+            data={{
+              labels: labels,
+              datasets: [
+                {
+                  data: weights,
+                  color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`
+                },
+                { data: goalData }
+              ],
+              legend: ['actual weight', 'goal']
+            }}
+            width={Dimensions.get("window").width} // from react-native
+            height={220}
+            yAxisLabel=""
+            yAxisSuffix="kg"
+            chartConfig={{
+              backgroundColor: "white",
+              backgroundGradientFrom: "#E5E8E8",
+              backgroundGradientTo: "white",
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              style: { borderRadius: 16 },
+              propsForDots: {
+                strokeWidth: "5",
+                stroke: "black"
+              }
+            }}
+            bezier
+            withDots={false}
+            style={{
+              marginVertical: 24,
+              borderRadius: 16
+            }}
+          />
+
+          {/* Chart with healthy pace of changing weight */}
+          <Text style={styles.chartTitle}>Healthy weight change</Text>
+          <LineChart
+            data={{
+              labels: labels,
+              datasets: [
+                {
+                  data: weights,
+                  color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`
+                },
+                { data: healthyData }
+              ],
+              legend: ['actual weight', 'healthy line']
+            }}
+            width={Dimensions.get("window").width} // from react-native
+            height={220}
+            yAxisLabel=""
+            yAxisSuffix="kg"
+            chartConfig={{
+              backgroundColor: "white",
+              backgroundGradientFrom: "#E5E8E8",
+              backgroundGradientTo: "white",
+              decimalPlaces: 0,
+              color: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
+              labelColor: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
+              style: { borderRadius: 16 },
+              propsForDots: {
+                strokeWidth: "5",
+                stroke: "black"
+              }
+            }}
+            bezier
+            withDots={false}
+            style={{
+              marginVertical: 24,
+              borderRadius: 16
+            }}
+          />
+
+          <WeightTrackerInfo />
+        </View>
+      </ScrollView>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-
+  chartTitle: {
+    textAlign: 'center', fontSize: 20, marginBottom: -20, marginTop: 20, fontWeight: 'bold'
+  }
 })
-
 
 const mapStateToProps = ({ data }) => ({
   userData: data

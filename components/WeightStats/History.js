@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
+import { View, ScrollView, Text, StyleSheet } from 'react-native'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
 
-import { rangeBMIColor, getActualWeekDates, displayAverageWeight } from '../../utils/equations'
+import { rangeBMIColor } from '../../utils/equations'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowUp, faArrowDown, faEquals } from '@fortawesome/free-solid-svg-icons'
