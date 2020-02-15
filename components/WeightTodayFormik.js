@@ -8,7 +8,6 @@ import moment from 'moment'
 import Colors from '../utils/Colors'
 import { globalStyles } from '../utils/globalStyles'
 
-
 const validationSchema = yup.object({
   dailyWeight: yup.string().matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' }).required('Weight is required'),
 })
@@ -28,7 +27,7 @@ const WeightTodayFormik = ({ setDailyWeight, userData }) => {
       validationSchema={validationSchema}
       onSubmit={values => {
         setDailyWeight({
-          date: new Date('2020-02-16').toISOString().slice(0, 10),
+          date: new Date().toISOString().slice(0, 10),
           weight: values.dailyWeight
         })
       }}
@@ -47,7 +46,6 @@ const WeightTodayFormik = ({ setDailyWeight, userData }) => {
               />
               <Text style={styles.errorText}>{touched.dailyWeight && errors.dailyWeight}</Text>
             </View>
-
           </View>
 
           <View style={styles.button}>
@@ -80,15 +78,8 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 10
   },
-  button: {
-    paddingVertical: 15,
-    width: '80%'
-  },
-  errorText: {
-    fontSize: 12,
-    color: 'red',
-    textAlign: 'center'
-  }
+  button: { paddingVertical: 15, width: '80%' },
+  errorText: { fontSize: 12, color: 'red', textAlign: 'center' }
 })
 
 export default WeightTodayFormik
