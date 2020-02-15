@@ -28,7 +28,7 @@ const WeightTodayFormik = ({ setDailyWeight, userData }) => {
       validationSchema={validationSchema}
       onSubmit={values => {
         setDailyWeight({
-          date: new Date().toISOString().slice(0, 10),
+          date: new Date('2020-02-16').toISOString().slice(0, 10),
           weight: values.dailyWeight
         })
       }}

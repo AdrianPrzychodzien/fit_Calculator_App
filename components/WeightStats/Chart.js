@@ -1,16 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
 import { healthyProgress, myDateFormat } from '../../utils/equations'
 
 import WeightTrackerInfo from '../Modals/WeightTrackerInfo'
 
 import { LineChart } from "react-native-chart-kit"
 import { Dimensions } from "react-native"
+
+import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
 
-const Chart = ({ userData }) => {
+const Chart = ({ userData, navigation }) => {
   const { dailyWeightArray, weightGoal, height, start, finish } = userData
 
   const healthy = healthyProgress(userData)
@@ -55,95 +57,125 @@ const Chart = ({ userData }) => {
     item.healthy && healthyData.push(item.healthy)
   })
 
-  return (
-    <>
-      <ScrollView>
-        <View style={globalStyles.container}>
-          <Text style={{ ...globalStyles.header, fontSize: 20 }}>Start day was on {myDateFormat(start)}</Text>
-          <Text style={{ ...globalStyles.header, fontSize: 20 }}>Finish will be on {myDateFormat(finish)}</Text>
+  if (dailyWeightArray.length, weightGoal, start, finish) {
+    return (
+      <>
+        <ScrollView>
+          <View style={globalStyles.container}>
+            <Text style={{ ...globalStyles.header, fontSize: 20 }}>
+              Start day was on {myDateFormat(start)}
+            </Text>
+            <Text style={{ ...globalStyles.header, fontSize: 20 }}>
+              Finish will be on {myDateFormat(finish)}
+            </Text>
 
-          <Text style={styles.chartTitle}>Actual weight change</Text>
-          <LineChart
-            data={{
-              labels: labels,
-              datasets: [
-                {
-                  data: weights,
-                  color: () => `red`
-                },
-                { data: goalData }
-              ],
-              legend: ['actual weight', 'goal']
-            }}
-            width={Dimensions.get("window").width} // from react-native
-            height={220}
-            yAxisLabel=""
-            yAxisSuffix="kg"
-            chartConfig={{
-              backgroundColor: "white",
-              backgroundGradientFrom: "#E5E8E8",
-              backgroundGradientTo: "white",
-              decimalPlaces: 0,
-              color: () => `black`,
-              labelColor: () => `black`,
-              style: { borderRadius: 16 },
-              propsForDots: {
-                strokeWidth: "5",
-                stroke: "black"
-              }
-            }}
-            bezier
-            withDots={false}
-            style={{
-              marginVertical: 24,
-              borderRadius: 16
-            }}
+            {/* Chart with actual weight */}
+            <Text style={styles.chartTitle}>Actual weight change</Text>
+            <LineChart
+              data={{
+                labels: labels,
+                datasets: [
+                  {
+                    data: weights,
+                    color: () => `red`
+                  },
+                  { data: goalData }
+                ],
+                legend: ['actual weight', 'goal']
+              }}
+              width={Dimensions.get("window").width} // from react-native
+              height={220}
+              yAxisLabel=""
+              yAxisSuffix="kg"
+              chartConfig={{
+                backgroundColor: "white",
+                backgroundGradientFrom: "#E5E8E8",
+                backgroundGradientTo: "white",
+                decimalPlaces: 0,
+                color: () => `black`,
+                labelColor: () => `black`,
+                style: { borderRadius: 16 },
+                propsForDots: {
+                  strokeWidth: "5",
+                  stroke: "black"
+                }
+              }}
+              bezier
+              withDots={false}
+              style={{
+                marginVertical: 24,
+                borderRadius: 16
+              }}
+            />
+
+            {/* Chart with healthy pace of changing weight */}
+            {dailyWeightArray.length > 1 ? (
+              <>
+                <Text style={styles.chartTitle}>Healthy weight change</Text>
+                <LineChart
+                  data={{
+                    labels: labels,
+                    datasets: [
+                      {
+                        data: weights,
+                        color: () => `green`
+                      },
+                      { data: healthyData }
+                    ],
+                    legend: ['actual weight', 'healthy line']
+                  }}
+                  width={Dimensions.get("window").width} // from react-native
+                  height={220}
+                  yAxisLabel=""
+                  yAxisSuffix="kg"
+                  chartConfig={{
+                    backgroundColor: "white",
+                    backgroundGradientFrom: "#E5E8E8",
+                    backgroundGradientTo: "white",
+                    decimalPlaces: 0,
+                    color: () => `black`,
+                    labelColor: () => `black`,
+                    style: { borderRadius: 16 },
+                    propsForDots: {
+                      strokeWidth: "5",
+                      stroke: "black"
+                    }
+                  }}
+                  bezier
+                  withDots={false}
+                  style={{
+                    marginVertical: 24,
+                    borderRadius: 16
+                  }}
+                />
+              </>
+            ) : (
+                <Text style={styles.chartTitle}>
+                  Chart with healthy pace of weight change
+                  will appear after second weight actualization
+              </Text>
+              )}
+
+            <WeightTrackerInfo />
+          </View>
+        </ScrollView>
+      </>
+    )
+  } else {
+    return (
+      <View style={globalStyles.container}>
+        <View style={{ width: '80%' }}>
+          <Text style={{ fontSize: 20, textAlign: 'center', marginVertical: 15 }} >
+            Complete informations about your weight goal
+            </Text>
+          <Button title="go to weight tracker"
+            color={Colors.secondary}
+            onPress={() => navigation.navigate('Weight Statistics')}
           />
-
-          {/* Chart with healthy pace of changing weight */}
-          <Text style={styles.chartTitle}>Healthy weight change</Text>
-          <LineChart
-            data={{
-              labels: labels,
-              datasets: [
-                {
-                  data: weights,
-                  color: () => `green`
-                },
-                { data: healthyData }
-              ],
-              legend: ['actual weight', 'healthy line']
-            }}
-            width={Dimensions.get("window").width} // from react-native
-            height={220}
-            yAxisLabel=""
-            yAxisSuffix="kg"
-            chartConfig={{
-              backgroundColor: "white",
-              backgroundGradientFrom: "#E5E8E8",
-              backgroundGradientTo: "white",
-              decimalPlaces: 0,
-              color: () => `black`,
-              labelColor: () => `black`,
-              style: { borderRadius: 16 },
-              propsForDots: {
-                strokeWidth: "5",
-                stroke: "black"
-              }
-            }}
-            bezier
-            withDots={false}
-            style={{
-              marginVertical: 24,
-              borderRadius: 16
-            }}
-          />
-
-          <WeightTrackerInfo />
         </View>
-      </ScrollView>
-    </>
-  )
+      </View >
+    )
+  }
 }
 
 const styles = StyleSheet.create({
