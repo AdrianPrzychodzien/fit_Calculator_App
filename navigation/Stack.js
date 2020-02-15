@@ -6,7 +6,7 @@ import PersonalData from '../screens/PersonalData'
 import BodyFat from '../screens/BodyFat'
 import WeightTracker from '../screens/WeightTracker'
 import Bmi from '../screens/Bmi'
-import Calories from '../screens/Calories'
+import DietsNavigator from '../navigation/DietsNavigator'
 import WeightTrackerNavigator from './WeightTrackerNavigator'
 import Help from '../screens/Help'
 
@@ -163,7 +163,7 @@ export const BmiStack = ({ navigation }) => (
   </Stack.Navigator>
 )
 
-export const CaloriesStack = ({ navigation }) => (
+export const DietsStack = ({ navigation }) => (
   <Stack.Navigator
     headerMode="screen"
     screenOptions={{
@@ -172,7 +172,7 @@ export const CaloriesStack = ({ navigation }) => (
       headerTitleStyle: { fontSize: 26, letterSpacing: 1.1 }
     }}
   >
-    <Stack.Screen name="Calories" component={Calories}
+    <Stack.Screen name="Diets" component={DietsNavigator}
       options={{
         headerTitleAlign: "center",
         headerLeft: () => (

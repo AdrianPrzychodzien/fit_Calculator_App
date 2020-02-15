@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Modal, ScrollView, Button } from 'react-native'
 import { activityLevel, restingMifflinStJeor } from '../../utils/equations'
 
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
+import { Table, Row } from 'react-native-table-component'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTimes, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'

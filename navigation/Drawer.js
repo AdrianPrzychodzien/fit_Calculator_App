@@ -8,7 +8,7 @@ import {
   PersonalDataStack,
   BodyFatStack,
   BmiStack,
-  CaloriesStack,
+  DietsStack,
   HelpStack
 } from './Stack'
 
@@ -20,7 +20,7 @@ export const PagesDrawer = () => {
       <Drawer.Screen name="Personal Data" component={PersonalDataStack} />
       <Drawer.Screen name="Body Fat Percentage" component={BodyFatStack} />
       <Drawer.Screen name="Body Mass Index" component={BmiStack} />
-      <Drawer.Screen name="Calories" component={CaloriesStack} />
+      <Drawer.Screen name="Diets" component={DietsStack} />
       <Drawer.Screen name="Weight Statistics" component={WeightTrackerNavigatorStack} />
       <Drawer.Screen name="Help" component={HelpStack} />
     </Drawer.Navigator>

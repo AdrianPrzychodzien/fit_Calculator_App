@@ -9,15 +9,14 @@ import {
   ModerateCarb,
   LowCarb,
   HighCarb
-} from '../utils/equations'
-import ActivityCaloriesInfo from '../components/Modals/ActivityCaloriesInfo'
+} from '../../utils/equations'
 
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
+import { Table, Row } from 'react-native-table-component'
 
-import Colors from '../utils/Colors'
-import { globalStyles } from '../utils/globalStyles'
+import Colors from '../../utils/Colors'
+import { globalStyles } from '../../utils/globalStyles'
 
-const Calories = ({ userData, navigation }) => {
+const Bulking = ({ userData, navigation }) => {
   const [table, setTable] = useState({
     tableHead: ['Macro', 'Medium Carb', 'Low Carb', 'High Carb'],
     widthArr: [90, 90, 90, 90]
@@ -25,17 +24,13 @@ const Calories = ({ userData, navigation }) => {
 
   const { tableHead, widthArr } = table
 
-  const { height, weight, age, sex, lifeActivity, fat, formula } = userData
+  const { height, weight, age, sex, lifeActivity, formula } = userData
 
   const formulaOption = formula === 'MifflinStJeor' ?
     MifflinStJeor(userData) : formula === 'HarrisBenedict' ?
       HarrisBenedict(userData) : KatchMcardle(userData)
 
-  // const kcalAmount = activeTab === 'Maintenance' ?
-  //   formulaOption : activeTab === 'Cutting' ?
-  //     formulaOption - 500 : formulaOption + 500
-
-  const kcalAmount = formulaOption
+  const kcalAmount = formulaOption + 500
 
   const ModerateCarbDiet = [
     ModerateCarb(kcalAmount)[0],
@@ -62,20 +57,19 @@ const Calories = ({ userData, navigation }) => {
     tableData.push(row)
   }
 
-  if (height && weight && age && sex && lifeActivity && fat) {
+  if (height && weight && age && sex && lifeActivity) {
     return (
       <ScrollView>
         <View style={globalStyles.container}>
-          <Text style={globalStyles.header}>Caloric needs: {formulaOption}kcal</Text>
-          <ActivityCaloriesInfo userData={userData} />
+          <Text style={globalStyles.header}>Caloric needs: {kcalAmount}kcal</Text>
         </View>
 
         {/* Table */}
         <View style={globalStyles.container}>
           <View>
             <Text style={styles.tableHeader}>
-              These macronutrient values reflect your maintenance calories
-              of {kcalAmount} kcal per day.
+              These macronutrient values reflect your bulking calories
+              of {kcalAmount} kcal per day, which is a 500 calories surplus.
             </Text>
             <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
               <Row data={tableHead} widthArr={widthArr} style={styles.header} textStyle={styles.text} />
@@ -128,11 +122,11 @@ const styles = StyleSheet.create({
   },
   row: { paddingVertical: 12 },
   text: { fontSize: 16, textAlign: 'center', fontWeight: 'bold' },
-  tableHeader: { textAlign: 'center', fontSize: 18, fontWeight: 'bold' }
+  tableHeader: { textAlign: 'center', fontSize: 18, fontWeight: 'bold', marginVertical: 10 }
 })
 
 const mapStateToProps = ({ data }) => ({
   userData: data
 })
 
-export default connect(mapStateToProps, null)(Calories)
+export default connect(mapStateToProps, null)(Bulking)
