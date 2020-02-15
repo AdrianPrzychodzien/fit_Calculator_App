@@ -17,11 +17,11 @@ const Drawer = createDrawerNavigator()
 export const PagesDrawer = () => {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="PersonalData" component={PersonalDataStack} />
-      <Drawer.Screen name="BodyFat" component={BodyFatStack} />
-      <Drawer.Screen name="Bmi" component={BmiStack} />
+      <Drawer.Screen name="Personal Data" component={PersonalDataStack} />
+      <Drawer.Screen name="Body Fat Percentage" component={BodyFatStack} />
+      <Drawer.Screen name="Body Mass Index" component={BmiStack} />
       <Drawer.Screen name="Calories" component={CaloriesStack} />
-      <Drawer.Screen name="WeightTrackerNavigator" component={WeightTrackerNavigatorStack} />
+      <Drawer.Screen name="Weight Statistics" component={WeightTrackerNavigatorStack} />
       <Drawer.Screen name="Help" component={HelpStack} />
     </Drawer.Navigator>
   )

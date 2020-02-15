@@ -244,7 +244,7 @@ const WeightTracker = ({
 
                 <Button
                   color={Colors.primary}
-                  onPress={() => navigation.navigate('WeightTrackerNavigator')}
+                  onPress={() => navigation.navigate('Weight Statistics')}
                   title="Check some statistics about your weight"
                 />
               </>

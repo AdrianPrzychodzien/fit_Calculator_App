@@ -171,7 +171,7 @@ const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigatio
                   This data are necessary to make calculations
                   </Text>
                 <View style={styles.button}>
-                  <Button title="Add data" color={Colors.secondary} onPress={() => navigation.navigate('PersonalData')} />
+                  <Button title="Add data" color={Colors.secondary} onPress={() => navigation.navigate('Personal Data')} />
                 </View>
               </View>
             )}

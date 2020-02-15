@@ -13,7 +13,7 @@ const BodyFatInfo = ({ style, navigation }) => {
   const [modalOpen, setModalOpen] = useState(false)
 
   const closeAndGo = () => {
-    navigation.navigate('BodyFat')
+    navigation.navigate('Body Fat Percentage')
     setModalOpen(false)
   }
 

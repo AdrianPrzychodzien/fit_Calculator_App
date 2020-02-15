@@ -66,7 +66,7 @@ const Home = ({ userData, setFormula, navigation }) => {
                 </Text>
                 <View style={styles.button}>
                   <Button title="Add personal data"
-                    onPress={() => navigation.navigate('PersonalData')}
+                    onPress={() => navigation.navigate('Personal Data')}
                   />
                 </View>
               </>

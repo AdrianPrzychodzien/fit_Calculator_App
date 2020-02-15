@@ -32,7 +32,7 @@ const Calories = ({ userData, navigation }) => {
           <Text style={{ fontSize: 20, textAlign: 'center', marginVertical: 15 }} >Complete informations about yourself first</Text>
           <Button title="go to personal data page"
             color={Colors.secondary}
-            onPress={() => navigation.navigate('PersonalData')}
+            onPress={() => navigation.navigate('Personal Data')}
           />
         </View>
       </View >

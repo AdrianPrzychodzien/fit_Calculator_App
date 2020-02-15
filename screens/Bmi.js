@@ -53,7 +53,7 @@ const Bmi = ({ userData, navigation }) => {
           <View>
             <Text style={styles.paragraph}>For more accurate informations</Text>
             <Button title="go to body fat page"
-              onPress={() => navigation.navigate('BodyFat')}
+              onPress={() => navigation.navigate('Body Fat Percentage')}
             />
           </View>
         </View>
@@ -66,7 +66,7 @@ const Bmi = ({ userData, navigation }) => {
           <Text style={{ fontSize: 20, textAlign: 'center', marginVertical: 15 }} >Complete informations about yourself first</Text>
           <Button title="go to personal data page"
             color={Colors.secondary}
-            onPress={() => navigation.navigate('PersonalData')}
+            onPress={() => navigation.navigate('Personal Data')}
           />
         </View>
       </View >
