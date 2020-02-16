@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import { setFatData, setBodyFatCircum } from '../redux/actions'
 import { bodyFatFormula, idealBodyFatPercentage } from '../utils/equations'
 import FatPercentageInfo from '../components/Modals/FatPercentageInfo'
+import FloatingLabelInput from '../utils/FloatingLabelInput'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -60,43 +61,43 @@ const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigatio
                     <View>
                       <FontAwesomeIcon icon={faCheck} color={Colors.primary} size={36} />
                     </View>
-                    <TextInput style={styles.input}
+                    <FloatingLabelInput
                       onChangeText={handleChange('waist')}
                       onBlur={handleBlur('waist')}
                       value={values.waist}
-                      placeholder="Waist (cm)"
+                      label="Waist (cm)"
                       keyboardType="numeric"
                     />
                   </View>
-                  <Text style={styles.errorText}>{touched.waist && errors.waist}</Text>
+                  <Text style={globalStyles.errorText}>{touched.waist && errors.waist}</Text>
 
                   <View style={styles.inputContainer}>
                     <View>
                       <FontAwesomeIcon icon={faCheck} color={Colors.primary} size={36} />
                     </View>
-                    <TextInput style={styles.input}
+                    <FloatingLabelInput
                       onChangeText={handleChange('hips')}
                       onBlur={handleBlur('hips')}
                       value={values.hips}
-                      placeholder="Hips (cm)"
+                      label="Hips (cm)"
                       keyboardType="numeric"
                     />
                   </View>
-                  <Text style={styles.errorText}>{touched.hips && errors.hips}</Text>
+                  <Text style={globalStyles.errorText}>{touched.hips && errors.hips}</Text>
 
                   <View style={styles.inputContainer}>
                     <View >
                       <FontAwesomeIcon icon={faCheck} color={Colors.primary} size={36} />
                     </View>
-                    <TextInput style={styles.input}
+                    <FloatingLabelInput
                       onChangeText={handleChange('neck')}
                       onBlur={handleBlur('neck')}
                       value={values.neck}
-                      placeholder="Neck (cm)"
+                      label="Neck (cm)"
                       keyboardType="numeric"
                     />
                   </View>
-                  <Text style={styles.errorText}>{touched.neck && errors.neck}</Text>
+                  <Text style={globalStyles.errorText}>{touched.neck && errors.neck}</Text>
                 </View>
 
                 <View style={styles.button}>
@@ -184,22 +185,13 @@ const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigatio
 const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
-    width: '60%',
+    width: '80%',
     marginHorizontal: 15,
-    paddingTop: 10,
+    paddingTop: 20,
     justifyContent: 'space-evenly',
     alignItems: 'center'
   },
-  input: {
-    backgroundColor: 'white',
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 6,
-    width: 120,
-    padding: 10
-  },
   button: { paddingVertical: 15 },
-  errorText: { fontSize: 12, color: 'red', textAlign: 'center' },
   userInfo: { paddingVertical: 15, width: '85%', },
   info: { fontSize: 18 },
   data: { fontSize: 18, fontWeight: 'bold' }

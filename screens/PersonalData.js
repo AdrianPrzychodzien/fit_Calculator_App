@@ -1,12 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback, Keyboard, Animated } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { setData, setDailyWeight } from '../redux/actions'
 import ActivityInfo from '../components/Modals/ActivityInfo'
 import BodyFatInfo from '../components/Modals/BodyFatInfo'
+import FloatingLabelInput from '../utils/FloatingLabelInput'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faBirthdayCake, faArrowsAltV, faWeight, faPercentage } from '@fortawesome/free-solid-svg-icons'
@@ -24,49 +25,6 @@ const validationSchema = yup.object({
   sex: yup.string().required(),
   lifeActivity: yup.string().required(),
 })
-
-const FloatingLabelInput = ({ label, ...props }) => {
-  const [isFocused, setIsFocused] = useState(false)
-  const [labelAnim] = useState(new Animated.Value(props.value ? 1 : 0))
-
-  useEffect(() => {
-    Animated.timing(labelAnim, {
-      toValue: (isFocused || props.value) ? 1 : 0,
-      duration: 200
-    }).start()
-  }, [props])
-
-  const labelStyle = {
-    position: 'absolute',
-    left: 8,
-    top: labelAnim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [14, -14]
-    }),
-    fontSize: labelAnim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [20, 14]
-    }),
-    color: labelAnim.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['#aaa', '#000']
-    }),
-  }
-
-  return (
-    <View>
-      <Animated.Text style={labelStyle}>
-        {label}
-      </Animated.Text>
-      <TextInput
-        {...props}
-        style={label === "Fat %" ? styles.fatInput : styles.input}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      />
-    </View>
-  )
-}
 
 const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
   const [option, setOption] = useState(userData.sex || 'Male')
@@ -120,7 +78,6 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                 lifeActivity: stars,
                 sex: option === 0 ? 'Male' : 'Female'
               })
-
               setDailyWeight({
                 date: new Date().toISOString().slice(0, 10),
                 weight: values.weight
@@ -145,7 +102,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                       keyboardType="numeric"
                     />
                   </View>
-                  <Text style={styles.errorText}>{touched.height && errors.height}</Text>
+                  <Text style={globalStyles.errorText}>{touched.height && errors.height}</Text>
 
                   <View style={styles.inputContainer}>
                     <View>
@@ -159,7 +116,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                       keyboardType="numeric"
                     />
                   </View>
-                  <Text style={styles.errorText}>{touched.weight && errors.weight}</Text>
+                  <Text style={globalStyles.errorText}>{touched.weight && errors.weight}</Text>
 
                   <View style={styles.inputContainer}>
                     <View >
@@ -173,7 +130,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                       keyboardType="numeric"
                     />
                   </View>
-                  <Text style={styles.errorText}>{touched.age && errors.age}</Text>
+                  <Text style={globalStyles.errorText}>{touched.age && errors.age}</Text>
 
                   <View style={styles.inputContainer}>
                     <View >
@@ -188,7 +145,7 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                     />
                     <BodyFatInfo navigation={navigation} />
                   </View>
-                  <Text style={styles.errorText}>{touched.fat && errors.fat}</Text>
+                  <Text style={globalStyles.errorText}>{touched.fat && errors.fat}</Text>
 
                   <View style={styles.inputContainer}>
                     <RadioForm
@@ -259,27 +216,11 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
 const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
-    width: '90%',
+    width: '80%',
     marginHorizontal: 15,
     marginTop: 20,
     justifyContent: 'space-evenly',
     alignItems: 'center'
-  },
-  input: {
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.primary,
-    width: 120,
-    padding: 10,
-    fontSize: 18
-  },
-  fatInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.primary,
-    width: 80,
-    maxWidth: 80,
-    padding: 10,
-    fontSize: 18,
-    marginRight: -30
   },
   stars: {
     marginVertical: 10,
@@ -299,11 +240,6 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'center',
     fontWeight: 'bold'
-  },
-  errorText: {
-    fontSize: 12,
-    color: 'red',
-    textAlign: 'center'
   }
 })
 

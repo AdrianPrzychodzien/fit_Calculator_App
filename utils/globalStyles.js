@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import Colors from './Colors'
 
 export const globalStyles = StyleSheet.create({
   container: {
@@ -26,4 +27,25 @@ export const globalStyles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 15
   },
+  input: {
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.primary,
+    width: 120,
+    padding: 10,
+    fontSize: 18
+  },
+  fatInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.primary,
+    width: 80,
+    maxWidth: 80,
+    padding: 10,
+    fontSize: 18,
+    marginRight: -30
+  },
+  errorText: {
+    fontSize: 12,
+    color: 'red',
+    textAlign: 'center'
+  }
 })

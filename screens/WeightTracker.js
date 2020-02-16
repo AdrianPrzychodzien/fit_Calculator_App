@@ -13,6 +13,7 @@ import WeightTodayFormik from '../components/WeightTodayFormik'
 import WeightInfo from '../components/Modals/WeightInfo'
 import DeleteGoalInfo from '../components/Modals/DeleteGoalInfo'
 import HealthTipsInfo from '../components/Modals/HealthTipsInfo'
+import FloatingLabelInput from '../utils/FloatingLabelInput'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faWeight, faBullseye } from '@fortawesome/free-solid-svg-icons'
@@ -108,38 +109,41 @@ const WeightTracker = ({
               >
                 {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
                   <View style={{ ...globalStyles.container, paddingVertical: 0 }} >
-                    <Text style={globalStyles.header}>Add your data??</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      <View style={styles.inputContainer}>
-                        <View style={styles.inputSubcontainer}>
-                          <View>
-                            <FontAwesomeIcon icon={faWeight} color={Colors.primary} size={36} />
+                    <Text style={globalStyles.header}>Add your data</Text>
+                    <View>
+                      <View style={styles.inputRowContainer}>
+                        <View>
+                          <View style={styles.inputContainer}>
+                            <View>
+                              <FontAwesomeIcon icon={faWeight} color={Colors.primary} size={36} />
+                            </View>
+                            <FloatingLabelInput
+                              onChangeText={handleChange('weight')}
+                              onBlur={handleBlur('weight')}
+                              value={values.weight}
+                              label="Weight (kg)"
+                              keyboardType="numeric"
+                            />
                           </View>
-                          <TextInput style={styles.input}
-                            onChangeText={handleChange('weight')}
-                            onBlur={handleBlur('weight')}
-                            value={values.weight}
-                            placeholder="Weight (kg)"
-                            keyboardType="numeric"
-                          />
+                          <Text style={globalStyles.errorText}>{touched.weight && errors.weight}</Text>
                         </View>
-                        <Text style={styles.errorText}>{touched.weight && errors.weight}</Text>
-                      </View>
 
-                      <View style={styles.inputContainer}>
-                        <View style={styles.inputSubcontainer}>
-                          <View>
-                            <FontAwesomeIcon icon={faBullseye} color={Colors.primary} size={36} />
+                        <View>
+                          <View style={styles.inputContainer}>
+                            <View>
+                              <FontAwesomeIcon icon={faBullseye} color={Colors.primary} size={36} />
+                            </View>
+                            <FloatingLabelInput
+                              onChangeText={handleChange('weightGoal')}
+                              onBlur={handleBlur('weightGoal')}
+                              value={values.weightGoal}
+                              label="Goal (kg)"
+                              keyboardType="numeric"
+                            />
                           </View>
-                          <TextInput style={styles.input}
-                            onChangeText={handleChange('weightGoal')}
-                            onBlur={handleBlur('weightGoal')}
-                            value={values.weightGoal}
-                            placeholder="Goal (kg)"
-                            keyboardType="numeric"
-                          />
+                          <Text style={globalStyles.errorText}>{touched.weightGoal && errors.weightGoal}</Text>
                         </View>
-                        <Text style={styles.errorText}>{touched.weightGoal && errors.weightGoal}</Text>
+
                       </View>
                     </View>
 
@@ -176,6 +180,7 @@ const WeightTracker = ({
                   userData={userData}
                 />
 
+                {/* Weight change since yesterday */}
                 <View>
                   {weightToday === weightYesterday ? (
                     <Text style={styles.text}>The same weight as yesterday</Text>
@@ -264,29 +269,23 @@ const WeightTracker = ({
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    width: '50%',
-    marginHorizontal: 15,
+  inputRowContainer: {
+    flexDirection: 'row',
+    width: '100%',
     paddingTop: 10,
-    justifyContent: 'center',
+    marginVertical: 25,
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
-  inputSubcontainer: {
+  inputContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  input: {
-    backgroundColor: 'white',
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 6,
-    width: 90,
-    padding: 10,
-    marginLeft: 10
+    width: '55%',
+    marginHorizontal: 10,
+    paddingTop: 20,
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   button: { paddingVertical: 15, width: '80%' },
-  errorText: { fontSize: 12, color: 'red', textAlign: 'center' },
   tipsContainer: { flexDirection: 'row', width: '100%', justifyContent: 'space-evenly' },
   circularProgressContainer: {
     marginVertical: 20,
