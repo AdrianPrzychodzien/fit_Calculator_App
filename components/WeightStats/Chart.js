@@ -1,13 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button, Dimensions } from 'react-native'
 import { healthyProgress, myDateFormat } from '../../utils/equations'
 
 import WeightTrackerInfo from '../Modals/WeightTrackerInfo'
 
 import { LineChart } from "react-native-chart-kit"
-import { Dimensions } from "react-native"
 
 import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
@@ -50,8 +49,11 @@ const Chart = ({ userData, navigation }) => {
   const weights = []
   const goalData = []
   const healthyData = []
-  data.slice(0).map((item) => {
-    labels.push(item.day)
+  data.slice(0).map((item, index) => {
+    if (dailyWeightArray.length < 10) labels.push(item.day)
+    else if (dailyWeightArray.length > 10 && dailyWeightArray.length < 25) index % 3 === 0 && labels.push(item.day)
+    else if (dailyWeightArray.length > 25 && dailyWeightArray.length < 50) index % 5 === 0 && labels.push(item.day)
+    else index % 12 === 0 && labels.push(item.day)
     weights.push(item.weight)
     goalData.push(item.goal)
     item.healthy && healthyData.push(item.healthy)
@@ -85,8 +87,8 @@ const Chart = ({ userData, navigation }) => {
               }}
               width={Dimensions.get("window").width} // from react-native
               height={220}
-              yAxisLabel=""
               yAxisSuffix="kg"
+              segments={2}
               chartConfig={{
                 backgroundColor: "white",
                 backgroundGradientFrom: "#E5E8E8",
@@ -95,10 +97,6 @@ const Chart = ({ userData, navigation }) => {
                 color: () => `black`,
                 labelColor: () => `black`,
                 style: { borderRadius: 16 },
-                propsForDots: {
-                  strokeWidth: "5",
-                  stroke: "black"
-                }
               }}
               bezier
               withDots={false}
@@ -126,7 +124,7 @@ const Chart = ({ userData, navigation }) => {
                   }}
                   width={Dimensions.get("window").width} // from react-native
                   height={220}
-                  yAxisLabel=""
+                  segments={2}
                   yAxisSuffix="kg"
                   chartConfig={{
                     backgroundColor: "white",
@@ -150,10 +148,10 @@ const Chart = ({ userData, navigation }) => {
                 />
               </>
             ) : (
-                <Text style={styles.chartTitle}>
+                <Text style={{ ...styles.chartTitle, marginBottom: 10 }}>
                   Chart with healthy pace of weight change
                   will appear after second weight actualization
-              </Text>
+                </Text>
               )}
 
             <WeightTrackerInfo />

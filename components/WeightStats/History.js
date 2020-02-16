@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
+import { Table, Row } from 'react-native-table-component'
 
 import { rangeBMIColor } from '../../utils/equations'
 
@@ -13,13 +13,10 @@ import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
 
 const History = ({ userData, navigation }) => {
-  const [table, setTable] = useState({
-    tableHead: ['Date', 'Weight', 'BMI', 'Trend'],
-    widthArr: [110, 60, 80, 60]
-  })
+  const tableHead = ['Date', 'Weight', 'BMI', 'Trend']
+  const widthArr = [110, 60, 80, 60]
 
   const { dailyWeightArray, height, weight } = userData
-  const { tableHead, widthArr } = table
 
   let tableData = []
   dailyWeightArray.slice(0).reverse().map((item, index) => {
@@ -35,9 +32,9 @@ const History = ({ userData, navigation }) => {
 
     const icon = (index + 1) < dailyWeightArray.length && (
       weight - el[index + 1].weight > 0
-        ? fontIcon('red', faArrowUp)
+        ? fontIcon('red', faArrowDown)
         : weight - el[index + 1].weight < 0
-          ? fontIcon('green', faArrowDown)
+          ? fontIcon('green', faArrowUp)
           : fontIcon('blue', faEquals)
     )
 
