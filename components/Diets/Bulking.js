@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button, Picker } from 'react-native'
 import {
   MifflinStJeor,
   HarrisBenedict,
@@ -12,6 +12,7 @@ import {
 } from '../../utils/equations'
 
 import { Table, Row } from 'react-native-table-component'
+import DietPieChart from '../DietPieChart'
 
 import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
@@ -21,6 +22,7 @@ const Bulking = ({ userData, navigation }) => {
     tableHead: ['Macro', 'Medium Carb', 'Low Carb', 'High Carb'],
     widthArr: [90, 90, 90, 90]
   })
+  const [diet, setDiet] = useState('Medium Carb')
 
   const { tableHead, widthArr } = table
 
@@ -93,6 +95,31 @@ const Bulking = ({ userData, navigation }) => {
             </ScrollView>
           </View>
         </View>
+
+        {/* Picker */}
+        <View style={globalStyles.container}>
+          <Text style={styles.tableHeader} >Choose diet</Text>
+          <Picker
+            selectedValue={diet}
+            style={{ height: 50, width: 150 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setDiet(itemValue)
+            }>
+            <Picker.Item label="Medium Carb" value="Medium Carb" />
+            <Picker.Item label="Low Carb" value="Low Carb" />
+            <Picker.Item label="High Carb" value="High Carb" />
+          </Picker>
+        </View>
+
+        {/* Pie chart */}
+        <View style={globalStyles.container}>
+          <View>
+            <Text style={styles.tableHeader}>Distribution of macronutrients</Text>
+            <DietPieChart diet={diet} />
+          </View>
+
+        </View>
+
       </ScrollView >
     )
   } else {
