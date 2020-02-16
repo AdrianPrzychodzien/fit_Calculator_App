@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
@@ -25,9 +25,39 @@ const validationSchema = yup.object({
   lifeActivity: yup.string().required(),
 })
 
+const FloatingLabelInput = ({ label, ...props }) => {
+  const [isFocused, setIsFocused] = useState(false)
+
+  const labelStyle = {
+    position: 'absolute',
+    left: 8,
+    top: !isFocused && !props.value ? 14 : -14,
+    fontSize: !isFocused && !props.value ? 20 : 14,
+    color: !isFocused && !props.value ? '#aaa' : '#000'
+  }
+
+  return (
+    <View>
+      <Text style={labelStyle}>
+        {label}
+      </Text>
+      <TextInput
+        {...props}
+        style={label === "Fat %" ? styles.fatInput : styles.input}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+      />
+    </View>
+  )
+}
+
 const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
   const [option, setOption] = useState(userData.sex || 'Male')
   const [stars, setStars] = useState(userData.lifeActivity || 0)
+  const inputEl = useRef(null)
+  // useEffect(() => {
+  //   inputEl.current.focus()
+  // }, [])
 
   const displayInfo = num => {
     let output
@@ -88,19 +118,27 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
           >
             {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
               <View style={{ ...globalStyles.container, paddingVertical: 0 }} >
-                <Text style={globalStyles.header}>Add your personal data</Text>
+                <Text style={{ ...globalStyles.header, marginBottom: 15 }}>Add your personal data</Text>
                 <View>
                   <View style={styles.inputContainer}>
                     <View>
                       <FontAwesomeIcon icon={faArrowsAltV} color={Colors.primary} size={36} />
                     </View>
-                    <TextInput style={styles.input}
+                    <FloatingLabelInput
+                      label='Height (cm)'
+                      onChangeText={handleChange('height')}
+                      onBlur={handleBlur('height')}
+                      value={values.height}
+                      keyboardType="numeric"
+                    />
+                    {/* <TextInput style={styles.input}
+                      ref={inputEl}
                       onChangeText={handleChange('height')}
                       onBlur={handleBlur('height')}
                       value={values.height}
                       placeholder="Height (cm)"
                       keyboardType="numeric"
-                    />
+                    /> */}
                   </View>
                   <Text style={styles.errorText}>{touched.height && errors.height}</Text>
 
@@ -108,11 +146,11 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                     <View>
                       <FontAwesomeIcon icon={faWeight} color={Colors.primary} size={36} />
                     </View>
-                    <TextInput style={styles.input}
+                    <FloatingLabelInput
                       onChangeText={handleChange('weight')}
                       onBlur={handleBlur('weight')}
                       value={values.weight}
-                      placeholder="Weight (cm)"
+                      label="Weight (cm)"
                       keyboardType="numeric"
                     />
                   </View>
@@ -122,11 +160,11 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                     <View >
                       <FontAwesomeIcon icon={faBirthdayCake} color={Colors.primary} size={36} />
                     </View>
-                    <TextInput style={styles.input}
+                    <FloatingLabelInput
                       onChangeText={handleChange('age')}
                       onBlur={handleBlur('age')}
                       value={values.age}
-                      placeholder="Age"
+                      label="Age"
                       keyboardType="numeric"
                     />
                   </View>
@@ -136,11 +174,11 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                     <View >
                       <FontAwesomeIcon icon={faPercentage} color={Colors.primary} size={36} />
                     </View>
-                    <TextInput style={{ ...styles.input, width: 80, marginRight: -30 }}
+                    <FloatingLabelInput
                       onChangeText={handleChange('fat')}
                       onBlur={handleBlur('fat')}
                       value={values.fat}
-                      placeholder="Fat %"
+                      label="Fat %"
                       keyboardType="numeric"
                     />
                     <BodyFatInfo navigation={navigation} />
@@ -223,13 +261,25 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   input: {
-    backgroundColor: 'white',
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 6,
+    // backgroundColor: 'white',
+    // borderColor: '#ddd',
+    // borderWidth: 1,
+    // borderRadius: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.primary,
     width: 120,
     maxWidth: 120,
-    padding: 10
+    padding: 10,
+    fontSize: 18
+  },
+  fatInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.primary,
+    width: 80,
+    maxWidth: 80,
+    padding: 10,
+    fontSize: 18,
+    marginRight: -30
   },
   stars: {
     marginVertical: 10,
