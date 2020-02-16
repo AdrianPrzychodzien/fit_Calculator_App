@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback, Keyboard, Animated } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { setData, setDailyWeight } from '../redux/actions'
@@ -27,20 +27,37 @@ const validationSchema = yup.object({
 
 const FloatingLabelInput = ({ label, ...props }) => {
   const [isFocused, setIsFocused] = useState(false)
+  const [labelAnim] = useState(new Animated.Value(props.value ? 1 : 0))
+
+  useEffect(() => {
+    Animated.timing(labelAnim, {
+      toValue: (isFocused || props.value) ? 1 : 0,
+      duration: 200
+    }).start()
+  }, [props])
 
   const labelStyle = {
     position: 'absolute',
     left: 8,
-    top: !isFocused && !props.value ? 14 : -14,
-    fontSize: !isFocused && !props.value ? 20 : 14,
-    color: !isFocused && !props.value ? '#aaa' : '#000'
+    top: labelAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [14, -14]
+    }),
+    fontSize: labelAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [20, 14]
+    }),
+    color: labelAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['#aaa', '#000']
+    }),
   }
 
   return (
     <View>
-      <Text style={labelStyle}>
+      <Animated.Text style={labelStyle}>
         {label}
-      </Text>
+      </Animated.Text>
       <TextInput
         {...props}
         style={label === "Fat %" ? styles.fatInput : styles.input}
@@ -54,10 +71,6 @@ const FloatingLabelInput = ({ label, ...props }) => {
 const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
   const [option, setOption] = useState(userData.sex || 'Male')
   const [stars, setStars] = useState(userData.lifeActivity || 0)
-  const inputEl = useRef(null)
-  // useEffect(() => {
-  //   inputEl.current.focus()
-  // }, [])
 
   const displayInfo = num => {
     let output
@@ -131,14 +144,6 @@ const PersonalData = ({ userData, setData, setDailyWeight, navigation }) => {
                       value={values.height}
                       keyboardType="numeric"
                     />
-                    {/* <TextInput style={styles.input}
-                      ref={inputEl}
-                      onChangeText={handleChange('height')}
-                      onBlur={handleBlur('height')}
-                      value={values.height}
-                      placeholder="Height (cm)"
-                      keyboardType="numeric"
-                    /> */}
                   </View>
                   <Text style={styles.errorText}>{touched.height && errors.height}</Text>
 
@@ -256,19 +261,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '90%',
     marginHorizontal: 15,
-    paddingTop: 10,
+    marginTop: 20,
     justifyContent: 'space-evenly',
     alignItems: 'center'
   },
   input: {
-    // backgroundColor: 'white',
-    // borderColor: '#ddd',
-    // borderWidth: 1,
-    // borderRadius: 6,
     borderBottomWidth: 1,
     borderBottomColor: Colors.primary,
     width: 120,
-    maxWidth: 120,
     padding: 10,
     fontSize: 18
   },
@@ -290,7 +290,8 @@ const styles = StyleSheet.create({
   lifeActivityContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 10,
   },
   lifeActivity: {
     flexDirection: 'row',
