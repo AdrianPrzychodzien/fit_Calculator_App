@@ -20,7 +20,7 @@ export const globalStyles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     paddingVertical: 15,
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   radio: {

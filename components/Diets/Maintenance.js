@@ -25,9 +25,9 @@ const Maintenance = ({ userData, navigation }) => {
   if (height && weight && age && sex && lifeActivity) {
     return (
       <ScrollView>
-        <View style={globalStyles.container}>
+        <View style={{ ...globalStyles.container, flexDirection: 'row' }}>
           <Text style={globalStyles.header}>Caloric needs: {kcalAmount}kcal</Text>
-          <ActivityCaloriesInfo userData={userData} style={{ marginTop: 20 }} />
+          <ActivityCaloriesInfo userData={userData} style={{ marginLeft: 12 }} />
         </View>
 
         {/* Picker */}

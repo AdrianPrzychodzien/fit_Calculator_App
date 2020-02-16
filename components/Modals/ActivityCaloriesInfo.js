@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { View, Text, StyleSheet, Modal, ScrollView, Button } from 'react-native'
+import { View, Text, StyleSheet, Modal, ScrollView } from 'react-native'
 import { activityLevel, restingMifflinStJeor } from '../../utils/equations'
 
 import { Table, Row } from 'react-native-table-component'
@@ -13,14 +13,11 @@ import { globalStyles } from '../../utils/globalStyles'
 
 const ActivityCaloriesInfo = ({ userData, style }) => {
   const [modalOpen, setModalOpen] = useState(false)
-  const [table, setTable] = useState({
-    tableHead: ['Activity level', 'Kcal per day'],
-    widthArr: [190, 120]
-  })
 
-  const { tableHead, widthArr } = table
+  const tableHead = ['Activity level', 'Kcal per day']
   const { lifeActivity } = userData
-  const kcalPerDay = (num) => {
+
+  const kcalPerDay = num => {
     return Math.round(restingMifflinStJeor(userData) * activityLevel(num))
   }
 
@@ -47,12 +44,12 @@ const ActivityCaloriesInfo = ({ userData, style }) => {
               size={36}
             />
           </View>
-          <Text style={globalStyles.header}>Calories intake</Text>
+          <Text style={globalStyles.header}>Calories intake on different activity level</Text>
           <View style={styles.container}>
             <ScrollView horizontal={true}>
               <View>
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
-                  <Row data={tableHead} widthArr={widthArr} style={styles.header} textStyle={styles.text} />
+                  <Row data={tableHead} widthArr={[190, 120]} style={styles.header} textStyle={styles.text} />
                 </Table>
                 <ScrollView style={styles.dataWrapper}>
                   <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
@@ -61,7 +58,7 @@ const ActivityCaloriesInfo = ({ userData, style }) => {
                         <Row
                           key={index}
                           data={rowData}
-                          widthArr={widthArr}
+                          widthArr={[190, 120]}
                           style={[styles.row, index % 2 && { backgroundColor: '#F7F6E7' }]}
                           textStyle={[styles.text, userActivity(lifeActivity, index) && { fontWeight: 'bold' }]}
                         />
@@ -76,10 +73,11 @@ const ActivityCaloriesInfo = ({ userData, style }) => {
       </Modal>
 
       <View style={style}>
-        <Button
+        <FontAwesomeIcon
           onPress={() => setModalOpen(true)}
           color={Colors.primary}
-          title="Calories intake on different activity level"
+          icon={faQuestionCircle}
+          size={26}
         />
       </View>
     </>

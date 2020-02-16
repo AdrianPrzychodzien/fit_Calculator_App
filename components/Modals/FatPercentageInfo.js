@@ -1,23 +1,20 @@
 import React, { useState } from 'react'
 
-import { View, Text, StyleSheet, Modal, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Modal, ScrollView, Button } from 'react-native'
 
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component'
+import { Table, Row } from 'react-native-table-component'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faTimes, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
 
 const FatPercentageInfo = ({ style }) => {
   const [modalOpen, setModalOpen] = useState(false)
-  const [table, setTable] = useState({
-    tableHead: ['Category', 'Women', 'Men'],
-    widthArr: [120, 95, 95]
-  })
 
-  const { tableHead, widthArr } = table
+  const tableHead = ['Category', 'Women', 'Men']
+
   const tableData = [
     ['Essential Fat', '10-13%', '2-5%'],
     ['Athletes', '14-20%', '6-13%'],
@@ -43,7 +40,7 @@ const FatPercentageInfo = ({ style }) => {
             <ScrollView horizontal={true}>
               <View>
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
-                  <Row data={tableHead} widthArr={widthArr} style={styles.header} textStyle={styles.text} />
+                  <Row data={tableHead} widthArr={[120, 95, 95]} style={styles.header} textStyle={styles.text} />
                 </Table>
                 <ScrollView style={styles.dataWrapper}>
                   <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
@@ -52,7 +49,7 @@ const FatPercentageInfo = ({ style }) => {
                         <Row
                           key={index}
                           data={rowData}
-                          widthArr={widthArr}
+                          widthArr={[120, 95, 95]}
                           style={[styles.row, index % 2 && { backgroundColor: '#F7F6E7' }]}
                           textStyle={styles.text}
                         />
@@ -67,11 +64,10 @@ const FatPercentageInfo = ({ style }) => {
       </Modal>
 
       <View style={style}>
-        <FontAwesomeIcon
+        <Button
           onPress={() => setModalOpen(true)}
-          icon={faQuestionCircle}
+          title="Fat percentage categories"
           color={Colors.primary}
-          size={30}
         />
       </View>
     </>

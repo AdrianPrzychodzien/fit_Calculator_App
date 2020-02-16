@@ -30,8 +30,6 @@ import {
   faBalanceScaleRight,
   faRunning,
   faHeartbeat,
-  faCheck,
-  faFemale
 } from '@fortawesome/free-solid-svg-icons'
 
 const Home = ({ userData, setFormula, navigation }) => {
@@ -145,9 +143,14 @@ const Home = ({ userData, setFormula, navigation }) => {
         <View style={styles.userInfo}>
 
           <View style={globalStyles.infoContainer}>
-            <Text style={styles.info}>
-              Resting Metabolic Age:
-          </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+              <View style={{ marginRight: 10 }}>
+                <FontAwesomeIcon icon={faBed} color={Colors.primary} size={36} />
+              </View>
+              <Text style={styles.info}>
+                Resting metabolic age:
+              </Text>
+            </View>
             <Text style={styles.data}>
               {sex && weight && height && age & lifeActivity
                 && formula === 'MifflinStJeor' ? restingMifflinStJeor(userData) : null
@@ -159,9 +162,14 @@ const Home = ({ userData, setFormula, navigation }) => {
           </View>
 
           <View style={globalStyles.infoContainer}>
-            <Text style={styles.info}>
-              Caloric needs:
-          </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+              <View style={{ marginRight: 10 }}>
+                <FontAwesomeIcon icon={faUtensils} color={Colors.primary} size={36} />
+              </View>
+              <Text style={styles.info}>
+                Caloric needs:
+              </Text>
+            </View>
             <Text style={styles.data}>
               {sex && weight && height && age & lifeActivity
                 && formula === 'MifflinStJeor' ? MifflinStJeor(userData) : null
@@ -173,27 +181,42 @@ const Home = ({ userData, setFormula, navigation }) => {
           </View>
 
           <View style={globalStyles.infoContainer}>
-            <Text style={styles.info}>
-              Body mass index:
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+              <View style={{ marginRight: 10 }}>
+                <FontAwesomeIcon icon={faBalanceScaleRight} color={Colors.primary} size={36} />
+              </View>
+              <Text style={styles.info}>
+                Body mass index:
+              </Text>
+            </View>
             <Text style={styles.data}>
               {weight && height && calcBMI(userData)}
             </Text>
           </View>
 
           <View style={globalStyles.infoContainer}>
-            <Text style={styles.info}>
-              Maximum Heart Rates:
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+              <View style={{ marginRight: 10 }}>
+                <FontAwesomeIcon icon={faHeartbeat} color={Colors.primary} size={36} />
+              </View>
+              <Text style={styles.info}>
+                Maximum heart rates:
+              </Text>
+            </View>
             <Text style={styles.data}>
               {age && maxHeartRate(userData)}
             </Text>
           </View>
 
           <View style={globalStyles.infoContainer}>
-            <Text style={styles.info}>
-              Training Heart Rate:
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+              <View style={{ marginRight: 10 }}>
+                <FontAwesomeIcon icon={faRunning} color={Colors.primary} size={36} />
+              </View>
+              <Text style={styles.info}>
+                Training heart rates:
+              </Text>
+            </View>
             <Text style={styles.data}>
               {age && trainingMin + '-' + trainingMax}
             </Text>
@@ -215,7 +238,7 @@ const styles = StyleSheet.create({
   subHeader: { fontSize: 16, textAlign: 'center', marginTop: 15 },
   button: { paddingVertical: 10 },
   inputContainer: { paddingVertical: 10 },
-  userInfo: { paddingVertical: 15, width: '80%' },
+  userInfo: { paddingVertical: 15, width: '90%' },
   info: { fontSize: 18 },
   data: { fontSize: 18, fontWeight: 'bold' }
 })

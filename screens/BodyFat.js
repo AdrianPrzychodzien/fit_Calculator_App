@@ -117,7 +117,6 @@ const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigatio
                 <Text style={styles.data}>
                   {waist && hips && neck && bodyFat + '%'}
                 </Text>
-                <FatPercentageInfo />
               </View>
 
               <View style={globalStyles.infoContainer}>
@@ -152,7 +151,7 @@ const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigatio
                   <>
                     <Text style={styles.info}>
                       Need to lose minimum:
-                  </Text>
+                    </Text>
                     <Text style={styles.data}>
                       {waist && hips && neck && bodyFatToLose + 'kg'}
                     </Text>
@@ -161,16 +160,17 @@ const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigatio
                     <Text style={styles.info}>You are below ideal fat percentage!</Text>
                   )}
               </View>
+              <FatPercentageInfo style={{ marginVertical: 15 }} />
 
             </View>
           ) : (
               <View style={{ marginVertical: 10 }}>
                 <Text style={{ textAlign: 'center', paddingVertical: 10, fontSize: 18 }}>
                   Make sure you added information about your sex and height!
-                  </Text>
+                </Text>
                 <Text style={{ textAlign: 'center', paddingVertical: 10, fontSize: 18 }}>
                   This data are necessary to make calculations
-                  </Text>
+                </Text>
                 <View style={styles.button}>
                   <Button title="Add data" color={Colors.secondary} onPress={() => navigation.navigate('Personal Data')} />
                 </View>
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   button: { paddingVertical: 15 },
-  userInfo: { paddingVertical: 15, width: '85%', },
+  userInfo: { paddingVertical: 15, width: '80%', },
   info: { fontSize: 18 },
   data: { fontSize: 18, fontWeight: 'bold' }
 })

@@ -17,18 +17,16 @@ const Bmi = ({ userData, navigation }) => {
     return (
       <ScrollView>
         <View style={globalStyles.container}>
-          <View style={globalStyles.infoContainer}>
-            <Text style={globalStyles.header} >BMI Score: {calcBMI(userData)} %</Text>
-          </View>
-          <View style={globalStyles.infoContainer}>
+          <Text style={globalStyles.header} >BMI Score: {calcBMI(userData)} %</Text>
+          <View style={{ ...globalStyles.infoContainer, width: '85%' }}>
             <Text style={styles.info}>Classified as:</Text>
             <Text style={styles.data}>{rangeBMI(calcBMI(userData))}</Text>
           </View>
-          <View style={globalStyles.infoContainer}>
+          <View style={{ ...globalStyles.infoContainer, width: '85%' }}>
             <Text style={styles.info}>Healthy BMI:</Text>
             <Text style={styles.data}>{normalBMIMin}kg - {normalBMIMax}kg</Text>
           </View>
-          <View style={globalStyles.infoContainer}>
+          <View style={{ ...globalStyles.infoContainer, width: '85%' }}>
             <Text style={styles.info}>{userBmiTip(userData)}</Text>
           </View>
 
@@ -75,7 +73,7 @@ const Bmi = ({ userData, navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  info: { fontSize: 20 },
+  info: { fontSize: 20, textAlign: 'center' },
   data: { fontSize: 18, fontWeight: 'bold' },
   description: { marginVertical: 30, },
   paragraph: { fontSize: 18, lineHeight: 24, textAlign: 'center', paddingVertical: 10 }
