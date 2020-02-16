@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button, Picker } from 'react-native'
 import {
   MifflinStJeor,
   HarrisBenedict,
@@ -12,16 +12,20 @@ import {
 } from '../../utils/equations'
 import ActivityCaloriesInfo from '../Modals/ActivityCaloriesInfo'
 
+import { PieChart } from "react-native-chart-kit"
+import { Dimensions } from "react-native"
 import { Table, Row } from 'react-native-table-component'
 
 import Colors from '../../utils/Colors'
 import { globalStyles } from '../../utils/globalStyles'
+import { array } from 'yup'
 
 const Maintenance = ({ userData, navigation }) => {
   const [table, setTable] = useState({
     tableHead: ['Macro', 'Medium Carb', 'Low Carb', 'High Carb'],
     widthArr: [90, 90, 90, 90]
   })
+  const [diet, setDiet] = useState('Medium Carb')
 
   const { tableHead, widthArr } = table
   const { height, weight, age, sex, lifeActivity, formula } = userData
@@ -56,6 +60,57 @@ const Maintenance = ({ userData, navigation }) => {
     row.push(macro[i], ModerateCarbDiet[i], LowCarbDiet[i], HighCarbDiet[i])
     tableData.push(row)
   }
+
+  const displayPieChart = state => {
+    let _data = []
+    let macro = ['Protein', 'Carbs', 'Fats']
+    let colors = ['blue', 'red', 'green']
+    let perc
+
+    switch (state) {
+      case 'Medium Carb':
+        for (let i = 0; i < macro.length; i++) {
+          perc = [.3, .35, .35]
+          _data.push({
+            name: macro[i],
+            percentage: perc[i],
+            color: colors[i],
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
+          })
+        }
+        break
+      case 'Low Carb':
+        for (let i = 0; i < macro.length; i++) {
+          perc = [.4, .2, .4]
+          _data.push({
+            name: macro[i],
+            percentage: perc[i],
+            color: colors[i],
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
+          })
+        }
+        break
+      case 'High Carb':
+        for (let i = 0; i < macro.length; i++) {
+          perc = [.3, .5, .2]
+          _data.push({
+            name: macro[i],
+            percentage: perc[i],
+            color: colors[i],
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
+          })
+        }
+        break
+      default:
+        break
+    }
+    return _data
+  }
+
+  let data = displayPieChart(diet)
 
   if (height && weight && age && sex && lifeActivity) {
     return (
@@ -93,6 +148,46 @@ const Maintenance = ({ userData, navigation }) => {
               </Table>
             </ScrollView>
           </View>
+        </View>
+
+        {/* Picker */}
+        <View style={globalStyles.container}>
+          <Text style={styles.tableHeader} >Choose diet</Text>
+          <Picker
+            selectedValue={diet}
+            style={{ height: 50, width: 150 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setDiet(itemValue)
+            }>
+            <Picker.Item label="Medium Carb" value="Medium Carb" />
+            <Picker.Item label="Low Carb" value="Low Carb" />
+            <Picker.Item label="High Carb" value="High Carb" />
+          </Picker>
+        </View>
+
+        {/* Pie chart */}
+        <View style={globalStyles.container}>
+          <View>
+            <Text style={styles.tableHeader}>Distribution of macronutrients</Text>
+            <PieChart
+              data={data}
+              width={Dimensions.get("window").width - 50}
+              height={220}
+              chartConfig={{
+                backgroundGradientFrom: "#1E2923",
+                backgroundGradientFromOpacity: 0,
+                backgroundGradientTo: "#08130D",
+                backgroundGradientToOpacity: 0.5,
+                color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+                barPercentage: 0.5
+              }}
+              accessor="percentage"
+              backgroundColor="transparent"
+              paddingLeft="15"
+              absolute
+            />
+          </View>
+
         </View>
       </ScrollView >
     )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard } from 'react-native'
 
 import { Formik } from 'formik'
 import * as yup from 'yup'

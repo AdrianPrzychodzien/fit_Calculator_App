@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { View, ScrollView, Text, StyleSheet, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, ScrollView, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { setFatData, setBodyFatCircum } from '../redux/actions'
@@ -16,9 +16,9 @@ import Colors from '../utils/Colors'
 import { globalStyles } from '../utils/globalStyles'
 
 const validationSchema = yup.object({
-  waist: yup.string().matches(/^[0-9]*$/, { message: 'Only numbers' }).required('Waist is required'),
-  hips: yup.string().matches(/^[0-9]*$/, { message: 'Only numbers' }).required('Hips are required'),
-  neck: yup.string().matches(/^[0-9]*$/, { message: 'Only numbers' }).required('Neck is required')
+  waist: yup.string().matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' }).required('Waist is required'),
+  hips: yup.string().matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' }).required('Hips are required'),
+  neck: yup.string().matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' }).required('Neck is required')
 })
 
 const BodyFat = ({ setFatData, setBodyFatCircum, userData, circumData, navigation }) => {
