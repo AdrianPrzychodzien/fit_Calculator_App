@@ -258,7 +258,7 @@ export const idealBodyFatPercentage = data => {
     }
   }
 
-  return result
+  return result ? result : 0
 }
 
 export const bodyFatFormula = (fatData, userData) => {

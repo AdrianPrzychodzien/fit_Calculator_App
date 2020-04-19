@@ -1,21 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import { View, Text, StyleSheet, Modal, Button } from 'react-native'
+import { View, Text, StyleSheet, Modal, Button } from 'react-native';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faTimes, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTimes, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
-import Colors from '../../utils/Colors'
-import { globalStyles } from '../../utils/globalStyles'
+import Colors from '../../utils/Colors';
+import { globalStyles } from '../../utils/globalStyles';
 
-
-const BodyFatInfo = ({ style, navigation }) => {
-  const [modalOpen, setModalOpen] = useState(false)
+const BodyFatInfo: React.FC = ({ style }: any, { navigation }: any) => {
+  const [modalOpen, setModalOpen] = useState(false);
 
   const closeAndGo = () => {
-    navigation.navigate('Body Fat Percentage')
-    setModalOpen(false)
-  }
+    navigation.navigate('Body Fat Percentage');
+    setModalOpen(false);
+  };
 
   return (
     <>
@@ -33,14 +32,15 @@ const BodyFatInfo = ({ style, navigation }) => {
           <View style={styles.modalParagraph}>
             <Text style={styles.text}>
               You can check your body fat percentage by usingskinfold caliper,
-            but the most commonly used estimation formula in body fat percentage calculations
-            is theU.S. Navy fitness formula.
+              but the most commonly used estimation formula in body fat
+              percentage calculations is theU.S. Navy fitness formula.
             </Text>
             <Text style={styles.text}>
               Calculation require giving body measurements in specific areas.
             </Text>
           </View>
-          <Button title="Add them in body fat page"
+          <Button
+            title='Add them in body fat page'
             color={Colors.secondary}
             onPress={closeAndGo}
           />
@@ -56,12 +56,12 @@ const BodyFatInfo = ({ style, navigation }) => {
         />
       </View>
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   modalCloseIcon: {
-    marginVertical: 20,
+    marginVertical: 20
   },
   modalParagraph: {
     alignItems: 'center',
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 20
-  },
-})
+  }
+});
 
-export default BodyFatInfo
+export default BodyFatInfo;
