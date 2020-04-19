@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { NavigationScreenProp } from 'react-navigation';
 import {
   View,
   ScrollView,
@@ -58,7 +58,11 @@ const validationSchema = yup.object({
   lifeActivity: yup.string().required()
 });
 
-const PersonalData: React.FC = ({ navigation }: any) => {
+interface Props {
+  navigation: NavigationScreenProp<any, any>;
+}
+
+const PersonalData: React.FC<Props> = ({ navigation }) => {
   const userData = useSelector((state: State) => state.data);
   const dispatch = useDispatch();
   const [option, setOption] = useState<string>(userData.sex || 'Male');

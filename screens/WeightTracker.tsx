@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
+import { NavigationScreenProp } from 'react-navigation';
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -56,7 +57,11 @@ const validationSchema = yup.object({
     .min(2)
 });
 
-const WeightTracker = ({ navigation }: any) => {
+interface Props {
+  navigation: NavigationScreenProp<any, any>;
+}
+
+const WeightTracker: React.FC<Props> = ({ navigation }) => {
   const userData = useSelector((state: State) => state.data);
   const dispatch = useDispatch();
   const [date, setDate] = useState<string>('');

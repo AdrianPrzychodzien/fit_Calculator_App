@@ -16,10 +16,10 @@ import Colors from '../../utils/Colors';
 import { globalStyles } from '../../utils/globalStyles';
 
 interface Props {
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
 }
 
-const WeightTrackerInfo: React.FC<Props> = ({ style }) => {
+const WeightTrackerInfo: React.FC<Props> = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   return (
@@ -61,7 +61,7 @@ const WeightTrackerInfo: React.FC<Props> = ({ style }) => {
         </View>
       </Modal>
 
-      <View style={style}>
+      <View>
         <Button
           onPress={() => setModalOpen(true)}
           color={Colors.primary}

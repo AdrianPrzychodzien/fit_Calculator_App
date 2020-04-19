@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, ScrollView, Text, StyleSheet, Button } from 'react-native';
+import { NavigationScreenProp } from 'react-navigation';
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -36,7 +37,11 @@ import {
   faHeartbeat
 } from '@fortawesome/free-solid-svg-icons';
 
-const Home: React.FC = ({ navigation }: any) => {
+interface Props {
+  navigation: NavigationScreenProp<any, any>;
+}
+
+const Home: React.FC<Props> = ({ navigation }) => {
   const userData = useSelector((state: State) => state.data);
   const dispatch = useDispatch();
   const [option, setOption] = useState<number | null>(null);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import {
   View,
   ScrollView,
@@ -10,6 +9,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
+import { NavigationScreenProp } from 'react-navigation';
+
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -25,7 +26,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Colors from '../utils/Colors';
 import { globalStyles } from '../utils/globalStyles';
-// /^[0-9]{1,2}([,.][0-9]{1,2})?$/
+
 const validationSchema = yup.object({
   waist: yup
     .string()
@@ -41,7 +42,11 @@ const validationSchema = yup.object({
     .required('Neck is required')
 });
 
-const BodyFat: React.FC = ({ navigation }: any) => {
+interface Props {
+  navigation: NavigationScreenProp<any, any>;
+}
+
+const BodyFat: React.FC<Props> = ({ navigation }) => {
   const userData = useSelector((state: State) => state.data);
   const circumData = useSelector((state: State) => state.circum);
   const dispatch = useDispatch();

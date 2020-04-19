@@ -104,17 +104,17 @@ export const trainingHeartRate = max => {
 //
 export const MifflinStJeor = data => {
   let output = Math.round(restingMifflinStJeor(data) * activityLevel(data.lifeActivity))
-  return output ? output : null
+  return output
 }
 
 export const HarrisBenedict = data => {
   let output = Math.round(restingHarrisBenedict(data) * activityLevel(data.lifeActivity))
-  return output ? output : null
+  return output
 }
 
 export const KatchMcardle = data => {
   let output = Math.round(restingKatchMcardle(data) * activityLevel(data.lifeActivity))
-  return output ? output : null
+  return output
 }
 
 export const restingMifflinStJeor = data => {

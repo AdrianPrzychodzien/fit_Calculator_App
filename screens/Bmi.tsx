@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { NavigationScreenProp } from 'react-navigation';
 
 import { View, ScrollView, Text, StyleSheet, Button } from 'react-native';
 import { calcBMI, rangeBMI, idealBMI, userBmiTip } from '../utils/equations';
@@ -9,7 +10,11 @@ import Colors from '../utils/Colors';
 import { globalStyles } from '../utils/globalStyles';
 import InputRange from '../components/InputRange';
 
-const Bmi: React.FC = ({ navigation }: any) => {
+interface Props {
+  navigation: NavigationScreenProp<any, any>;
+}
+
+const Bmi: React.FC<Props> = ({ navigation }) => {
   const userData = useSelector((state: State) => state.data);
 
   const { height, weight, age, sex, lifeActivity } = userData;
