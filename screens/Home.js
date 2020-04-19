@@ -135,6 +135,7 @@ const Home = ({ userData, setFormula, navigation }) => {
             <Button
               color={Colors.secondary}
               title="Click here to complete"
+              onPress={() => navigation.navigate('Body Fat Percentage')}
             />
           </View>
         )}
@@ -148,7 +149,7 @@ const Home = ({ userData, setFormula, navigation }) => {
                 <FontAwesomeIcon icon={faBed} color={Colors.primary} size={36} />
               </View>
               <Text style={styles.info}>
-                Resting metabolic age:
+                Resting metabolic rate:
               </Text>
             </View>
             <Text style={styles.data}>
