@@ -101,7 +101,7 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
       clearActualGoalActionCreator({
         start: '',
         finish: '',
-        weightGoal: '',
+        weightGoal: 0,
         dailyWeightArray: []
       })
     );
@@ -112,7 +112,7 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
       clearActualGoalSaveWeightsActionCreator({
         start: '',
         finish: '',
-        weightGoal: ''
+        weightGoal: 0
       })
     );
   };
@@ -134,8 +134,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
               {/* Formik actual weight & weight goal */}
               <Formik
                 initialValues={{
-                  weight: userData.weight || '',
-                  weightGoal: userData.weightGoal || ''
+                  weight: userData.weight || 0,
+                  weightGoal: userData.weightGoal || 0
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {

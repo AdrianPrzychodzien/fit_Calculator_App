@@ -33,7 +33,7 @@ const History: React.FC<Props> = ({ navigation }) => {
     .slice(0)
     .reverse()
     .map((item, index) => {
-      let itemBMI = (+weight / ((+height / 100) * (+height / 100))).toFixed(2);
+      let itemBMI = (+weight / ((height / 100) * (height / 100))).toFixed(2);
 
       let el = dailyWeightArray.slice(0).reverse();
 
@@ -45,9 +45,9 @@ const History: React.FC<Props> = ({ navigation }) => {
 
       const icon =
         index + 1 < dailyWeightArray.length &&
-        (+weight - +el[index + 1].weight > 0
+        (weight - el[index + 1].weight > 0
           ? fontIcon('red', faArrowDown)
-          : +weight - +el[index + 1].weight < 0
+          : weight - el[index + 1].weight < 0
           ? fontIcon('green', faArrowUp)
           : fontIcon('blue', faEquals));
 

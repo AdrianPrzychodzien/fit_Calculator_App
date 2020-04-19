@@ -67,10 +67,10 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
         <View style={globalStyles.container}>
           <Formik
             initialValues={{
-              waist: circumData.waist || '',
-              hips: circumData.hips || '',
-              neck: circumData.neck || '',
-              fat: userData.fat || ''
+              waist: circumData.waist,
+              hips: circumData.hips,
+              neck: circumData.neck,
+              fat: userData.fat
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {

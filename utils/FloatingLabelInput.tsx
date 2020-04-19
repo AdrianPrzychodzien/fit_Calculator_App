@@ -5,9 +5,9 @@ import { globalStyles } from './globalStyles';
 
 interface Props {
   label: string;
-  onChangeText: (value: string) => void;
-  onBlur: (value: string) => void;
-  value: string;
+  onChangeText: (value: any) => void;
+  onBlur: (value: any) => void;
+  value: number;
   keyboardType: any;
 }
 
@@ -45,7 +45,7 @@ const FloatingLabelInput: React.FC<Props> = ({ label, ...props }) => {
       <TextInput
         keyboardType={props.keyboardType}
         onChangeText={props.onChangeText}
-        value={props.value}
+        value={props.value.toString()}
         style={label === 'Fat %' ? globalStyles.fatInput : globalStyles.input}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}

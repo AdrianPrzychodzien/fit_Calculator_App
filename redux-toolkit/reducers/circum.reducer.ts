@@ -3,9 +3,9 @@ import { addNewMeasurement } from '../utils';
 import { CircumInterface } from '../interfaces';
 
 const circumInitialState: CircumInterface = {
-  waist: '',
-  hips: '',
-  neck: '',
+  waist: 0,
+  hips: 0,
+  neck: 0,
   circumferences: []
 };
 
@@ -18,9 +18,9 @@ export const circumSlice = createSlice({
       {
         payload
       }: PayloadAction<{
-        waist: string;
-        hips: string;
-        neck: string;
+        waist: number;
+        hips: number;
+        neck: number;
       }>
     ) => {
       state.waist = payload.waist;
@@ -29,7 +29,7 @@ export const circumSlice = createSlice({
     },
     setCircumferences: (
       state: CircumInterface,
-      { payload }: PayloadAction<{ fat: string }>
+      { payload }: PayloadAction<{ fat: number }>
     ) => {
       state.circumferences = addNewMeasurement(state.circumferences, payload);
     }

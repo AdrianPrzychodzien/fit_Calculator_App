@@ -17,8 +17,8 @@ import { globalStyles } from '../../utils/globalStyles';
 
 interface Props {
   style: StyleProp<ViewStyle>;
-  healthTips: { info: string; kgAmount: string; days: number };
-  dailyWeightArray: { date: string; weight: string }[];
+  healthTips: { info: string; kgAmount: number; days: number };
+  dailyWeightArray: { date: string; weight: number }[];
   clearFinish: () => void;
 }
 
@@ -35,7 +35,7 @@ const HealthTipsInfo: React.FC<Props> = ({
 
   // max weight change = 1,5% per week
   const rapidWeightChange =
-    ((+kgAmount / days) * 7).toFixed(2) > (+firstItem / 100 + 0.5).toFixed(2) &&
+    ((kgAmount / days) * 7).toFixed(2) > (+firstItem / 100 + 0.5).toFixed(2) &&
     true;
 
   return (
@@ -55,8 +55,8 @@ const HealthTipsInfo: React.FC<Props> = ({
             <Text style={styles.text}>
               According to the entered data you {info} in {days} days, which
               forces you to change your body weight by{' '}
-              {(+kgAmount / days).toFixed(2)}kg per day (
-              {((+kgAmount / days) * 7).toFixed(2)}kg per week)
+              {(kgAmount / days).toFixed(2)}kg per day (
+              {((kgAmount / days) * 7).toFixed(2)}kg per week)
             </Text>
             <Text style={styles.text}>
               Healthy pace of lost/gain weight is about 1% of your body weight.

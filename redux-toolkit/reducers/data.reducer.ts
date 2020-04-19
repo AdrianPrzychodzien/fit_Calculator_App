@@ -3,13 +3,13 @@ import { addNewDailyWeight } from '../utils';
 import { dailyWeightInterface, UserDataInterface } from '../interfaces';
 
 const dataInitialState: UserDataInterface = {
-  height: '',
-  weight: '',
-  age: '',
+  height: 0,
+  weight: 0,
+  age: 0,
   sex: '',
   lifeActivity: 1,
-  fat: '',
-  weightGoal: '',
+  fat: 0,
+  weightGoal: 0,
   finish: '',
   start: '',
   dailyWeightArray: [],
@@ -28,10 +28,10 @@ export const userDataSlice = createSlice({
       {
         payload
       }: PayloadAction<{
-        height: string;
-        weight: string;
-        age: string;
-        fat: string;
+        height: number;
+        weight: number;
+        age: number;
+        fat: number;
         sex: string;
         lifeActivity: number;
       }>
@@ -45,13 +45,13 @@ export const userDataSlice = createSlice({
     },
     setFatData: (
       state: UserDataInterface,
-      { payload }: PayloadAction<{ fat: string }>
+      { payload }: PayloadAction<{ fat: number }>
     ) => {
       state.fat = payload.fat;
     },
     setWeightData: (
       state: UserDataInterface,
-      { payload }: PayloadAction<{ weight: string; weightGoal: string }>
+      { payload }: PayloadAction<{ weight: number; weightGoal: number }>
     ) => {
       state.weight = payload.weight;
       state.weightGoal = payload.weightGoal;
@@ -65,7 +65,7 @@ export const userDataSlice = createSlice({
     },
     setDailyWeight: (
       state: UserDataInterface,
-      { payload }: PayloadAction<{ date: string; weight: string }>
+      { payload }: PayloadAction<{ date: string; weight: number }>
     ) => {
       state.dailyWeightArray = addNewDailyWeight(
         state.dailyWeightArray,
@@ -79,7 +79,7 @@ export const userDataSlice = createSlice({
       }: PayloadAction<{
         finish: string;
         start: string;
-        weightGoal: string;
+        weightGoal: number;
         dailyWeightArray: dailyWeightInterface[];
       }>
     ) => {
@@ -92,7 +92,7 @@ export const userDataSlice = createSlice({
       state: UserDataInterface,
       {
         payload
-      }: PayloadAction<{ finish: string; start: string; weightGoal: string }>
+      }: PayloadAction<{ finish: string; start: string; weightGoal: number }>
     ) => {
       state.finish = payload.finish;
       state.start = payload.start;

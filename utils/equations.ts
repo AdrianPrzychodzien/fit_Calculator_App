@@ -9,8 +9,8 @@ import {
 // BMI equations
 //
 export const calcBMI = (data: UserDataInterface): number => {
-  const height = +data.height / 100;
-  const result = +(+data.weight / (height * height)).toFixed(2);
+  const height = data.height / 100;
+  const result = +(data.weight / (height * height)).toFixed(2);
 
   return result;
 };
@@ -54,7 +54,7 @@ export const rangeBMIColor = (data: number): string => {
 };
 
 export const idealBMI = (data: UserDataInterface): number[] => {
-  const height = +data.height / 100;
+  const height = data.height / 100;
   const resultMax = +(25 * height * height).toFixed(1);
   const resultMin = +(18.5 * height * height).toFixed(1);
 
@@ -66,19 +66,19 @@ export const userBmiTip = (data: UserDataInterface): string => {
   let userBmiTip, top, bottom;
 
   if (rangeBMI(calcBMI(data)) === 'Normal Weight') {
-    top = (normalBMIMax - +data.weight).toFixed(1);
-    bottom = (+data.weight - normalBMIMin).toFixed(1);
+    top = (normalBMIMax - data.weight).toFixed(1);
+    bottom = (data.weight - normalBMIMin).toFixed(1);
 
     userBmiTip = `You are ${bottom}kg above and ${top}kg below limit`;
   } else if (
     rangeBMI(calcBMI(data)) === 'Overweight' ||
     rangeBMI(calcBMI(data)) === 'Obese'
   ) {
-    bottom = +data.weight - normalBMIMax;
+    bottom = data.weight - normalBMIMax;
 
     userBmiTip = `You are ${bottom.toFixed(1)}kg above the upper limit`;
   } else {
-    top = normalBMIMin - +data.weight;
+    top = normalBMIMin - data.weight;
 
     userBmiTip = `You are ${top.toFixed(1)}kg under the lower limit`;
   }
@@ -92,9 +92,9 @@ export const userBmiTip = (data: UserDataInterface): string => {
 export const maxHeartRate = (data: UserDataInterface): number => {
   let result;
   if (data.sex === 'Male') {
-    result = 208 - 0.8 * +data.age;
+    result = 208 - 0.8 * data.age;
   } else if (data.sex === 'Female') {
-    result = 201 - 0.63 * +data.age;
+    result = 201 - 0.63 * data.age;
   } else {
     result = 0;
   }
@@ -138,9 +138,9 @@ export const restingMifflinStJeor = (data: UserDataInterface): number => {
   let result;
 
   if (sex === 'Male') {
-    result = 10 * +weight + 6.25 * +height - 5 * +age + 5;
+    result = 10 * weight + 6.25 * height - 5 * age + 5;
   } else if (sex === 'Female') {
-    result = 10 * +weight + 6.25 * +height - 5 * +age - 161;
+    result = 10 * weight + 6.25 * height - 5 * age - 161;
   } else {
     result = 0;
     console.log('Choose your sex');
@@ -152,10 +152,10 @@ export const restingHarrisBenedict = (data: UserDataInterface): number => {
   let result;
   if (data.sex === 'Male') {
     result =
-      13.397 * +data.weight + 4.799 * +data.height - 5.677 * +data.age + 88.362;
+      13.397 * data.weight + 4.799 * data.height - 5.677 * data.age + 88.362;
   } else if (data.sex === 'Female') {
     result =
-      9.247 * +data.weight + 3.098 * +data.height - 4.33 * +data.age + 447.593;
+      9.247 * data.weight + 3.098 * data.height - 4.33 * data.age + 447.593;
   } else {
     result = 0;
     console.log('Choose your sex');
@@ -165,7 +165,7 @@ export const restingHarrisBenedict = (data: UserDataInterface): number => {
 };
 
 export const restingKatchMcardle = (data: UserDataInterface): number => {
-  const leanBodyMass = (+data.weight * (100 - +data.fat)) / 100;
+  const leanBodyMass = (data.weight * (100 - data.fat)) / 100;
 
   const BMR = Math.round(370 + 21.6 * leanBodyMass);
 
@@ -237,21 +237,21 @@ export const idealBodyFatPercentage = (
   let result;
 
   if (sex === 'Male') {
-    if (+age < 20) {
+    if (age < 20) {
       result = 8.5;
-    } else if (20 < +age && +age <= 25) {
+    } else if (20 < age && age <= 25) {
       result = 10.5;
-    } else if (25 < +age && +age <= 30) {
+    } else if (25 < age && age <= 30) {
       result = 12.7;
-    } else if (30 < +age && +age <= 35) {
+    } else if (30 < age && age <= 35) {
       result = 13.7;
-    } else if (35 < +age && +age <= 40) {
+    } else if (35 < age && age <= 40) {
       result = 15.3;
-    } else if (40 < +age && +age <= 45) {
+    } else if (40 < age && age <= 45) {
       result = 16.4;
-    } else if (45 < +age && +age <= 50) {
+    } else if (45 < age && age <= 50) {
       result = 18.9;
-    } else if (50 < +age && +age <= 55) {
+    } else if (50 < age && age <= 55) {
       result = 20.9;
     } else {
       result = '21+';
@@ -259,21 +259,21 @@ export const idealBodyFatPercentage = (
   }
 
   if (sex === 'Female') {
-    if (+age < 20) {
+    if (age < 20) {
       result = 17.7;
-    } else if (20 < +age && +age <= 25) {
+    } else if (20 < age && age <= 25) {
       result = 18.4;
-    } else if (25 < +age && +age <= 30) {
+    } else if (25 < age && age <= 30) {
       result = 19.3;
-    } else if (30 < +age && +age <= 35) {
+    } else if (30 < age && age <= 35) {
       result = 21.5;
-    } else if (35 < +age && +age <= 40) {
+    } else if (35 < age && age <= 40) {
       result = 22.2;
-    } else if (40 < +age && +age <= 45) {
+    } else if (40 < age && age <= 45) {
       result = 22.9;
-    } else if (45 < +age && +age <= 50) {
+    } else if (45 < age && age <= 50) {
       result = 25.5;
-    } else if (50 < +age && +age <= 55) {
+    } else if (50 < age && age <= 55) {
       result = 26.3;
     } else {
       result = '27+';
@@ -296,19 +296,19 @@ export const bodyFatFormula = (
     result =
       495 /
         (1.0324 -
-          0.19077 * Math.log10(+waist - +neck) +
-          0.15456 * Math.log10(+height)) -
+          0.19077 * Math.log10(waist - neck) +
+          0.15456 * Math.log10(height)) -
       450;
   } else if (sex === 'Female') {
-    waist = (0.393700787 * +waist).toString();
-    neck = (0.393700787 * +neck).toString();
-    hips = (0.393700787 * +hips).toString();
-    height = (0.393700787 * +height).toString();
+    waist = 0.393700787 * waist;
+    neck = 0.393700787 * neck;
+    hips = 0.393700787 * hips;
+    height = 0.393700787 * height;
     result =
       495 /
         (1.29579 -
           0.35004 * Math.log10(+waist + +hips - +neck) +
-          0.221 * Math.log10(+height)) -
+          0.221 * Math.log10(height)) -
       450;
   } else {
     result = 0;
@@ -479,8 +479,8 @@ export const loseOrGain = (data: {
 };
 
 export const weightTrackerInfo = (data: {
-  weightGoal: string;
-  dailyWeightArray: { date: string; weight: string }[];
+  weightGoal: number;
+  dailyWeightArray: { date: string; weight: number }[];
 }): string => {
   const { weightGoal, dailyWeightArray } = data;
   const lastItem = dailyWeightArray.length
@@ -492,17 +492,17 @@ export const weightTrackerInfo = (data: {
   // How much to gain/lose ?
   // case => Gain weight
   if (firstItem && lastItem) {
-    if (+weightGoal - +firstItem > 0) {
-      if (+weightGoal - +lastItem > 0) {
-        result = `${(+weightGoal - +lastItem).toFixed(1)}kg to gain`;
-      } else if (+weightGoal - +lastItem <= 0) {
+    if (weightGoal - firstItem > 0) {
+      if (weightGoal - lastItem > 0) {
+        result = `${(weightGoal - lastItem).toFixed(1)}kg to gain`;
+      } else if (weightGoal - lastItem <= 0) {
         result = 'you already achieved your goal! Congratulations!';
       }
       // case => Lose weight
-    } else if (+weightGoal - +firstItem < 0) {
-      if (+lastItem - +weightGoal > 0) {
-        result = `${(+lastItem - +weightGoal).toFixed(1)}kg to lose`;
-      } else if (+lastItem - +weightGoal <= 0) {
+    } else if (weightGoal - firstItem < 0) {
+      if (lastItem - weightGoal > 0) {
+        result = `${(lastItem - weightGoal).toFixed(1)}kg to lose`;
+      } else if (lastItem - weightGoal <= 0) {
         result = 'you already achieved your goal! Congratulations!';
       }
     } else {
@@ -518,8 +518,8 @@ export const percentageProgress = (
   data: {
     start: string;
     finish: string;
-    weightGoal: string;
-    dailyWeightArray: { date: string; weight: string }[];
+    weightGoal: number;
+    dailyWeightArray: { date: string; weight: number }[];
   },
   func: (end: string) => number
 ): number[] => {
@@ -541,12 +541,10 @@ export const percentageProgress = (
 
   // Goal is to lose fat ? True : False
   kgLeftFromToday =
-    firstItem > weightGoal ? +lastItem - +weightGoal : +weightGoal - +lastItem;
+    firstItem > weightGoal ? lastItem - weightGoal : weightGoal - lastItem;
 
   kgLeftInGeneral =
-    firstItem > weightGoal
-      ? +firstItem - +weightGoal
-      : +weightGoal - +firstItem;
+    firstItem > weightGoal ? +firstItem - weightGoal : weightGoal - +firstItem;
 
   kgLeft = Math.round((kgLeftFromToday / kgLeftInGeneral) * 100);
 
@@ -564,8 +562,8 @@ export const percentageProgress = (
 export const healthyProgress = (data: {
   start: string;
   finish: string;
-  weightGoal: string;
-  dailyWeightArray: { date: string; weight: string }[];
+  weightGoal: number;
+  dailyWeightArray: { date: string; weight: number }[];
 }) => {
   const { start, finish, dailyWeightArray, weightGoal } = data;
   const firstItem = dailyWeightArray.length ? dailyWeightArray[0].weight : 0;
@@ -585,8 +583,8 @@ export const healthyProgress = (data: {
         .add(i, 'days')
         .format('YYYY-MM-DD'),
       ...(firstItem > weightGoal
-        ? { weight: +firstItem - +healthyChange * i }
-        : { weight: +firstItem + +healthyChange * i })
+        ? { weight: firstItem - +healthyChange * i }
+        : { weight: firstItem + +healthyChange * i })
     });
   }
 
@@ -596,8 +594,8 @@ export const healthyProgress = (data: {
 export const HealthTips = (
   data: {
     finish: string;
-    weightGoal: string;
-    dailyWeightArray: { date: string; weight: string }[];
+    weightGoal: number;
+    dailyWeightArray: { date: string; weight: number }[];
   },
   func: (end: string) => number
 ) => {
@@ -614,15 +612,15 @@ export const HealthTips = (
   const daysLeftFromToday = func(finish);
 
   //  Gain weight or lose weight
-  parseInt(weightGoal) - +firstItem > 0
+  weightGoal - firstItem > 0
     ? (obj = {
-        info: `need to gain ${(+weightGoal - +lastItem).toFixed(1)}kg`,
-        kgAmount: (+weightGoal - +lastItem).toFixed(1),
+        info: `need to gain ${(weightGoal - lastItem).toFixed(1)}kg`,
+        kgAmount: +(weightGoal - lastItem).toFixed(1),
         days: daysLeftFromToday
       })
     : (obj = {
-        info: `need to lose ${(+lastItem - +weightGoal).toFixed(1)}kg`,
-        kgAmount: (+lastItem - +weightGoal).toFixed(1),
+        info: `need to lose ${(lastItem - weightGoal).toFixed(1)}kg`,
+        kgAmount: +(lastItem - weightGoal).toFixed(1),
         days: daysLeftFromToday
       });
 

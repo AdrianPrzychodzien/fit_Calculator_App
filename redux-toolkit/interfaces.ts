@@ -1,27 +1,27 @@
 export interface dailyWeightInterface {
   date: string;
-  weight: string;
+  weight: number;
 }
 
 export interface UserDataInterface {
-  height: string;
-  weight: string;
-  age: string;
+  height: number;
+  weight: number;
+  age: number;
   sex: string;
   lifeActivity: number;
-  fat: string;
-  weightGoal: string;
+  fat: number;
+  weightGoal: number;
   finish: string;
   start: string;
-  dailyWeightArray: { date: string; weight: string }[];
+  dailyWeightArray: { date: string; weight: number }[];
   userId: any;
   formula: string;
 }
 
 export interface CircumInterface {
-  waist: string;
-  hips: string;
-  neck: string;
+  waist: number;
+  hips: number;
+  neck: number;
   circumferences: any[];
 }
 

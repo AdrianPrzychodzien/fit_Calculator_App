@@ -1,7 +1,7 @@
 import { CircumInterface } from './interfaces';
 
 export const addNewDailyWeight = (
-  dailyWeightArray: { date: string; weight: string }[],
+  dailyWeightArray: { date: string; weight: number }[],
   itemToAdd: { date: string; weight: number }
 ) => {
   const existingItem = dailyWeightArray.find(

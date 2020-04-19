@@ -103,12 +103,12 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
         <View style={globalStyles.container}>
           <Formik
             initialValues={{
-              height: userData.height || '',
-              weight: userData.weight || '',
-              age: userData.age || '',
-              fat: userData.fat || '',
-              sex: userData.sex || 'Male',
-              lifeActivity: userData.lifeActivity || 0
+              height: userData.height,
+              weight: userData.weight,
+              age: userData.age,
+              fat: userData.fat,
+              sex: userData.sex,
+              lifeActivity: userData.lifeActivity
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {

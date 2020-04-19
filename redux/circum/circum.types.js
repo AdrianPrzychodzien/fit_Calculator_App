@@ -1,4 +1,0 @@
-export const CircumActionTypes = {
-  SET_BODY_FAT_CIRCUM: 'SET_BODY_FAT_CIRCUM',
-  SET_CIRCUMFERENCES: 'SET_CIRCUMFERENCES'
-}
