@@ -32,7 +32,6 @@ import FloatingLabelInput from '../utils/FloatingLabelInput';
 import {
   setWeightDataActionCreator,
   setFinishDateActionCreator,
-  setDailyWeightActionCreator,
   clearActualGoalActionCreator,
   clearActualGoalSaveWeightsActionCreator,
   clearFinishDateOnlyActionCreator
@@ -146,12 +145,6 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                       weightGoal: values.weightGoal
                     })
                   );
-                  dispatch(
-                    setDailyWeightActionCreator({
-                      date: new Date().toISOString().slice(0, 10),
-                      weight: values.weight
-                    })
-                  );
                   setShow(true);
                 }}
               >
@@ -247,10 +240,7 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
           ) : (
             <>
               {/* Set today`s weight */}
-              <WeightTodayFormik
-                setDailyWeight={setDailyWeightActionCreator}
-                userData={userData}
-              />
+              <WeightTodayFormik />
 
               {/* Weight change since yesterday */}
               <View>

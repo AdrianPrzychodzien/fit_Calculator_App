@@ -4,7 +4,8 @@ import { calcBMI } from '../utils/equations';
 import { View, StyleSheet } from 'react-native';
 
 import { State } from '../redux-toolkit/interfaces';
-import Slider from '@react-native-community/slider';
+import { Slider } from 'react-native';
+import '../utils/InputRange';
 
 const InputRange: React.FC = () => {
   const userData = useSelector((state: State) => state.data);

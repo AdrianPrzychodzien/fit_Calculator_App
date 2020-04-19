@@ -1,16 +1,33 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import createSecureStore from 'redux-persist-expo-securestore';
 import logger from 'redux-logger';
+import { combineReducers } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+
 import { userDataSlice } from './reducers/data.reducer';
 import { circumSlice } from './reducers/circum.reducer';
 
-const reducer = {
+const rootReducer = combineReducers({
   data: userDataSlice.reducer,
   circum: circumSlice.reducer
+});
+
+const persistConfig = {
+  key: 'root',
+  storage: createSecureStore(),
+  whitelist: ['data', 'circum']
 };
 
-const middleware = [...getDefaultMiddleware(), logger];
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// const middleware = [...getDefaultMiddleware(), logger];
+
 // redux-toolkit dołącza thunk
-export default configureStore({
-  reducer,
-  middleware
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: [logger]
 });
+
+let persistor = persistStore(store);
+
+export { store, persistor };

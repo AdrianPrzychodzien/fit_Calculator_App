@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
+import { NavigationScreenProp } from 'react-navigation';
 
-import { View, Text, StyleSheet, Modal, Button } from 'react-native';
+import {
+  View,
+  StyleProp,
+  ViewStyle,
+  Text,
+  StyleSheet,
+  Modal,
+  Button
+} from 'react-native';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +17,12 @@ import { faTimes, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import Colors from '../../utils/Colors';
 import { globalStyles } from '../../utils/globalStyles';
 
-const BodyFatInfo: React.FC = ({ style }: any, { navigation }: any) => {
+interface Props {
+  style?: StyleProp<ViewStyle>;
+  navigation: NavigationScreenProp<any, any>;
+}
+
+const BodyFatInfo: React.FC<Props> = ({ navigation }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const closeAndGo = () => {
@@ -47,7 +61,7 @@ const BodyFatInfo: React.FC = ({ style }: any, { navigation }: any) => {
         </View>
       </Modal>
 
-      <View style={style}>
+      <View>
         <FontAwesomeIcon
           onPress={() => setModalOpen(true)}
           icon={faQuestionCircle}

@@ -106,7 +106,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
               height: userData.height || '',
               weight: userData.weight || '',
               age: userData.age || '',
-              fat: userData.fat.toString() || '',
+              fat: userData.fat || '',
               sex: userData.sex || 'Male',
               lifeActivity: userData.lifeActivity || 0
             }}
