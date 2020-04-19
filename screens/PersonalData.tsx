@@ -29,7 +29,6 @@ import {
   faWeight,
   faPercentage
 } from '@fortawesome/free-solid-svg-icons';
-
 import Colors from '../utils/Colors';
 import { globalStyles } from '../utils/globalStyles';
 import RadioForm, {
