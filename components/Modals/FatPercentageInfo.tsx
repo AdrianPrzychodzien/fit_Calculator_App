@@ -1,19 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import { View, Text, StyleSheet, Modal, ScrollView, Button } from 'react-native'
+import {
+  View,
+  Text,
+  StyleProp,
+  ViewStyle,
+  StyleSheet,
+  Modal,
+  ScrollView,
+  Button
+} from 'react-native';
 
-import { Table, Row } from 'react-native-table-component'
+import { Table, Row } from 'react-native-table-component';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import Colors from '../../utils/Colors';
+import { globalStyles } from '../../utils/globalStyles';
 
-import Colors from '../../utils/Colors'
-import { globalStyles } from '../../utils/globalStyles'
+interface Props {
+  style: StyleProp<ViewStyle>;
+}
 
-const FatPercentageInfo = ({ style }) => {
-  const [modalOpen, setModalOpen] = useState(false)
+const FatPercentageInfo: React.FC<Props> = ({ style }) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const tableHead = ['Category', 'Women', 'Men']
+  const tableHead = ['Category', 'Women', 'Men'];
 
   const tableData = [
     ['Essential Fat', '10-13%', '2-5%'],
@@ -21,7 +33,7 @@ const FatPercentageInfo = ({ style }) => {
     ['Fitness', '21-24%', '14-17%'],
     ['Acceptable', '25-31%', '18-24%'],
     ['Obese', '32%+', '25%+']
-  ]
+  ];
 
   return (
     <>
@@ -40,21 +52,29 @@ const FatPercentageInfo = ({ style }) => {
             <ScrollView horizontal={true}>
               <View>
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
-                  <Row data={tableHead} widthArr={[120, 95, 95]} style={styles.header} textStyle={styles.text} />
+                  <Row
+                    data={tableHead}
+                    widthArr={[120, 95, 95]}
+                    style={styles.header}
+                    textStyle={styles.text}
+                  />
                 </Table>
                 <ScrollView style={styles.dataWrapper}>
-                  <Table borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}>
-                    {
-                      tableData.map((rowData, index) => (
-                        <Row
-                          key={index}
-                          data={rowData}
-                          widthArr={[120, 95, 95]}
-                          style={[styles.row, index % 2 && { backgroundColor: '#F7F6E7' }]}
-                          textStyle={styles.text}
-                        />
-                      ))
-                    }
+                  <Table
+                    borderStyle={{ borderWidth: 1, borderColor: '#C1C0B9' }}
+                  >
+                    {tableData.map((rowData, index) => (
+                      <Row
+                        key={index}
+                        data={rowData}
+                        widthArr={[120, 95, 95]}
+                        style={[
+                          styles.row,
+                          index % 2 && { backgroundColor: '#F7F6E7' }
+                        ]}
+                        textStyle={styles.text}
+                      />
+                    ))}
                   </Table>
                 </ScrollView>
               </View>
@@ -66,13 +86,13 @@ const FatPercentageInfo = ({ style }) => {
       <View style={style}>
         <Button
           onPress={() => setModalOpen(true)}
-          title="Fat percentage categories"
+          title='Fat percentage categories'
           color={Colors.primary}
         />
       </View>
     </>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   modalCloseIcon: { marginVertical: 20 },
@@ -81,6 +101,6 @@ const styles = StyleSheet.create({
   text: { textAlign: 'center', fontWeight: '400', fontSize: 17 },
   dataWrapper: { marginTop: -1 },
   row: { height: 45, backgroundColor: '#E7E6E1' }
-})
+});
 
-export default FatPercentageInfo
+export default FatPercentageInfo;

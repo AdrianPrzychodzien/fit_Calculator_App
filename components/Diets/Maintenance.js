@@ -27,7 +27,7 @@ const Maintenance = ({ userData, navigation }) => {
       <ScrollView>
         <View style={{ ...globalStyles.container, flexDirection: 'row' }}>
           <Text style={globalStyles.header}>Caloric needs: {kcalAmount}kcal</Text>
-          <ActivityCaloriesInfo userData={userData} style={{ marginLeft: 12 }} />
+          <ActivityCaloriesInfo style={{ marginLeft: 12 }} />
         </View>
 
         {/* Picker */}

@@ -25,19 +25,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Colors from '../utils/Colors';
 import { globalStyles } from '../utils/globalStyles';
-
+// /^[0-9]{1,2}([,.][0-9]{1,2})?$/
 const validationSchema = yup.object({
   waist: yup
     .string()
-    .matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' })
+    .matches(/^[0-9]*$/, { message: 'Only numbers' })
     .required('Waist is required'),
   hips: yup
     .string()
-    .matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' })
+    .matches(/^[0-9]*$/, { message: 'Only numbers' })
     .required('Hips are required'),
   neck: yup
     .string()
-    .matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' })
+    .matches(/^[0-9]*$/, { message: 'Only numbers' })
     .required('Neck is required')
 });
 

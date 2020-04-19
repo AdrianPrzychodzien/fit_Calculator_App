@@ -126,8 +126,8 @@ export const restingMifflinStJeor = data => {
   } else if (sex === 'Female') {
     result = (10 * weight) + (6.25 * height) - (5 * age) - 161
   } else {
+    result = 0;
     console.log('Choose your sex')
-    return
   }
   return Math.round(result)
 }
@@ -176,6 +176,7 @@ export const activityLevel = data => {
       result = 1.9
       break
     default:
+      result = 1.2;
       alert('Choose your activity level')
   }
 
@@ -512,12 +513,12 @@ export const HealthTips = (data, func) => {
   weightGoal - firstItem > 0
     ? obj = {
       info: `need to gain ${(weightGoal - lastItem).toFixed(1)}kg`,
-      kgAmout: (weightGoal - lastItem).toFixed(1),
+      kgAmount: +(weightGoal - lastItem).toFixed(1),
       days: daysLeftFromToday,
     }
     : obj = {
       info: `need to lose ${(lastItem - weightGoal).toFixed(1)}kg`,
-      kgAmout: (lastItem - weightGoal).toFixed(1),
+      kgAmount: +(lastItem - weightGoal).toFixed(1),
       days: daysLeftFromToday,
     }
 
