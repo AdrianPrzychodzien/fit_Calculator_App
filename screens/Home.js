@@ -4,7 +4,8 @@ import { View, ScrollView, Text, StyleSheet, Button } from 'react-native'
 
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
 
-import { setFormula } from '../redux/actions'
+// import { setFormula } from '../redux/actions'
+import { setFormulaActionCreator } from '../redux-toolkit/redux-toolkit'
 import { Formik } from 'formik'
 
 import Colors from '../utils/Colors'
@@ -249,7 +250,7 @@ const mapStateToProps = ({ data }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setFormula: data => dispatch(setFormula(data))
+  setFormula: data => dispatch(setFormulaActionCreator(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

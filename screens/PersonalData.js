@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { View, ScrollView, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
-import { setData, setDailyWeight } from '../redux/actions'
+// import { setData, setDailyWeight } from '../redux/actions'
+import { setDataActionCreator, setDailyWeightActionCreator } from '../redux-toolkit/redux-toolkit'
 import ActivityInfo from '../components/Modals/ActivityInfo'
 import BodyFatInfo from '../components/Modals/BodyFatInfo'
 import FloatingLabelInput from '../utils/FloatingLabelInput'
@@ -248,8 +249,8 @@ const mapStateToProps = ({ data }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setData: data => dispatch(setData(data)),
-  setDailyWeight: data => dispatch(setDailyWeight(data))
+  setData: data => dispatch(setDataActionCreator(data)),
+  setDailyWeight: data => dispatch(setDailyWeightActionCreator(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonalData)
