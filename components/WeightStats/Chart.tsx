@@ -75,6 +75,20 @@ const Chart: React.FC<Props> = ({ navigation }) => {
     item.healthy && healthyData.push(item.healthy);
   });
 
+  const chartConfig = {
+    backgroundColor: 'white',
+    backgroundGradientFrom: '#E5E8E8',
+    backgroundGradientTo: 'white',
+    decimalPlaces: 0,
+    color: () => `black`,
+    labelColor: () => `black`,
+    style: { borderRadius: 16 },
+    propsForDots: {
+      strokeWidth: '5',
+      stroke: 'black'
+    } as any
+  };
+
   if ((dailyWeightArray.length, weightGoal, start, finish)) {
     return (
       <>
@@ -142,19 +156,7 @@ const Chart: React.FC<Props> = ({ navigation }) => {
                   height={220}
                   segments={2}
                   yAxisSuffix='kg'
-                  chartConfig={{
-                    backgroundColor: 'white',
-                    backgroundGradientFrom: '#E5E8E8',
-                    backgroundGradientTo: 'white',
-                    decimalPlaces: 0,
-                    color: () => `black`,
-                    labelColor: () => `black`,
-                    style: { borderRadius: 16 }
-                    // propsForDots: {
-                    //   strokeWidth: "5",
-                    //   stroke: 'black'
-                    // }
-                  }}
+                  chartConfig={chartConfig as any}
                   bezier
                   withDots={false}
                   style={{

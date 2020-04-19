@@ -41,7 +41,7 @@ const Bmi: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.info}>{userBmiTip(userData)}</Text>
           </View>
 
-          {/* <InputRange userData={userData} /> */}
+          <InputRange />
 
           <View style={styles.description}>
             <Text style={styles.paragraph}>
