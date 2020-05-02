@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage: createSecureStore(),
-  whitelist: ["data", "circum"]
+  whitelist: []
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

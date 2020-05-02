@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa09e36e-b1db-4507-a4ad-06ead87cede4" name="Default Changelist" comment="" />
+    <list default="true" id="fa09e36e-b1db-4507-a4ad-06ead87cede4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/functions/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/functions/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/PersonalData.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/PersonalData.tsx" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,9 +20,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="363" />
-    <option name="y" value="127" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="485" />
+    <option name="y" value="171" />
     <option name="width" value="1240" />
     <option name="height" value="670" />
   </component>
@@ -72,7 +77,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="363" y="127" width="1240" height="670" extended-state="1" />
+    <frame x="485" y="171" width="1240" height="670" extended-state="0" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.3294509" />

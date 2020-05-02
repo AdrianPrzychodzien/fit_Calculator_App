@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavigationScreenProp } from "react-navigation";
 import {
@@ -37,7 +37,7 @@ import RadioForm, {
   RadioButtonLabel
 } from "react-native-simple-radio-button";
 import StarRating from "react-native-star-rating";
-import axios from "axios";
+import { api } from "../utils/axios";
 
 const validationSchema = yup.object({
   height: yup
@@ -98,55 +98,51 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
     { label: "Female", value: 1 }
   ];
 
+  const handleSubmit = (values: any) => {
+    api
+      .post("/personalData", {
+        weight: values.weight,
+        height: values.height,
+        age: values.age,
+        fat: values.fat,
+        sex: option,
+        lifeActivity: stars
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setDataActionCreator(res.data));
+      })
+      .catch((err) => console.log(err));
+
+    api
+      .post("/dailyWeight", {
+        date: new Date().toISOString().slice(0, 10),
+        weight: values.weight
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setDailyWeightActionCreator(res.data));
+      })
+      .catch((err) => console.log(err));
+
+    navigation.navigate("Home");
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView>
         <View style={globalStyles.container}>
           <Formik
             initialValues={{
-              height: userData.height || 20,
-              weight: userData.weight || 20,
-              age: userData.age || 20,
-              fat: userData.fat || 20
-              // sex: userData.sex || "aa",
-              // lifeActivity: userData.lifeActivity || 20
+              height: userData.height || 0,
+              weight: userData.weight || 0,
+              age: userData.age || 0,
+              fat: userData.fat || 0,
+              sex: userData.sex || "male",
+              lifeActivity: userData.lifeActivity || 3
             }}
             validationSchema={validationSchema}
-            onSubmit={(values) => {
-              axios
-                .post(
-                  "https://europe-west1-fit-calc-app.cloudfunctions.net/api/personalData",
-                  { ...values, sex: option, lifeActivity: stars }
-                )
-                .then((res) => {
-                  console.log(res.data);
-                  dispatch(setDataActionCreator(res.data));
-                })
-                .catch((err) => console.log(err));
-
-              axios
-                .post(
-                  "https://europe-west1-fit-calc-app.cloudfunctions.net/api/dailyWeight",
-                  {
-                    date: new Date().toISOString().slice(0, 10),
-                    weight: values.weight
-                  }
-                )
-                .then((res) => {
-                  console.log(res.data);
-                  dispatch(setDataActionCreator(res.data));
-                })
-                .catch((err) => console.log(err));
-
-              // dispatch(
-              //   setDailyWeightActionCreator({
-              //     date: new Date().toISOString().slice(0, 10),
-              //     weight: values.weight
-              //   })
-              // );
-
-              navigation.navigate("Home");
-            }}
+            onSubmit={(values) => handleSubmit(values)}
           >
             {({
               handleSubmit,

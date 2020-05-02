@@ -26,7 +26,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Colors from "../utils/Colors";
 import { globalStyles } from "../utils/globalStyles";
-import axios from "axios";
+import { api } from "../utils/axios";
 
 const validationSchema = yup.object({
   waist: yup
@@ -75,29 +75,20 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              dispatch(
-                setBodyFatCircumActionCreator({
-                  waist: values.waist,
-                  hips: values.hips,
-                  neck: values.neck
-                })
-              );
-              axios
-                .post(
-                  "https://europe-west1-fit-calc-app.cloudfunctions.net/api/fatData",
-                  { fat: bodyFat }
-                )
-                .then((res) => {
-                  console.log(res.data);
-                  dispatch(setFatDataActionCreator(res.data.fat));
-                })
-                .catch((err) => console.log(err));
-
               // dispatch(
-              //   setFatDataActionCreator({
-              //     fat: bodyFat
+              //   setBodyFatCircumActionCreator({
+              //     waist: values.waist,
+              //     hips: values.hips,
+              //     neck: values.neck
               //   })
               // );
+              api
+                .post("/fatData", { fat: bodyFat })
+                .then((res) => {
+                  console.log(res.data);
+                  dispatch(setFatDataActionCreator(res.data));
+                })
+                .catch((err) => console.log(err));
             }}
           >
             {({

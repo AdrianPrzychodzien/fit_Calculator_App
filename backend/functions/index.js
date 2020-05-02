@@ -1,15 +1,16 @@
+const express = require('express')
+const cors = require('cors')
+const app = express()
 const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 const serviceAccount = require('./serviceAccountKeys')
-const cors = require('cors')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://fit-calc-app.firebaseio.com"
 })
 
-const express = require('express')
-const app = express()
+// app.use(cors());
 
 app.get('/personalData', (req, res) => {
   admin
@@ -49,7 +50,7 @@ app.post('/personalData', (req, res) => {
   }
 
   const userRef = admin.firestore().
-    collection('personalData').doc(new Date('2020-05-02').toISOString().slice(0, 10));
+    collection('personalData').doc(new Date().toISOString().slice(0, 10));
 
   userRef.get()
     .then((docSnapshot) => {
@@ -76,7 +77,7 @@ app.post('/fatData', (req, res) => {
   }
 
   const userRef = admin.firestore().
-    collection('personalData').doc(new Date('2020-05-02').toISOString().slice(0, 10));
+    collection('personalData').doc(new Date().toISOString().slice(0, 10));
 
   userRef.get()
     .then((docSnapshot) => {
@@ -105,7 +106,7 @@ app.post('/dailyWeight', (req, res) => {
   }
 
   const userRef = admin.firestore().
-    collection('personalData').doc(new Date('2020-05-02').toISOString().slice(0, 10));
+    collection('personalData').doc(new Date().toISOString().slice(0, 10));
 
   userRef.get()
     .then((docSnapshot) => {
