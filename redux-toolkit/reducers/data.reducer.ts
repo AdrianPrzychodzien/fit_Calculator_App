@@ -1,26 +1,26 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { addNewDailyWeight } from '../utils';
-import { dailyWeightInterface, UserDataInterface } from '../interfaces';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { addNewDailyWeight } from "../utils";
+import { dailyWeightInterface, UserDataInterface } from "../interfaces";
 
 const dataInitialState: UserDataInterface = {
   height: 0,
   weight: 0,
   age: 0,
-  sex: '',
+  sex: "",
   lifeActivity: 1,
   fat: 0,
   weightGoal: 0,
-  finish: '',
-  start: '',
+  finish: "",
+  start: "",
   dailyWeightArray: [],
-  userId: '',
-  formula: ''
+  userId: "",
+  formula: ""
 };
 
 // createSlice przyjmuje name, initialState i obiekt z reducerami i tworzy
 // action creators, action types i state
 export const userDataSlice = createSlice({
-  name: 'userData',
+  name: "userData",
   initialState: dataInitialState,
   reducers: {
     setData: (
