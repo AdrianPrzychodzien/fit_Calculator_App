@@ -123,19 +123,28 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                   dispatch(setDataActionCreator(res.data));
                 })
                 .catch((err) => console.log(err));
+
+              axios
+                .post(
+                  "https://europe-west1-fit-calc-app.cloudfunctions.net/api/dailyWeight",
+                  {
+                    date: new Date().toISOString().slice(0, 10),
+                    weight: values.weight
+                  }
+                )
+                .then((res) => {
+                  console.log(res.data);
+                  dispatch(setDataActionCreator(res.data));
+                })
+                .catch((err) => console.log(err));
+
               // dispatch(
-              //   setDataActionCreator({
-              //     ...values,
-              //     lifeActivity: stars,
-              //     sex: option
+              //   setDailyWeightActionCreator({
+              //     date: new Date().toISOString().slice(0, 10),
+              //     weight: values.weight
               //   })
               // );
-              dispatch(
-                setDailyWeightActionCreator({
-                  date: new Date().toISOString().slice(0, 10),
-                  weight: values.weight
-                })
-              );
+
               navigation.navigate("Home");
             }}
           >

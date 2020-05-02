@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   ScrollView,
@@ -8,38 +8,39 @@ import {
   Button,
   TouchableWithoutFeedback,
   Keyboard
-} from 'react-native';
-import { NavigationScreenProp } from 'react-navigation';
+} from "react-native";
+import { NavigationScreenProp } from "react-navigation";
 
-import { Formik } from 'formik';
-import * as yup from 'yup';
+import { Formik } from "formik";
+import * as yup from "yup";
 
-import { setFatDataActionCreator } from '../redux-toolkit/reducers/data.reducer';
-import { setBodyFatCircumActionCreator } from '../redux-toolkit/reducers/circum.reducer';
-import { State } from '../redux-toolkit/interfaces';
+import { setFatDataActionCreator } from "../redux-toolkit/reducers/data.reducer";
+import { setBodyFatCircumActionCreator } from "../redux-toolkit/reducers/circum.reducer";
+import { State } from "../redux-toolkit/interfaces";
 
-import { bodyFatFormula, idealBodyFatPercentage } from '../utils/equations';
-import FatPercentageInfo from '../components/Modals/FatPercentageInfo';
-import FloatingLabelInput from '../utils/FloatingLabelInput';
+import { bodyFatFormula, idealBodyFatPercentage } from "../utils/equations";
+import FatPercentageInfo from "../components/Modals/FatPercentageInfo";
+import FloatingLabelInput from "../utils/FloatingLabelInput";
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import Colors from '../utils/Colors';
-import { globalStyles } from '../utils/globalStyles';
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import Colors from "../utils/Colors";
+import { globalStyles } from "../utils/globalStyles";
+import axios from "axios";
 
 const validationSchema = yup.object({
   waist: yup
     .string()
-    .matches(/^[0-9]*$/, { message: 'Only numbers' })
-    .required('Waist is required'),
+    .matches(/^[0-9]*$/, { message: "Only numbers" })
+    .required("Waist is required"),
   hips: yup
     .string()
-    .matches(/^[0-9]*$/, { message: 'Only numbers' })
-    .required('Hips are required'),
+    .matches(/^[0-9]*$/, { message: "Only numbers" })
+    .required("Hips are required"),
   neck: yup
     .string()
-    .matches(/^[0-9]*$/, { message: 'Only numbers' })
-    .required('Neck is required')
+    .matches(/^[0-9]*$/, { message: "Only numbers" })
+    .required("Neck is required")
 });
 
 interface Props {
@@ -81,11 +82,22 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                   neck: values.neck
                 })
               );
-              dispatch(
-                setFatDataActionCreator({
-                  fat: bodyFat
+              axios
+                .post(
+                  "https://europe-west1-fit-calc-app.cloudfunctions.net/api/fatData",
+                  { fat: bodyFat }
+                )
+                .then((res) => {
+                  console.log(res.data);
+                  dispatch(setFatDataActionCreator(res.data.fat));
                 })
-              );
+                .catch((err) => console.log(err));
+
+              // dispatch(
+              //   setFatDataActionCreator({
+              //     fat: bodyFat
+              //   })
+              // );
             }}
           >
             {({
@@ -108,11 +120,11 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                       />
                     </View>
                     <FloatingLabelInput
-                      onChangeText={handleChange('waist')}
-                      onBlur={handleBlur('waist')}
+                      onChangeText={handleChange("waist")}
+                      onBlur={handleBlur("waist")}
                       value={values.waist}
-                      label='Waist (cm)'
-                      keyboardType='numeric'
+                      label="Waist (cm)"
+                      keyboardType="numeric"
                     />
                   </View>
                   <Text style={globalStyles.errorText}>
@@ -128,11 +140,11 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                       />
                     </View>
                     <FloatingLabelInput
-                      onChangeText={handleChange('hips')}
-                      onBlur={handleBlur('hips')}
+                      onChangeText={handleChange("hips")}
+                      onBlur={handleBlur("hips")}
                       value={values.hips}
-                      label='Hips (cm)'
-                      keyboardType='numeric'
+                      label="Hips (cm)"
+                      keyboardType="numeric"
                     />
                   </View>
                   <Text style={globalStyles.errorText}>
@@ -148,11 +160,11 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                       />
                     </View>
                     <FloatingLabelInput
-                      onChangeText={handleChange('neck')}
-                      onBlur={handleBlur('neck')}
+                      onChangeText={handleChange("neck")}
+                      onBlur={handleBlur("neck")}
                       value={values.neck}
-                      label='Neck (cm)'
-                      keyboardType='numeric'
+                      label="Neck (cm)"
+                      keyboardType="numeric"
                     />
                   </View>
                   <Text style={globalStyles.errorText}>
@@ -162,7 +174,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
 
                 <View style={styles.button}>
                   <Button
-                    title='calculate'
+                    title="calculate"
                     color={Colors.primary}
                     onPress={handleSubmit}
                   />
@@ -176,21 +188,21 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
               <View style={globalStyles.infoContainer}>
                 <Text style={styles.info}>Body fat:</Text>
                 <Text style={styles.data}>
-                  {waist && hips && neck && bodyFat + '%'}
+                  {waist && hips && neck && bodyFat + "%"}
                 </Text>
               </View>
 
               <View style={globalStyles.infoContainer}>
                 <Text style={styles.info}>Body fat mass:</Text>
                 <Text style={styles.data}>
-                  {waist && hips && neck && bodyFatMass + 'kg'}
+                  {waist && hips && neck && bodyFatMass + "kg"}
                 </Text>
               </View>
 
               <View style={globalStyles.infoContainer}>
                 <Text style={styles.info}>Lean body mass:</Text>
                 <Text style={styles.data}>
-                  {waist && hips && neck && leanBodyMass + 'kg'}
+                  {waist && hips && neck && leanBodyMass + "kg"}
                 </Text>
               </View>
 
@@ -200,7 +212,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                   {waist &&
                     hips &&
                     neck &&
-                    idealBodyFatPercentage(userData) + '%'}
+                    idealBodyFatPercentage(userData) + "%"}
                 </Text>
               </View>
 
@@ -209,7 +221,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                   <>
                     <Text style={styles.info}>Need to lose minimum:</Text>
                     <Text style={styles.data}>
-                      {waist && hips && neck && bodyFatToLose + 'kg'}
+                      {waist && hips && neck && bodyFatToLose + "kg"}
                     </Text>
                   </>
                 ) : (
@@ -224,7 +236,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
             <View style={{ marginVertical: 10 }}>
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   paddingVertical: 10,
                   fontSize: 18
                 }}
@@ -233,7 +245,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
               </Text>
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   paddingVertical: 10,
                   fontSize: 18
                 }}
@@ -242,9 +254,9 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
               </Text>
               <View style={styles.button}>
                 <Button
-                  title='Add data'
+                  title="Add data"
                   color={Colors.secondary}
-                  onPress={() => navigation.navigate('Personal Data')}
+                  onPress={() => navigation.navigate("Personal Data")}
                 />
               </View>
             </View>
@@ -257,17 +269,17 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    flexDirection: 'row',
-    width: '80%',
+    flexDirection: "row",
+    width: "80%",
     marginHorizontal: 15,
     paddingTop: 20,
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
+    justifyContent: "space-evenly",
+    alignItems: "center"
   },
   button: { paddingVertical: 15 },
-  userInfo: { paddingVertical: 15, width: '80%' },
+  userInfo: { paddingVertical: 15, width: "80%" },
   info: { fontSize: 18 },
-  data: { fontSize: 18, fontWeight: 'bold' }
+  data: { fontSize: 18, fontWeight: "bold" }
 });
 
 export default BodyFat;
