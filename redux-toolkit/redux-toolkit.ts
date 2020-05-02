@@ -1,11 +1,11 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import createSecureStore from 'redux-persist-expo-securestore';
-import logger from 'redux-logger';
-import { combineReducers } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import createSecureStore from "redux-persist-expo-securestore";
+import logger from "redux-logger";
+import { combineReducers } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
 
-import { userDataSlice } from './reducers/data.reducer';
-import { circumSlice } from './reducers/circum.reducer';
+import { userDataSlice } from "./reducers/data.reducer";
+import { circumSlice } from "./reducers/circum.reducer";
 
 const rootReducer = combineReducers({
   data: userDataSlice.reducer,
@@ -13,9 +13,9 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage: createSecureStore(),
-  whitelist: ['data', 'circum']
+  whitelist: ["data", "circum"]
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -25,7 +25,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // redux-toolkit dołącza thunk
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: [logger]
+  middleware: []
 });
 
 let persistor = persistStore(store);

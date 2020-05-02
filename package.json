@@ -28,7 +28,9 @@
     "@types/redux-logger": "^3.0.7",
     "@types/yup": "^0.26.37",
     "accordion-collapse-react-native": "^0.2.8",
+    "axios": "^0.19.2",
     "expo": "~36.0.0",
+    "expo-secure-store": "~8.0.0",
     "formik": "^2.1.4",
     "install": "^0.13.0",
     "moment": "^2.24.0",
@@ -57,8 +59,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "redux-persist-expo-securestore": "^2.0.0",
-    "yup": "^0.28.1",
-    "expo-secure-store": "~8.0.0"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

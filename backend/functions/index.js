@@ -13,13 +13,28 @@ const express = require('express')
 const app = express()
 
 app.get('/personalData', (req, res) => {
-  admin.firestore().collection('personalData').get().then(data => {
-    let personalData = []
-    data.forEach(doc => {
-      personalData.push(doc.data())
+  admin
+    .firestore()
+    .collection('personalData')
+    .orderBy('createdAt', 'desc')
+    .get()
+    .then(data => {
+      let personalData = []
+      data.forEach(doc => {
+        personalData.push({
+          id: doc.id,
+          weight: doc.data().weight,
+          height: doc.data().height,
+          age: doc.data().age,
+          fat: doc.data().fat,
+          sex: doc.data().sex,
+          lifeActivity: doc.data().lifeActivity,
+          createdAt: doc.data().createdAt
+        })
+      })
+
+      return res.json(personalData)
     })
-    return res.json(personalData)
-  })
     .catch((err) => console.error(err))
 })
 
@@ -31,20 +46,19 @@ app.post('/personalData', (req, res) => {
     fat: req.body.fat,
     sex: req.body.sex,
     lifeActivity: req.body.lifeActivity,
-    createdAt: admin.firestore.Timestamp.fromDate(new Date())
+    createdAt: new Date().toISOString(),
   }
 
-  return admin
-    .firestore()
-    .collection('personalData')
-    .add(newPersonalData)
-    .then(doc => {
-      return res.json({ message: `document ${doc.id} created successfully` })
+  const userRef = admin.firestore().collection('personalData').doc(new Date().toISOString().slice(0, 10));
+
+  userRef.get()
+    .then((docSnapshot) => {
+      return userRef.set(newPersonalData)
     })
-    .catch(err => {
-      res.status(500).json({ error: 'something went wrong' })
-      console.error(err)
+    .then(() => {
+      return res.json(newPersonalData)
     })
+    .catch(err => console.log(err))
 })
 
 exports.api = functions.region('europe-west1').https.onRequest(app)
