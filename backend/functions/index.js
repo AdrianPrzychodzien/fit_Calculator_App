@@ -1,17 +1,18 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 const serviceAccount = require('./serviceAccountKeys')
+const cors = require('cors')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://fit-calc-app.firebaseio.com"
 })
 
-exports.hello = functions.https.onRequest((req, res) => {
-  res.send('hello');
-})
 
-exports.getPersonalData = functions.https.onRequest((req, res) => {
+const express = require('express')
+const app = express()
+
+app.get('/personalData', (req, res) => {
   admin.firestore().collection('personalData').get().then(data => {
     let personalData = []
     data.forEach(doc => {
@@ -22,9 +23,7 @@ exports.getPersonalData = functions.https.onRequest((req, res) => {
     .catch((err) => console.error(err))
 })
 
-exports.createPersonalData = functions.https.onRequest((req, res) => {
-  if (req.method !== 'POST') return res.status(400).json({ error: 'Method not allowed' })
-
+app.post('/personalData', (req, res) => {
   const newPersonalData = {
     weight: req.body.weight,
     height: req.body.height,
@@ -35,15 +34,17 @@ exports.createPersonalData = functions.https.onRequest((req, res) => {
     createdAt: admin.firestore.Timestamp.fromDate(new Date())
   }
 
-  admin
+  return admin
     .firestore()
     .collection('personalData')
     .add(newPersonalData)
     .then(doc => {
-      res.json({ message: `document ${doc.id} created successfully` })
+      return res.json({ message: `document ${doc.id} created successfully` })
     })
     .catch(err => {
       res.status(500).json({ error: 'something went wrong' })
       console.error(err)
     })
 })
+
+exports.api = functions.region('europe-west1').https.onRequest(app)
