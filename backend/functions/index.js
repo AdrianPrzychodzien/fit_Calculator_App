@@ -54,7 +54,9 @@ app.post('/personalData', (req, res) => {
 
   userRef.get()
     .then((docSnapshot) => {
-      if (docSnapshot.exists) {
+      if (docSnapshot.exists
+        && new Date().toISOString().slice(0, 16) !== newPersonalData.createdAt.slice(0, 16)) {
+
         userRef.onSnapshot((doc) => {
           return docSnapshot.ref.update(newPersonalData)
         })
@@ -62,7 +64,6 @@ app.post('/personalData', (req, res) => {
         return userRef.set(newPersonalData)
       }
 
-      return res.json(newPersonalData)
     })
     .then(() => {
       return res.json(newPersonalData)
@@ -81,7 +82,8 @@ app.post('/fatData', (req, res) => {
 
   userRef.get()
     .then((docSnapshot) => {
-      if (docSnapshot.exists) {
+      if (docSnapshot.exists
+        && new Date().toISOString().slice(0, 16) !== newPersonalData.createdAt.slice(0, 16)) {
         userRef.onSnapshot((doc) => {
           return docSnapshot.ref.update({ fat: newPersonalData.fat, createdAt: newPersonalData.createdAt })
         })
@@ -110,7 +112,8 @@ app.post('/dailyWeight', (req, res) => {
 
   userRef.get()
     .then((docSnapshot) => {
-      if (docSnapshot.exists) {
+      if (docSnapshot.exists
+        && new Date().toISOString().slice(0, 16) !== newPersonalData.createdAt.slice(0, 16)) {
         userRef.onSnapshot((doc) => {
           return docSnapshot.ref.update({ weight: newPersonalData.weight, createdAt: newPersonalData.createdAt })
         })

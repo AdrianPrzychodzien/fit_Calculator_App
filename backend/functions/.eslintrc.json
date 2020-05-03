@@ -28,7 +28,7 @@
     "no-template-curly-in-string": 1,
 
     // Warn if return statements do not either always or never specify values
-    "consistent-return": 1,
+    // "consistent-return": 1,
 
     // Warn if no return statements in callbacks of array methods
     "array-callback-return": 1,
@@ -110,7 +110,7 @@
 
     // Return inside each then() to create readable and reusable Promise chains.
     // Forces developers to return console logs and http calls in promises.
-    "promise/always-return": 2,
+    // "promise/always-return": 2,
 
     //Enforces the use of catch() on un-returned promises
     "promise/catch-or-return": 2,
