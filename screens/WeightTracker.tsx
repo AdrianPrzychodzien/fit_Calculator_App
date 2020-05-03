@@ -101,35 +101,24 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
   const healthTips = HealthTips(userData, diffDays);
 
   const clearGoal = () => {
-    api
-      .post("./clearActualGoal", {
-        start: "",
-        finish: "",
-        weightGoal: 0,
-        dailyWeightArray: []
-      })
-      .then((res) => {
-        console.log(res.data);
-        dispatch(clearActualGoalActionCreator(res.data));
-      });
+    api.delete("./clearActualGoal").then((res) => {
+      console.log(res.data);
+      dispatch(clearActualGoalActionCreator(res.data));
+    });
   };
 
   const clearGoalSaveWeights = () => {
-    dispatch(
-      clearActualGoalSaveWeightsActionCreator({
-        start: "",
-        finish: "",
-        weightGoal: 0
-      })
-    );
+    api.delete("./clearActualGoalSaveWeights").then((res) => {
+      console.log(res.data);
+      dispatch(clearActualGoalSaveWeightsActionCreator(res.data));
+    });
   };
 
   const clearFinish = () => {
-    dispatch(
-      clearFinishDateOnlyActionCreator({
-        finish: ""
-      })
-    );
+    api.delete("./clearFinish").then((res) => {
+      console.log(res.data);
+      dispatch(clearFinishDateOnlyActionCreator(res.data));
+    });
   };
 
   return (

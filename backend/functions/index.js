@@ -137,6 +137,7 @@ app.delete('/clearActualGoal', (req, res) => {
     finish: "",
     start: "",
     weightGoal: "",
+    dailyWeightArray: [],
     createdAt: new Date().toISOString(),
   }
 
@@ -147,8 +148,64 @@ app.delete('/clearActualGoal', (req, res) => {
         start: FieldValue.delete(),
         weightGoal: FieldValue.delete()
       })
+    })
+    .then(() => {
+      return res.json(newPersonalData)
+    })
+    .catch(err => console.log(err))
+})
 
-      // return personalDataRef.set(newPersonalData)
+app.delete('/clearActualGoalSaveWeights', (req, res) => {
+  const newPersonalData = {
+    finish: "",
+    start: "",
+    weightGoal: "",
+    createdAt: new Date().toISOString(),
+  }
+
+  personalDataRef.get()
+    .then((docSnapshot) => {
+      if (docSnapshot.exists) return docSnapshot.ref.update({
+        finish: FieldValue.delete(),
+        start: FieldValue.delete(),
+        weightGoal: FieldValue.delete()
+      })
+    })
+    .then(() => {
+      return res.json(newPersonalData)
+    })
+    .catch(err => console.log(err))
+})
+
+app.delete('/clearFinish', (req, res) => {
+  const newPersonalData = {
+    finish: "",
+    createdAt: new Date().toISOString(),
+  }
+
+  personalDataRef.get()
+    .then((docSnapshot) => {
+      if (docSnapshot.exists) return docSnapshot.ref.update({
+        finish: FieldValue.delete()
+      })
+    })
+    .then(() => {
+      return res.json(newPersonalData)
+    })
+    .catch(err => console.log(err))
+})
+
+app.post('/setFormula', (req, res) => {
+  const newPersonalData = {
+    formula: req.body.formula,
+    createdAt: new Date().toISOString(),
+  }
+
+  personalDataRef.get()
+    .then((docSnapshot) => {
+      if (docSnapshot.exists) return docSnapshot.ref.update(newPersonalData)
+
+      return personalDataRef.set(newPersonalData)
     })
     .then(() => {
       return res.json(newPersonalData)
