@@ -27,6 +27,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Colors from "../utils/Colors";
 import { globalStyles } from "../utils/globalStyles";
 import { api } from "../utils/axios";
+import axios from "axios";
 
 const validationSchema = yup.object({
   waist: yup
@@ -62,34 +63,46 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
     1
   );
 
+  const handleSubmit = (values: any) => {
+    axios
+      .post(
+        "https://europe-west1-fit-calc-app.cloudfunctions.net/api/bodyFatCircum",
+        {
+          waist: values.waist,
+          hips: values.hips,
+          neck: values.neck
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setBodyFatCircumActionCreator(res.data));
+      });
+
+    axios
+      .post(
+        "https://europe-west1-fit-calc-app.cloudfunctions.net/api/fatData",
+        { fat: bodyFat }
+      )
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setFatDataActionCreator(res.data));
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView>
         <View style={globalStyles.container}>
           <Formik
             initialValues={{
-              waist: circumData.waist,
-              hips: circumData.hips,
-              neck: circumData.neck,
-              fat: userData.fat
+              waist: circumData.waist || "",
+              hips: circumData.hips || "",
+              neck: circumData.neck || "",
+              fat: userData.fat || ""
             }}
             validationSchema={validationSchema}
-            onSubmit={(values) => {
-              // dispatch(
-              //   setBodyFatCircumActionCreator({
-              //     waist: values.waist,
-              //     hips: values.hips,
-              //     neck: values.neck
-              //   })
-              // );
-              api
-                .post("/fatData", { fat: bodyFat })
-                .then((res) => {
-                  console.log(res.data);
-                  dispatch(setFatDataActionCreator(res.data));
-                })
-                .catch((err) => console.log(err));
-            }}
+            onSubmit={(values) => handleSubmit(values)}
           >
             {({
               handleSubmit,
@@ -113,7 +126,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("waist")}
                       onBlur={handleBlur("waist")}
-                      value={values.waist}
+                      value={+values.waist}
                       label="Waist (cm)"
                       keyboardType="numeric"
                     />
@@ -133,7 +146,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("hips")}
                       onBlur={handleBlur("hips")}
-                      value={values.hips}
+                      value={+values.hips}
                       label="Hips (cm)"
                       keyboardType="numeric"
                     />
@@ -153,7 +166,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("neck")}
                       onBlur={handleBlur("neck")}
-                      value={values.neck}
+                      value={+values.neck}
                       label="Neck (cm)"
                       keyboardType="numeric"
                     />

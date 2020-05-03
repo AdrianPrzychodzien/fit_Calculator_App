@@ -43,6 +43,7 @@ import { faWeight, faBullseye } from "@fortawesome/free-solid-svg-icons";
 import Colors from "../utils/Colors";
 import { globalStyles } from "../utils/globalStyles";
 import { api } from "../utils/axios";
+import axios from "axios";
 
 const validationSchema = yup.object({
   weight: yup
@@ -74,11 +75,14 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
     let time = moment(date.nativeEvent.timestamp).format("YYYY-MM-DD");
     setShow(false);
     setDate(time);
-    api
-      .post("./finishDate", {
-        finish: time,
-        start: new Date().toISOString().slice(0, 10)
-      })
+    axios
+      .post(
+        "https://europe-west1-fit-calc-app.cloudfunctions.net/api/finishDate",
+        {
+          finish: time,
+          start: new Date().toISOString().slice(0, 10)
+        }
+      )
       .then((res) => {
         console.log(res.data);
         dispatch(setFinishDateActionCreator(res.data));
@@ -101,24 +105,36 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
   const healthTips = HealthTips(userData, diffDays);
 
   const clearGoal = () => {
-    api.delete("./clearActualGoal").then((res) => {
-      console.log(res.data);
-      dispatch(clearActualGoalActionCreator(res.data));
-    });
+    axios
+      .delete(
+        "https://europe-west1-fit-calc-app.cloudfunctions.net/api/clearActualGoal"
+      )
+      .then((res) => {
+        console.log(res.data);
+        dispatch(clearActualGoalActionCreator(res.data));
+      });
   };
 
   const clearGoalSaveWeights = () => {
-    api.delete("./clearActualGoalSaveWeights").then((res) => {
-      console.log(res.data);
-      dispatch(clearActualGoalSaveWeightsActionCreator(res.data));
-    });
+    axios
+      .delete(
+        "https://europe-west1-fit-calc-app.cloudfunctions.net/api/clearActualGoalSaveWeights"
+      )
+      .then((res) => {
+        console.log(res.data);
+        dispatch(clearActualGoalSaveWeightsActionCreator(res.data));
+      });
   };
 
   const clearFinish = () => {
-    api.delete("./clearFinish").then((res) => {
-      console.log(res.data);
-      dispatch(clearFinishDateOnlyActionCreator(res.data));
-    });
+    axios
+      .delete(
+        "https://europe-west1-fit-calc-app.cloudfunctions.net/api/clearFinish"
+      )
+      .then((res) => {
+        console.log(res.data);
+        dispatch(clearFinishDateOnlyActionCreator(res.data));
+      });
   };
 
   return (
@@ -130,16 +146,19 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
               {/* Formik actual weight & weight goal */}
               <Formik
                 initialValues={{
-                  weight: userData.weight || 0,
-                  weightGoal: userData.weightGoal || 0
+                  weight: userData.weight || "",
+                  weightGoal: userData.weightGoal || ""
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
-                  api
-                    .post("/weightData", {
-                      weight: values.weight,
-                      weightGoal: values.weightGoal
-                    })
+                  axios
+                    .post(
+                      "https://europe-west1-fit-calc-app.cloudfunctions.net/api/weightData",
+                      {
+                        weight: values.weight,
+                        weightGoal: values.weightGoal
+                      }
+                    )
                     .then((res) => {
                       console.log(res);
                       dispatch(setWeightDataActionCreator(res.data));
@@ -174,7 +193,7 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                             <FloatingLabelInput
                               onChangeText={handleChange("weight")}
                               onBlur={handleBlur("weight")}
-                              value={values.weight}
+                              value={+values.weight}
                               label="Weight (kg)"
                               keyboardType="numeric"
                             />
@@ -196,7 +215,7 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                             <FloatingLabelInput
                               onChangeText={handleChange("weightGoal")}
                               onBlur={handleBlur("weightGoal")}
-                              value={values.weightGoal}
+                              value={+values.weightGoal}
                               label="Goal (kg)"
                               keyboardType="numeric"
                             />

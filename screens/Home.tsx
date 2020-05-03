@@ -15,6 +15,7 @@ import { State } from "../redux-toolkit/interfaces";
 import Colors from "../utils/Colors";
 import { globalStyles } from "../utils/globalStyles";
 import { api } from "../utils/axios";
+import axios from "axios";
 
 import {
   activityLevelComment,
@@ -95,10 +96,13 @@ const Home: React.FC<Props> = ({ navigation }) => {
             formula: userData.formula || choosedFormula || ""
           }}
           onSubmit={(values) => {
-            api
-              .post("/setFormula", {
-                formula: values.formula
-              })
+            axios
+              .post(
+                "https://europe-west1-fit-calc-app.cloudfunctions.net/api/setFormula",
+                {
+                  formula: values.formula
+                }
+              )
               .then((res) => {
                 console.log(res.data);
                 setFormulaActionCreator(res.data);

@@ -38,6 +38,7 @@ import RadioForm, {
 } from "react-native-simple-radio-button";
 import StarRating from "react-native-star-rating";
 import { api } from "../utils/axios";
+import axios from "axios";
 
 const validationSchema = yup.object({
   height: yup
@@ -99,26 +100,32 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
   ];
 
   const handleSubmit = (values: any) => {
-    api
-      .post("/personalData", {
-        weight: values.weight,
-        height: values.height,
-        age: values.age,
-        fat: values.fat,
-        sex: option,
-        lifeActivity: stars
-      })
+    axios
+      .post(
+        "https://europe-west1-fit-calc-app.cloudfunctions.net/api/personalData",
+        {
+          weight: values.weight,
+          height: values.height,
+          age: values.age,
+          fat: values.fat,
+          sex: option,
+          lifeActivity: stars
+        }
+      )
       .then((res) => {
         console.log(res.data);
         dispatch(setDataActionCreator(res.data));
       })
       .catch((err) => console.log(err));
 
-    api
-      .post("/dailyWeight", {
-        date: new Date().toISOString().slice(0, 10),
-        weight: values.weight
-      })
+    axios
+      .post(
+        "https://europe-west1-fit-calc-app.cloudfunctions.net/api/dailyWeight",
+        {
+          date: new Date().toISOString().slice(0, 10),
+          weight: values.weight
+        }
+      )
       .then((res) => {
         console.log(res.data);
         dispatch(setDailyWeightActionCreator(res.data));
@@ -134,12 +141,12 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
         <View style={globalStyles.container}>
           <Formik
             initialValues={{
-              height: userData.height || 0,
-              weight: userData.weight || 0,
-              age: userData.age || 0,
-              fat: userData.fat || 0,
-              sex: userData.sex || "male",
-              lifeActivity: userData.lifeActivity || 3
+              height: userData.height || "",
+              weight: userData.weight || "",
+              age: userData.age || "",
+              fat: userData.fat || "",
+              sex: userData.sex || "Male",
+              lifeActivity: userData.lifeActivity || ""
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => handleSubmit(values)}
@@ -169,7 +176,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                       label="Height (cm)"
                       onChangeText={handleChange("height")}
                       onBlur={handleBlur("height")}
-                      value={values.height}
+                      value={+values.height}
                       keyboardType="numeric"
                     />
                   </View>
@@ -188,7 +195,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("weight")}
                       onBlur={handleBlur("weight")}
-                      value={values.weight}
+                      value={+values.weight}
                       label="Weight (cm)"
                       keyboardType="numeric"
                     />
@@ -208,7 +215,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("age")}
                       onBlur={handleBlur("age")}
-                      value={values.age}
+                      value={+values.age}
                       label="Age"
                       keyboardType="numeric"
                     />
@@ -228,7 +235,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("fat")}
                       onBlur={handleBlur("fat")}
-                      value={values.fat}
+                      value={+values.fat}
                       label="Fat %"
                       keyboardType="numeric"
                     />
