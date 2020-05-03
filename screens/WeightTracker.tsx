@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   ScrollView,
@@ -8,26 +8,26 @@ import {
   Button,
   TouchableWithoutFeedback,
   Keyboard
-} from 'react-native';
-import { NavigationScreenProp } from 'react-navigation';
+} from "react-native";
+import { NavigationScreenProp } from "react-navigation";
 
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import moment from 'moment';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import ProgressCircle from 'react-native-progress-circle';
+import { Formik } from "formik";
+import * as yup from "yup";
+import moment from "moment";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import ProgressCircle from "react-native-progress-circle";
 
 import {
   diffDays,
   weightTrackerInfo,
   percentageProgress,
   HealthTips
-} from '../utils/equations';
-import WeightTodayFormik from '../components/WeightTodayFormik';
-import WeightInfo from '../components/Modals/WeightInfo';
-import DeleteGoalInfo from '../components/Modals/DeleteGoalInfo';
-import HealthTipsInfo from '../components/Modals/HealthTipsInfo';
-import FloatingLabelInput from '../utils/FloatingLabelInput';
+} from "../utils/equations";
+import WeightTodayFormik from "../components/WeightTodayFormik";
+import WeightInfo from "../components/Modals/WeightInfo";
+import DeleteGoalInfo from "../components/Modals/DeleteGoalInfo";
+import HealthTipsInfo from "../components/Modals/HealthTipsInfo";
+import FloatingLabelInput from "../utils/FloatingLabelInput";
 
 import {
   setWeightDataActionCreator,
@@ -35,24 +35,25 @@ import {
   clearActualGoalActionCreator,
   clearActualGoalSaveWeightsActionCreator,
   clearFinishDateOnlyActionCreator
-} from '../redux-toolkit/reducers/data.reducer';
-import { State } from '../redux-toolkit/interfaces';
+} from "../redux-toolkit/reducers/data.reducer";
+import { State } from "../redux-toolkit/interfaces";
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faWeight, faBullseye } from '@fortawesome/free-solid-svg-icons';
-import Colors from '../utils/Colors';
-import { globalStyles } from '../utils/globalStyles';
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faWeight, faBullseye } from "@fortawesome/free-solid-svg-icons";
+import Colors from "../utils/Colors";
+import { globalStyles } from "../utils/globalStyles";
+import { api } from "../utils/axios";
 
 const validationSchema = yup.object({
   weight: yup
     .string()
-    .matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' })
-    .required('Weight is required')
+    .matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: "Only numbers" })
+    .required("Weight is required")
     .min(2),
   weightGoal: yup
     .string()
-    .matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: 'Only numbers' })
-    .required('Weight is required')
+    .matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, { message: "Only numbers" })
+    .required("Weight is required")
     .min(2)
 });
 
@@ -63,14 +64,14 @@ interface Props {
 const WeightTracker: React.FC<Props> = ({ navigation }) => {
   const userData = useSelector((state: State) => state.data);
   const dispatch = useDispatch();
-  const [date, setDate] = useState<string>('');
+  const [date, setDate] = useState<string>("");
   const [show, setShow] = useState<boolean>(false);
 
   const setDateTimePicker = (date: {
     nativeEvent: { timestamp: number };
     type: string;
   }) => {
-    let time = moment(date.nativeEvent.timestamp).format('YYYY-MM-DD');
+    let time = moment(date.nativeEvent.timestamp).format("YYYY-MM-DD");
     setShow(false);
     setDate(time);
     dispatch(
@@ -99,8 +100,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
   const clearGoal = () => {
     dispatch(
       clearActualGoalActionCreator({
-        start: '',
-        finish: '',
+        start: "",
+        finish: "",
         weightGoal: 0,
         dailyWeightArray: []
       })
@@ -110,8 +111,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
   const clearGoalSaveWeights = () => {
     dispatch(
       clearActualGoalSaveWeightsActionCreator({
-        start: '',
-        finish: '',
+        start: "",
+        finish: "",
         weightGoal: 0
       })
     );
@@ -120,7 +121,7 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
   const clearFinish = () => {
     dispatch(
       clearFinishDateOnlyActionCreator({
-        finish: ''
+        finish: ""
       })
     );
   };
@@ -139,12 +140,16 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
-                  dispatch(
-                    setWeightDataActionCreator({
+                  api
+                    .post("/weightData", {
                       weight: values.weight,
                       weightGoal: values.weightGoal
                     })
-                  );
+                    .then((res) => {
+                      console.log(res);
+                      dispatch(setWeightDataActionCreator(res.data));
+                    });
+
                   setShow(true);
                 }}
               >
@@ -172,11 +177,11 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                               />
                             </View>
                             <FloatingLabelInput
-                              onChangeText={handleChange('weight')}
-                              onBlur={handleBlur('weight')}
+                              onChangeText={handleChange("weight")}
+                              onBlur={handleBlur("weight")}
                               value={values.weight}
-                              label='Weight (kg)'
-                              keyboardType='numeric'
+                              label="Weight (kg)"
+                              keyboardType="numeric"
                             />
                           </View>
                           <Text style={globalStyles.errorText}>
@@ -194,11 +199,11 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                               />
                             </View>
                             <FloatingLabelInput
-                              onChangeText={handleChange('weightGoal')}
-                              onBlur={handleBlur('weightGoal')}
+                              onChangeText={handleChange("weightGoal")}
+                              onBlur={handleBlur("weightGoal")}
                               value={values.weightGoal}
-                              label='Goal (kg)'
-                              keyboardType='numeric'
+                              label="Goal (kg)"
+                              keyboardType="numeric"
                             />
                           </View>
                           <Text style={globalStyles.errorText}>
@@ -212,8 +217,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                       <Button
                         title={
                           weightGoal
-                            ? 'Change goal & set deadline'
-                            : 'Add goal & set dealdline'
+                            ? "Change goal & set deadline"
+                            : "Add goal & set dealdline"
                         }
                         color={Colors.primary}
                         onPress={handleSubmit}
@@ -229,8 +234,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                   {weightGoal && show && (
                     <DateTimePicker
                       value={new Date()}
-                      mode='date'
-                      display='calendar'
+                      mode="date"
+                      display="calendar"
                       onChange={(date: any) => setDateTimePicker(date)}
                     />
                   )}
@@ -255,8 +260,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                     <Text style={styles.text}>
                       {Math.abs(+weightToday - +weightYesterday).toFixed(1)}kg
                       {+weightToday - +weightYesterday < 0
-                        ? ' less'
-                        : ' more'}{' '}
+                        ? " less"
+                        : " more"}{" "}
                       than yesterday
                     </Text>
                   </>
@@ -274,9 +279,9 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                   healthTips={healthTips}
                   dailyWeightArray={dailyWeightArray}
                   clearFinish={clearFinish}
-                  style={{ marginVertical: 10, width: '45%' }}
+                  style={{ marginVertical: 10, width: "45%" }}
                 />
-                <WeightInfo style={{ marginVertical: 10, width: '45%' }} />
+                <WeightInfo style={{ marginVertical: 10, width: "45%" }} />
               </View>
 
               {/* Circular Progress */}
@@ -288,8 +293,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                     radius={50}
                     borderWidth={12}
                     color={Colors.primary}
-                    shadowColor='#999'
-                    bgColor='#fff'
+                    shadowColor="#999"
+                    bgColor="#fff"
                   >
                     <Text
                       style={{ fontSize: 18 }}
@@ -304,8 +309,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
                     radius={50}
                     borderWidth={12}
                     color={Colors.primary}
-                    shadowColor='#999'
-                    bgColor='#fff'
+                    shadowColor="#999"
+                    bgColor="#fff"
                   >
                     <Text
                       style={{ fontSize: 18 }}
@@ -316,8 +321,8 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
 
               <Button
                 color={Colors.primary}
-                onPress={() => navigation.navigate('Weight Statistics')}
-                title='Check some statistics about your weight'
+                onPress={() => navigation.navigate("Weight Statistics")}
+                title="Check some statistics about your weight"
               />
             </>
           )}
@@ -336,39 +341,39 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   inputRowContainer: {
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: "row",
+    width: "100%",
     paddingTop: 10,
     marginVertical: 25,
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   inputContainer: {
-    flexDirection: 'row',
-    width: '55%',
+    flexDirection: "row",
+    width: "55%",
     marginHorizontal: 10,
     paddingTop: 20,
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: "space-between",
+    alignItems: "center"
   },
-  button: { paddingVertical: 15, width: '80%' },
+  button: { paddingVertical: 15, width: "80%" },
   tipsContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-evenly'
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-evenly"
   },
   circularProgressContainer: {
     marginVertical: 20,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-evenly'
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-evenly"
   },
   circularProgress: {
     height: 140,
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: "space-between",
+    alignItems: "center"
   },
-  text: { fontSize: 22, padding: 10, textAlign: 'center' }
+  text: { fontSize: 22, padding: 10, textAlign: "center" }
 });
 
 export default WeightTracker;

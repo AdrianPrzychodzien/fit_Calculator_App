@@ -2,19 +2,12 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const functions = require('firebase-functions');
-const admin = require('firebase-admin')
-const serviceAccount = require('./serviceAccountKeys')
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://fit-calc-app.firebaseio.com"
-})
+const { db } = require('./util/admin')
 
 // app.use(cors());
 
 app.get('/personalData', (req, res) => {
-  admin
-    .firestore()
+  db
     .collection('personalData')
     .orderBy('createdAt', 'desc')
     .get()
@@ -38,6 +31,9 @@ app.get('/personalData', (req, res) => {
     .catch((err) => console.error(err))
 })
 
+const personalDataRef = db.collection('personalData')
+  .doc(new Date().toISOString().slice(0, 10));
+
 app.post('/personalData', (req, res) => {
   const newPersonalData = {
     weight: req.body.weight,
@@ -49,21 +45,11 @@ app.post('/personalData', (req, res) => {
     createdAt: new Date().toISOString(),
   }
 
-  const userRef = admin.firestore().
-    collection('personalData').doc(new Date().toISOString().slice(0, 10));
-
-  userRef.get()
+  personalDataRef.get()
     .then((docSnapshot) => {
-      if (docSnapshot.exists
-        && new Date().toISOString().slice(0, 16) !== newPersonalData.createdAt.slice(0, 16)) {
+      if (!docSnapshot.exists) return personalDataRef.set(newPersonalData)
 
-        userRef.onSnapshot((doc) => {
-          return docSnapshot.ref.update(newPersonalData)
-        })
-      } else {
-        return userRef.set(newPersonalData)
-      }
-
+      return docSnapshot.ref.update(newPersonalData)
     })
     .then(() => {
       return res.json(newPersonalData)
@@ -77,21 +63,11 @@ app.post('/fatData', (req, res) => {
     createdAt: new Date().toISOString(),
   }
 
-  const userRef = admin.firestore().
-    collection('personalData').doc(new Date().toISOString().slice(0, 10));
-
-  userRef.get()
+  personalDataRef.get()
     .then((docSnapshot) => {
-      if (docSnapshot.exists
-        && new Date().toISOString().slice(0, 16) !== newPersonalData.createdAt.slice(0, 16)) {
-        userRef.onSnapshot((doc) => {
-          return docSnapshot.ref.update({ fat: newPersonalData.fat, createdAt: newPersonalData.createdAt })
-        })
-      } else {
-        return userRef.set({ fat: newPersonalData.fat, createdAt: newPersonalData.createdAt })
-      }
+      if (docSnapshot.exists) return docSnapshot.ref.update(newPersonalData)
 
-      return res.json(newPersonalData)
+      return personalDataRef.set(newPersonalData)
     })
     .then(() => {
       return res.json(newPersonalData)
@@ -99,29 +75,36 @@ app.post('/fatData', (req, res) => {
     .catch(err => console.log(err))
 })
 
-
 app.post('/dailyWeight', (req, res) => {
   const newPersonalData = {
-    date: req.body.date,
     weight: req.body.weight,
     createdAt: new Date().toISOString(),
   }
 
-  const userRef = admin.firestore().
-    collection('personalData').doc(new Date().toISOString().slice(0, 10));
-
-  userRef.get()
+  personalDataRef.get()
     .then((docSnapshot) => {
-      if (docSnapshot.exists
-        && new Date().toISOString().slice(0, 16) !== newPersonalData.createdAt.slice(0, 16)) {
-        userRef.onSnapshot((doc) => {
-          return docSnapshot.ref.update({ weight: newPersonalData.weight, createdAt: newPersonalData.createdAt })
-        })
-      } else {
-        return userRef.set({ weight: newPersonalData.weight, createdAt: newPersonalData.createdAt })
-      }
+      if (!docSnapshot.exists) return personalDataRef.set(newPersonalData)
 
+      return docSnapshot.ref.update(newPersonalData)
+    })
+    .then(() => {
       return res.json(newPersonalData)
+    })
+    .catch(err => console.log(err))
+})
+
+app.post('/weightData', (req, res) => {
+  const newPersonalData = {
+    weight: req.body.weight,
+    weightGoal: req.body.weightGoal,
+    createdAt: new Date().toISOString(),
+  }
+
+  personalDataRef.get()
+    .then((docSnapshot) => {
+      if (docSnapshot.exists) return docSnapshot.ref.update(newPersonalData)
+
+      return personalDataRef.set(newPersonalData)
     })
     .then(() => {
       return res.json(newPersonalData)
