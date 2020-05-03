@@ -74,12 +74,15 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
     let time = moment(date.nativeEvent.timestamp).format("YYYY-MM-DD");
     setShow(false);
     setDate(time);
-    dispatch(
-      setFinishDateActionCreator({
+    api
+      .post("./finishDate", {
         finish: time,
         start: new Date().toISOString().slice(0, 10)
       })
-    );
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setFinishDateActionCreator(res.data));
+      });
   };
 
   const { weightGoal, finish, dailyWeightArray } = userData;
@@ -98,14 +101,17 @@ const WeightTracker: React.FC<Props> = ({ navigation }) => {
   const healthTips = HealthTips(userData, diffDays);
 
   const clearGoal = () => {
-    dispatch(
-      clearActualGoalActionCreator({
+    api
+      .post("./clearActualGoal", {
         start: "",
         finish: "",
         weightGoal: 0,
         dailyWeightArray: []
       })
-    );
+      .then((res) => {
+        console.log(res.data);
+        dispatch(clearActualGoalActionCreator(res.data));
+      });
   };
 
   const clearGoalSaveWeights = () => {

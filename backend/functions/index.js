@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express()
 const functions = require('firebase-functions');
 const { db } = require('./util/admin')
+let FieldValue = require('firebase-admin').firestore.FieldValue;
 
 // app.use(cors());
 
@@ -105,6 +106,49 @@ app.post('/weightData', (req, res) => {
       if (docSnapshot.exists) return docSnapshot.ref.update(newPersonalData)
 
       return personalDataRef.set(newPersonalData)
+    })
+    .then(() => {
+      return res.json(newPersonalData)
+    })
+    .catch(err => console.log(err))
+})
+
+app.post('/finishDate', (req, res) => {
+  const newPersonalData = {
+    finish: req.body.finish,
+    start: req.body.start,
+    createdAt: new Date().toISOString(),
+  }
+
+  personalDataRef.get()
+    .then((docSnapshot) => {
+      if (docSnapshot.exists) return docSnapshot.ref.update(newPersonalData)
+
+      return personalDataRef.set(newPersonalData)
+    })
+    .then(() => {
+      return res.json(newPersonalData)
+    })
+    .catch(err => console.log(err))
+})
+
+app.delete('/clearActualGoal', (req, res) => {
+  const newPersonalData = {
+    finish: "",
+    start: "",
+    weightGoal: "",
+    createdAt: new Date().toISOString(),
+  }
+
+  personalDataRef.get()
+    .then((docSnapshot) => {
+      if (docSnapshot.exists) return docSnapshot.ref.update({
+        finish: FieldValue.delete(),
+        start: FieldValue.delete(),
+        weightGoal: FieldValue.delete()
+      })
+
+      // return personalDataRef.set(newPersonalData)
     })
     .then(() => {
       return res.json(newPersonalData)
