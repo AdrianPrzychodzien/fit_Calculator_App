@@ -1,6 +1,6 @@
 import { calcBMI, rangeBMI, rangeBMIColor, idealBMI, userBmiTip } from '../utils/equations'
 import { maxHeartRate, trainingHeartRate } from '../utils/equations'
-
+import { restingMifflinStJeor } from '../utils/equations'
 
 describe('util equations', () => {
   describe('BMI equations', () => {
@@ -47,6 +47,19 @@ describe('util equations', () => {
       const result = trainingHeartRate(100)
 
       expect(typeof result[0] && typeof result[1]).toBe('number')
+    })
+  })
+
+  describe('Metabolic age equations', () => {
+    const user = {
+      height: 190,
+      weight: 100,
+      sex: "Male",
+      age: 30
+    }
+
+    it('restingMifflinStJeor should return number', () => {
+      expect(typeof restingMifflinStJeor(user)).toBe('number')
     })
   })
 })

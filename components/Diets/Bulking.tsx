@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { NavigationScreenProp } from 'react-navigation';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { NavigationScreenProp } from "react-navigation";
 import {
   View,
   ScrollView,
@@ -8,19 +8,19 @@ import {
   StyleSheet,
   Button,
   Picker
-} from 'react-native';
+} from "react-native";
 import {
   MifflinStJeor,
   HarrisBenedict,
   KatchMcardle
-} from '../../utils/equations';
+} from "../../utils/equations";
 
-import DietPieChart from '../DietPieChart';
-import DietTable from '../DietTable';
-import { State } from '../..//redux-toolkit/interfaces';
+import DietPieChart from "../DietPieChart";
+import DietTable from "../DietTable";
+import { State } from "../..//redux-toolkit/interfaces";
 
-import Colors from '../../utils/Colors';
-import { globalStyles } from '../../utils/globalStyles';
+import Colors from "../../utils/Colors";
+import { globalStyles } from "../../utils/globalStyles";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -28,14 +28,14 @@ interface Props {
 
 const Bulking: React.FC<Props> = ({ navigation }) => {
   const userData = useSelector((state: State) => state.data);
-  const [diet, setDiet] = useState<string>('Medium Carb');
+  const [diet, setDiet] = useState<string>("Medium Carb");
 
   const { height, weight, age, sex, lifeActivity, formula } = userData;
 
   const formulaOption =
-    formula === 'MifflinStJeor'
+    formula === "MifflinStJeor"
       ? MifflinStJeor(userData)
-      : formula === 'HarrisBenedict'
+      : formula === "HarrisBenedict"
       ? HarrisBenedict(userData)
       : KatchMcardle(userData);
 
@@ -58,11 +58,13 @@ const Bulking: React.FC<Props> = ({ navigation }) => {
           <Picker
             selectedValue={diet}
             style={{ height: 50, width: 180 }}
-            onValueChange={(itemValue, itemIndex) => setDiet(itemValue)}
+            onValueChange={(itemValue: any, itemIndex: number) =>
+              setDiet(itemValue)
+            }
           >
-            <Picker.Item label='Medium Carb' value='Medium Carb' />
-            <Picker.Item label='Low Carb' value='Low Carb' />
-            <Picker.Item label='High Carb' value='High Carb' />
+            <Picker.Item label="Medium Carb" value="Medium Carb" />
+            <Picker.Item label="Low Carb" value="Low Carb" />
+            <Picker.Item label="High Carb" value="High Carb" />
           </Picker>
         </View>
 
@@ -76,16 +78,16 @@ const Bulking: React.FC<Props> = ({ navigation }) => {
   } else {
     return (
       <View style={globalStyles.container}>
-        <View style={{ width: '80%' }}>
+        <View style={{ width: "80%" }}>
           <Text
-            style={{ fontSize: 20, textAlign: 'center', marginVertical: 15 }}
+            style={{ fontSize: 20, textAlign: "center", marginVertical: 15 }}
           >
             Complete informations about yourself first
           </Text>
           <Button
-            title='go to personal data page'
+            title="go to personal data page"
             color={Colors.secondary}
-            onPress={() => navigation.navigate('Personal Data')}
+            onPress={() => navigation.navigate("Personal Data")}
           />
         </View>
       </View>
