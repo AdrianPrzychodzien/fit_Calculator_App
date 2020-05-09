@@ -1,10 +1,6 @@
 import { calcBMI, rangeBMI, rangeBMIColor, idealBMI, userBmiTip } from '../utils/equations'
+import { maxHeartRate, trainingHeartRate } from '../utils/equations'
 
-it('should return 5', () => {
-  const add = (a, b) => a + b
-
-  expect(add(2, 3)).toEqual(5)
-})
 
 describe('util equations', () => {
   describe('BMI equations', () => {
@@ -32,6 +28,25 @@ describe('util equations', () => {
 
     it('userBmiTip return string', () => {
       expect(typeof userBmiTip(user)).toBe('string')
+    })
+  })
+
+  describe('Heart rate equations', () => {
+    const user = {
+      height: 190,
+      weight: 100,
+      sex: "Male",
+      age: 30
+    }
+
+    it('maxHeartRate should return positive number', () => {
+      expect(maxHeartRate(user)).toBeGreaterThan(0)
+    })
+
+    it('trainingHeartRate should return array of numbers', () => {
+      const result = trainingHeartRate(100)
+
+      expect(typeof result[0] && typeof result[1]).toBe('number')
     })
   })
 })

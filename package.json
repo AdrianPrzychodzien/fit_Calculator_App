@@ -37,7 +37,7 @@
     "expo-secure-store": "~8.0.0",
     "formik": "^2.1.4",
     "install": "^0.13.0",
-    "moment": "^2.24.0",
+    "moment": "^2.25.3",
     "native-base": "^2.13.8",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",

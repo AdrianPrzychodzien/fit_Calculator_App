@@ -89,7 +89,7 @@ export const userBmiTip = (data: UserDataInterface): string => {
 //
 // Heart Rate equations
 //
-export const maxHeartRate = (data: UserDataInterface): number => {
+export const maxHeartRate = (data: UserDataInterface): number | undefined => {
   let result;
   if (data.sex === "Male") {
     result = 208 - 0.8 * data.age;
