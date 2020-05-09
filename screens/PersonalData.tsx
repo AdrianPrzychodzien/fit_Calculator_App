@@ -176,7 +176,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                       label="Height (cm)"
                       onChangeText={handleChange("height")}
                       onBlur={handleBlur("height")}
-                      value={+values.height}
+                      value={values.height}
                       keyboardType="numeric"
                     />
                   </View>
@@ -195,7 +195,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("weight")}
                       onBlur={handleBlur("weight")}
-                      value={+values.weight}
+                      value={values.weight}
                       label="Weight (cm)"
                       keyboardType="numeric"
                     />
@@ -215,7 +215,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("age")}
                       onBlur={handleBlur("age")}
-                      value={+values.age}
+                      value={values.age}
                       label="Age"
                       keyboardType="numeric"
                     />
@@ -235,7 +235,7 @@ const PersonalData: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("fat")}
                       onBlur={handleBlur("fat")}
-                      value={+values.fat}
+                      value={values.fat}
                       label="Fat %"
                       keyboardType="numeric"
                     />

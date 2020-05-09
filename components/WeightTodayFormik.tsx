@@ -39,7 +39,7 @@ const WeightTodayFormik: React.FC = () => {
   return (
     <Formik
       initialValues={{
-        dailyWeight: theSameDay ? userData.weight : "0"
+        dailyWeight: theSameDay ? userData.weight : ""
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {

@@ -57,13 +57,6 @@ const Home: React.FC<Props> = ({ navigation }) => {
     { label: "KatchMcardle", value: 2 }
   ];
 
-  const choosedFormula =
-    option === 0
-      ? "MifflinStJeor"
-      : option === 1
-      ? "HarrisBenedict"
-      : "KatchMcardle";
-
   return (
     <ScrollView>
       <View style={globalStyles.container}>
@@ -93,19 +86,24 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
         <Formik
           initialValues={{
-            formula: userData.formula || choosedFormula || ""
+            formula: userData.formula || ""
           }}
           onSubmit={(values) => {
             axios
               .post(
                 "https://europe-west1-fit-calc-app.cloudfunctions.net/api/setFormula",
                 {
-                  formula: values.formula
+                  formula:
+                    option === 0
+                      ? "MifflinStJeor"
+                      : option === 1
+                      ? "HarrisBenedict"
+                      : "KatchMcardle"
                 }
               )
               .then((res) => {
                 console.log(res.data);
-                setFormulaActionCreator(res.data);
+                dispatch(setFormulaActionCreator(res.data));
               });
           }}
         >
@@ -185,12 +183,13 @@ const Home: React.FC<Props> = ({ navigation }) => {
               {sex &&
               weight &&
               height &&
-              +age & lifeActivity &&
+              age &&
+              lifeActivity &&
               formula === "MifflinStJeor"
                 ? restingMifflinStJeor(userData)
-                : null || formula === "HarrisBenedict"
+                : formula === "HarrisBenedict"
                 ? restingHarrisBenedict(userData)
-                : null || formula === "KatchMcardle"
+                : formula === "KatchMcardle"
                 ? fat
                   ? restingKatchMcardle(userData)
                   : "no data"
@@ -214,12 +213,13 @@ const Home: React.FC<Props> = ({ navigation }) => {
               {sex &&
               weight &&
               height &&
-              +age & lifeActivity &&
+              age &&
+              lifeActivity &&
               formula === "MifflinStJeor"
                 ? MifflinStJeor(userData)
-                : null || formula === "HarrisBenedict"
+                : formula === "HarrisBenedict"
                 ? HarrisBenedict(userData)
-                : null || formula === "KatchMcardle"
+                : formula === "KatchMcardle"
                 ? fat
                   ? KatchMcardle(userData)
                   : "no data"

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Animated } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, TextInput, Animated } from "react-native";
 
-import { globalStyles } from './globalStyles';
+import { globalStyles } from "./globalStyles";
 
 interface Props {
   label: string;
@@ -23,7 +23,7 @@ const FloatingLabelInput: React.FC<Props> = ({ label, ...props }) => {
   }, [props]);
 
   const labelStyle = {
-    position: 'absolute',
+    position: "absolute",
     left: 8,
     top: labelAnim.interpolate({
       inputRange: [0, 1],
@@ -35,7 +35,7 @@ const FloatingLabelInput: React.FC<Props> = ({ label, ...props }) => {
     }),
     color: labelAnim.interpolate({
       inputRange: [0, 1],
-      outputRange: ['#aaa', '#000']
+      outputRange: ["#aaa", "#000"]
     })
   };
 
@@ -46,7 +46,7 @@ const FloatingLabelInput: React.FC<Props> = ({ label, ...props }) => {
         keyboardType={props.keyboardType}
         onChangeText={props.onChangeText}
         value={props.value.toString()}
-        style={label === 'Fat %' ? globalStyles.fatInput : globalStyles.input}
+        style={label === "Fat %" ? globalStyles.fatInput : globalStyles.input}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />

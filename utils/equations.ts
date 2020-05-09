@@ -1,9 +1,9 @@
-import moment from 'moment';
-import { unitOfTime } from 'moment';
+import moment from "moment";
+import { unitOfTime } from "moment";
 import {
   UserDataInterface,
   CircumInterface
-} from '../redux-toolkit/interfaces';
+} from "../redux-toolkit/interfaces";
 
 //
 // BMI equations
@@ -18,17 +18,17 @@ export const calcBMI = (data: UserDataInterface): number => {
 export const rangeBMI = (data: number): string => {
   let result;
   if (data < 16) {
-    result = 'Severe Thinness';
+    result = "Severe Thinness";
   } else if (16 < data && data <= 17) {
-    result = 'Moderate Thinness';
+    result = "Moderate Thinness";
   } else if (17 < data && data <= 18.5) {
-    result = 'Mild Thinness';
+    result = "Mild Thinness";
   } else if (18.5 < data && data <= 25) {
-    result = 'Normal Weight';
+    result = "Normal Weight";
   } else if (25 < data && data <= 30) {
-    result = 'Overweight';
+    result = "Overweight";
   } else {
-    result = 'Obese';
+    result = "Obese";
   }
 
   return result;
@@ -37,17 +37,17 @@ export const rangeBMI = (data: number): string => {
 export const rangeBMIColor = (data: number): string => {
   let result;
   if (data < 16) {
-    result = 'purple';
+    result = "purple";
   } else if (16 < data && data <= 17) {
-    result = 'blue';
+    result = "blue";
   } else if (17 < data && data <= 18.5) {
-    result = 'lightblue';
+    result = "lightblue";
   } else if (18.5 < data && data <= 25) {
-    result = 'green';
+    result = "green";
   } else if (25 < data && data <= 30) {
-    result = 'orange';
+    result = "orange";
   } else {
-    result = 'red';
+    result = "red";
   }
 
   return result;
@@ -65,14 +65,14 @@ export const userBmiTip = (data: UserDataInterface): string => {
   const [normalBMIMin, normalBMIMax] = idealBMI(data);
   let userBmiTip, top, bottom;
 
-  if (rangeBMI(calcBMI(data)) === 'Normal Weight') {
+  if (rangeBMI(calcBMI(data)) === "Normal Weight") {
     top = (normalBMIMax - data.weight).toFixed(1);
     bottom = (data.weight - normalBMIMin).toFixed(1);
 
     userBmiTip = `You are ${bottom}kg above and ${top}kg below limit`;
   } else if (
-    rangeBMI(calcBMI(data)) === 'Overweight' ||
-    rangeBMI(calcBMI(data)) === 'Obese'
+    rangeBMI(calcBMI(data)) === "Overweight" ||
+    rangeBMI(calcBMI(data)) === "Obese"
   ) {
     bottom = data.weight - normalBMIMax;
 
@@ -91,9 +91,9 @@ export const userBmiTip = (data: UserDataInterface): string => {
 //
 export const maxHeartRate = (data: UserDataInterface): number => {
   let result;
-  if (data.sex === 'Male') {
+  if (data.sex === "Male") {
     result = 208 - 0.8 * data.age;
-  } else if (data.sex === 'Female') {
+  } else if (data.sex === "Female") {
     result = 201 - 0.63 * data.age;
   } else {
     result = 0;
@@ -137,28 +137,29 @@ export const restingMifflinStJeor = (data: UserDataInterface): number => {
   const { sex, weight, height, age } = data;
   let result;
 
-  if (sex === 'Male') {
+  if (sex === "Male") {
     result = 10 * weight + 6.25 * height - 5 * age + 5;
-  } else if (sex === 'Female') {
+  } else if (sex === "Female") {
     result = 10 * weight + 6.25 * height - 5 * age - 161;
   } else {
     result = 0;
-    console.log('Choose your sex');
+    console.log("Choose your sex");
   }
+
   return Math.round(result);
 };
 
 export const restingHarrisBenedict = (data: UserDataInterface): number => {
   let result;
-  if (data.sex === 'Male') {
+  if (data.sex === "Male") {
     result =
       13.397 * data.weight + 4.799 * data.height - 5.677 * data.age + 88.362;
-  } else if (data.sex === 'Female') {
+  } else if (data.sex === "Female") {
     result =
       9.247 * data.weight + 3.098 * data.height - 4.33 * data.age + 447.593;
   } else {
     result = 0;
-    console.log('Choose your sex');
+    console.log("Choose your sex");
   }
 
   return Math.round(result);
@@ -195,7 +196,7 @@ export const activityLevel = (data: number): number => {
       break;
     default:
       result = 1.2;
-      console.log('Choose your activity level');
+      console.log("Choose your activity level");
   }
 
   return result;
@@ -205,23 +206,23 @@ export const activityLevelComment = (data: number): string => {
   let result;
   switch (data) {
     case 1:
-      result = 'being Sedentary';
+      result = "being Sedentary";
       break;
     case 2:
-      result = 'doing Light Exercise';
+      result = "doing Light Exercise";
       break;
     case 3:
-      result = 'doing Moderate Exercise';
+      result = "doing Moderate Exercise";
       break;
     case 4:
-      result = 'doing Heavy Exercise';
+      result = "doing Heavy Exercise";
       break;
     case 5:
-      result = 'working out like an Athlete';
+      result = "working out like an Athlete";
       break;
     default:
-      result = 'Choose your activity level';
-      console.log('Choose your activity level');
+      result = "Choose your activity level";
+      console.log("Choose your activity level");
   }
 
   return result;
@@ -236,7 +237,7 @@ export const idealBodyFatPercentage = (
   const { sex, age } = data;
   let result;
 
-  if (sex === 'Male') {
+  if (sex === "Male") {
     if (age < 20) {
       result = 8.5;
     } else if (20 < age && age <= 25) {
@@ -254,11 +255,11 @@ export const idealBodyFatPercentage = (
     } else if (50 < age && age <= 55) {
       result = 20.9;
     } else {
-      result = '21+';
+      result = "21+";
     }
   }
 
-  if (sex === 'Female') {
+  if (sex === "Female") {
     if (age < 20) {
       result = 17.7;
     } else if (20 < age && age <= 25) {
@@ -276,7 +277,7 @@ export const idealBodyFatPercentage = (
     } else if (50 < age && age <= 55) {
       result = 26.3;
     } else {
-      result = '27+';
+      result = "27+";
     }
   }
 
@@ -292,14 +293,14 @@ export const bodyFatFormula = (
 
   let result;
 
-  if (sex === 'Male') {
+  if (sex === "Male") {
     result =
       495 /
         (1.0324 -
           0.19077 * Math.log10(waist - neck) +
           0.15456 * Math.log10(height)) -
       450;
-  } else if (sex === 'Female') {
+  } else if (sex === "Female") {
     waist = 0.393700787 * waist;
     neck = 0.393700787 * neck;
     hips = 0.393700787 * hips;
@@ -365,13 +366,13 @@ export const myDateFormat = (date: string): string => {
   let currMonth = d.getMonth() + 1;
   let currYear = d.getFullYear();
   let days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
   ];
   return `${days[currDay]}, ${currDate}-${currMonth}-${currYear} `;
 };
@@ -386,8 +387,8 @@ export const getActualWeekDates = (
   var finishDate = moment(stopDate);
 
   while (currentDate <= finishDate) {
-    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
-    currentDate = moment(currentDate).add(1, 'days');
+    dateArray.push(moment(currentDate).format("YYYY-MM-DD"));
+    currentDate = moment(currentDate).add(1, "days");
   }
 
   return dateArray;
@@ -398,21 +399,21 @@ export const displayAverageWeight = (
   dailyWeightArray: { date: string; weight: number }[],
   func: (arg1: any, arg2: any) => any
 ): any => {
-  const actualMonday = moment().startOf('week').add(1, 'days');
-  const actualSunday = moment().endOf('week').add(1, 'days');
+  const actualMonday = moment().startOf("week").add(1, "days");
+  const actualSunday = moment().endOf("week").add(1, "days");
   const lastMonday = moment()
-    .startOf('week')
-    .add(1, 'days')
-    .subtract(1, 'weeks');
-  const lastSunday = moment().endOf('week').add(1, 'days').subtract(1, 'weeks');
+    .startOf("week")
+    .add(1, "days")
+    .subtract(1, "weeks");
+  const lastSunday = moment().endOf("week").add(1, "days").subtract(1, "weeks");
   const beforeLastMonday = moment()
-    .startOf('week')
-    .add(1, 'days')
-    .subtract(2, 'weeks');
+    .startOf("week")
+    .add(1, "days")
+    .subtract(2, "weeks");
   const beforeLastSunday = moment()
-    .endOf('week')
-    .add(1, 'days')
-    .subtract(2, 'weeks');
+    .endOf("week")
+    .add(1, "days")
+    .subtract(2, "weeks");
 
   // Array of dates in actual, last and next week
   const thisWeekDates = func(actualMonday, actualSunday);
@@ -454,9 +455,9 @@ export const displayAverageWeight = (
 
   // thisWeek => actual week before Sunday
   return [
-    thisWeekAverage || 'no data',
-    lastWeekAverage || 'no data',
-    beforeLastWeekAverage || 'no data'
+    thisWeekAverage || "no data",
+    lastWeekAverage || "no data",
+    beforeLastWeekAverage || "no data"
   ];
 };
 
@@ -475,7 +476,7 @@ export const loseOrGain = (data: {
     return weightGoal > firstItem
       ? `gain ${(lastItem - firstItem).toFixed(1)}kg`
       : `lost ${(firstItem - lastItem).toFixed(1)}kg`;
-  else return 'no data';
+  else return "no data";
 };
 
 export const weightTrackerInfo = (data: {
@@ -496,21 +497,21 @@ export const weightTrackerInfo = (data: {
       if (weightGoal - lastItem > 0) {
         result = `${(weightGoal - lastItem).toFixed(1)}kg to gain`;
       } else if (weightGoal - lastItem <= 0) {
-        result = 'you already achieved your goal! Congratulations!';
+        result = "you already achieved your goal! Congratulations!";
       }
       // case => Lose weight
     } else if (weightGoal - firstItem < 0) {
       if (lastItem - weightGoal > 0) {
         result = `${(lastItem - weightGoal).toFixed(1)}kg to lose`;
       } else if (lastItem - weightGoal <= 0) {
-        result = 'you already achieved your goal! Congratulations!';
+        result = "you already achieved your goal! Congratulations!";
       }
     } else {
-      result = 'you already achieved your goal! Congratulations!';
+      result = "you already achieved your goal! Congratulations!";
     }
   }
 
-  return result ? result : 'no data';
+  return result ? result : "no data";
 };
 
 // % amount of weight and time progress in challenge
@@ -534,7 +535,7 @@ export const percentageProgress = (
 
   let start_ = moment(start);
   let finish_ = moment(finish);
-  const daysInGeneral = finish_.diff(start_, 'days');
+  const daysInGeneral = finish_.diff(start_, "days");
   const daysLeftFromToday = func(finish);
 
   const daysLeft = Math.round((daysLeftFromToday / daysInGeneral) * 100);
@@ -574,14 +575,14 @@ export const healthyProgress = (data: {
   let healthyArray = [];
 
   let finish_ = moment(finish);
-  let howManyWeeks = finish_.diff(start, 'days') + 1;
+  let howManyWeeks = finish_.diff(start, "days") + 1;
 
   for (let i = 0; i <= howManyWeeks; i++) {
     healthyArray.push({
       date: moment()
         .startOf(start as unitOfTime.StartOf)
-        .add(i, 'days')
-        .format('YYYY-MM-DD'),
+        .add(i, "days")
+        .format("YYYY-MM-DD"),
       ...(firstItem > weightGoal
         ? { weight: firstItem - +healthyChange * i }
         : { weight: firstItem + +healthyChange * i })
@@ -646,13 +647,13 @@ const helperChange = (data: any, val: string): number[] => {
 
 export const circumferencesChange = (data: any[]): any[] => {
   const circums = [
-    'waist',
-    'hips',
-    'neck',
-    'chest',
-    'shoulders',
-    'thighs',
-    'biceps'
+    "waist",
+    "hips",
+    "neck",
+    "chest",
+    "shoulders",
+    "thighs",
+    "biceps"
   ];
 
   let output = circums.map((item: string) => {
@@ -671,13 +672,13 @@ export const circumferencesChange = (data: any[]): any[] => {
 
 export const biggestCircumChange = (arr: any[], trend: string): any[] => {
   const circums = [
-    'waist',
-    'hips',
-    'neck',
-    'chest',
-    'shoulders',
-    'thighs',
-    'biceps'
+    "waist",
+    "hips",
+    "neck",
+    "chest",
+    "shoulders",
+    "thighs",
+    "biceps"
   ];
 
   // array of name and difference
@@ -690,7 +691,7 @@ export const biggestCircumChange = (arr: any[], trend: string): any[] => {
   }
 
   // sorting frm largest to smallest
-  trend === 'desc'
+  trend === "desc"
     ? output.sort((a, b) =>
         a.value < b.value ? 1 : b.value < a.value ? -1 : 0
       )

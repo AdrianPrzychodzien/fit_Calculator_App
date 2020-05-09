@@ -5,7 +5,11 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "react-native"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
@@ -67,7 +71,12 @@
     "@types/react": "^16.9.34",
     "@types/react-native": "^0.62.2",
     "@types/react-test-renderer": "^16.9.2",
+    "babel-jest": "^26.0.1",
     "babel-preset-expo": "~8.0.0",
+    "babel-preset-react-native": "^4.0.1",
+    "jest": "^26.0.1",
+    "jest-react-native": "^18.0.0",
+    "react-test-renderer": "^16.13.1",
     "typescript": "^3.8.3"
   },
   "private": true

@@ -57,8 +57,8 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
   const { waist, hips, neck } = circumData;
 
   const bodyFat = bodyFatFormula(circumData, userData);
-  const bodyFatMass = ((+weight * bodyFat) / 100).toFixed(2);
-  const leanBodyMass = (+weight - +bodyFatMass).toFixed(2);
+  const bodyFatMass = ((weight * bodyFat) / 100).toFixed(2);
+  const leanBodyMass = (weight - +bodyFatMass).toFixed(2);
   const bodyFatToLose = (bodyFat - +idealBodyFatPercentage(userData)).toFixed(
     1
   );
@@ -81,7 +81,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
     axios
       .post(
         "https://europe-west1-fit-calc-app.cloudfunctions.net/api/fatData",
-        { fat: bodyFat }
+        { fat: bodyFat > 0 ? bodyFat : values.fat }
       )
       .then((res) => {
         console.log(res.data);
@@ -126,7 +126,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("waist")}
                       onBlur={handleBlur("waist")}
-                      value={+values.waist}
+                      value={values.waist}
                       label="Waist (cm)"
                       keyboardType="numeric"
                     />
@@ -146,7 +146,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("hips")}
                       onBlur={handleBlur("hips")}
-                      value={+values.hips}
+                      value={values.hips}
                       label="Hips (cm)"
                       keyboardType="numeric"
                     />
@@ -166,7 +166,7 @@ const BodyFat: React.FC<Props> = ({ navigation }) => {
                     <FloatingLabelInput
                       onChangeText={handleChange("neck")}
                       onBlur={handleBlur("neck")}
-                      value={+values.neck}
+                      value={values.neck}
                       label="Neck (cm)"
                       keyboardType="numeric"
                     />

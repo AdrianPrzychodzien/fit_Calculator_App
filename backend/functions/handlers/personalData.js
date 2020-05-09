@@ -1,4 +1,5 @@
 const { db } = require('../util/admin')
+let FieldValue = require('firebase-admin').firestore.FieldValue;
 
 const personalDataRef = db.collection('personalData')
   .doc(new Date().toISOString().slice(0, 10));
