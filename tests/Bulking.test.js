@@ -6,7 +6,7 @@ import Bulking from '../components/Diets/Bulking'
 
 const mockStore = configureStore([]);
 
-describe('Bulking', () => {
+describe('React Components connected to Redux', () => {
   let store;
 
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('Bulking', () => {
     });
   });
 
-  test('snapshot renders', () => {
+  test('should render with given state from Redux store', () => {
     const component = renderer.create(
       <Provider store={store}>
         <Bulking />

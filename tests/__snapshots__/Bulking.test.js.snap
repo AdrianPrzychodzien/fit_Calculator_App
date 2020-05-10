@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bulking snapshot renders 1`] = `
+exports[`React Components connected to Redux should render with given state from Redux store 1`] = `
 <RCTScrollView>
   <View>
     <View
