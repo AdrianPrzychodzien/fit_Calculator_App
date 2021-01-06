@@ -33,7 +33,7 @@
     "@types/redux-logger": "^3.0.7",
     "@types/yup": "^0.26.37",
     "accordion-collapse-react-native": "^0.2.8",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "expo": "~36.0.0",
     "expo-secure-store": "~8.0.0",
     "formik": "^2.1.4",
